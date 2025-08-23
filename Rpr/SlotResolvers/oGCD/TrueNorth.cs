@@ -27,7 +27,7 @@ public class TrueNorth : ISlotResolver
         }
 
         if (Core.Me.GetCurrTarget() is null ||
-            !Core.Me.GetCurrTarget()!.HasPositional() ||
+            !Core.Me.GetCurrTarget().HasPositional() ||
             GCDHelper.GetGCDCooldown() >= RprSettings.Instance.AnimLock + 100 ||
             GCDHelper.GetGCDCooldown() < RprSettings.Instance.AnimLock ||
             (!Core.Me.HasAura(AurasDef.SoulReaver) &&

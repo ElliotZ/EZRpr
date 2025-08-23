@@ -50,9 +50,9 @@ public static class ModernQtWindow
 
         // 更新动画
         UpdateButtonAnimation(buttonId, qt.QtValue);
-        var baseColor = customColor ?? _theme!.Colors.Primary;
+        var baseColor = customColor ?? _theme.Colors.Primary;
         var currentColor = ModernTheme.BlendColor(
-            _theme!.Colors.Surface,
+            _theme.Colors.Surface,
             baseColor,
             animProgress
         );
@@ -143,7 +143,7 @@ public static class ModernQtWindow
         ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 12f);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, padding);
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, spacing);
-        ImGui.PushStyleColor(ImGuiCol.WindowBg, _theme!.Colors.Background with { W = style.QtWindowBgAlpha });
+        ImGui.PushStyleColor(ImGuiCol.WindowBg, _theme.Colors.Background with { W = style.QtWindowBgAlpha });
         ImGui.PushStyleColor(ImGuiCol.Border, _theme.Colors.Border);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1f);
 
@@ -275,7 +275,7 @@ public static class ModernQtWindow
         ModernTheme.DrawGradient(
             windowPos,
             windowSize,
-            _theme!.Colors.Background with { W = 0f },
+            _theme.Colors.Background with { W = 0f },
             _theme.Colors.Background with { W = 0.05f }
         );
 
@@ -306,7 +306,7 @@ public static class ModernQtWindow
 
         ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 8f);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(12, 8));
-        ImGui.PushStyleColor(ImGuiCol.PopupBg, _theme!.Colors.Surface);
+        ImGui.PushStyleColor(ImGuiCol.PopupBg, _theme.Colors.Surface);
         ImGui.PushStyleColor(ImGuiCol.Border, _theme.Colors.Border);
         ImGui.PushStyleVar(ImGuiStyleVar.PopupBorderSize, 1f);
 
@@ -359,6 +359,6 @@ public static class ModernQtWindow
         EnsureThemeInitialized();
         // 创建一个临时主题来比较颜色
         var tempTheme = new ModernTheme(targetTheme);
-        return _theme!.Colors.Primary.Equals(tempTheme.Colors.Primary);
+        return _theme.Colors.Primary.Equals(tempTheme.Colors.Primary);
     }
 }

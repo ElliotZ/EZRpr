@@ -18,23 +18,6 @@ public static class SettingTab
     {
         instance.AddTab("设置", _ =>
         {
-            // one huge ass TODO here
-
-            //if (ImGui.CollapsingHeader("时间轴", ImGuiTreeNodeFlags.DefaultOpen))
-            //{
-            //    ImGui.Dummy(new Vector2(5, 0));
-            //    ImGui.SameLine();
-            //    ImGui.BeginGroup();
-            //    ImGui.Checkbox("启用时间轴debug", ref RprSettings.Instance.TimeLinesDebug);
-            //    ImGui.Checkbox("启用自动更新", ref RprSettings.Instance.AutoUpdateTimeLines);
-            //    if (ImGui.Button("手动更新")) TimeLineUpdater.UpdateFiles(Helper.RprTimeLineUrl);
-            //    ImGui.SameLine();
-            //    if (ImGui.Button("源码"))
-            //        Process.Start(new ProcessStartInfo(Helper.TimeLineLibraryUrl) { UseShellExecute = true });
-            //    ImGui.EndGroup();
-            //    ImGui.Dummy(new Vector2(0, 10));
-            //}
-
             if (ImGui.CollapsingHeader("一般设定"))
             {
                 ImGui.Dummy(new Vector2(5, 0));
@@ -154,25 +137,15 @@ public static class SettingTab
                     ImGui.Checkbox("自动神秘纹", ref RprSettings.Instance.AutoCrest);
                     if (RprSettings.Instance.AutoCrest)
                     {
-                        //ImGui.Text("自动神秘纹阈值");
                         ImGui.SetNextItemWidth(200f);
                         ImGui.SliderFloat("自动神秘纹血量阈值 (0.10-1.00)",
                                               ref RprSettings.Instance.CrestPercent,
                                               0.1f, 1.0f);
                         ImGui.Separator();
-                        //if (!RprSettings.Instance.JobViewSave.HotkeyUnVisibleList.Contains("神秘纹"))
-                        //{
-                        //    RprSettings.Instance.JobViewSave.HotkeyUnVisibleList.Add("神秘纹");
-                        //}
                     }
-                    //else
-                    //{
-                    //    RprSettings.Instance.JobViewSave.HotkeyUnVisibleList.Remove("神秘纹");
-                    //}
                     ImGui.Checkbox("自动内丹", ref RprSettings.Instance.AutoSecondWind);
                     if (RprSettings.Instance.AutoSecondWind)
                     {
-                        //ImGui.Text("自动内丹阈值");
                         ImGui.SetNextItemWidth(200f);
                         ImGui.SliderFloat("自动内丹血量阈值 (0.10-0.99)",
                                               ref RprSettings.Instance.SecondWindPercent,
@@ -191,7 +164,6 @@ public static class SettingTab
                     ImGui.Checkbox("自动浴血", ref RprSettings.Instance.AutoBloodBath);
                     if (RprSettings.Instance.AutoBloodBath)
                     {
-                        //ImGui.Text("自动浴血阈值");
                         ImGui.SetNextItemWidth(200f);
                         ImGui.SliderFloat("自动浴血血量阈值 (0.10-0.99)",
                                               ref RprSettings.Instance.BloodBathPercent,

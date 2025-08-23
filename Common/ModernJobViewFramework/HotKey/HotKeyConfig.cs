@@ -22,7 +22,7 @@ public static class HotKeyConfig
                                             Dictionary<string, uint> spell,
                                             Action save)
     {
-        if (!GlobalSetting.Instance!.HotKey配置窗口)
+        if (!GlobalSetting.Instance.HotKey配置窗口)
         {
             return;
         }

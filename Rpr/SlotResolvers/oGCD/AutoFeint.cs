@@ -13,7 +13,7 @@ public class AutoFeint : ISlotResolver
         if (RprSettings.Instance.AutoFeint is false) { return -1; }
         if (SpellsDef.Feint.GetSpell().IsReadyWithCanCast() is false) { return -99; }
         if (Core.Me.GetCurrTarget() is null ||
-                !TargetHelper.targetCastingIsDeathSentenceWithTime(Core.Me.GetCurrTarget()!, 3000))
+                !TargetHelper.targetCastingIsDeathSentenceWithTime(Core.Me.GetCurrTarget(), 3000))
         {
             return -3;
         }
