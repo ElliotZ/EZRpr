@@ -28,7 +28,7 @@ public class GibGall : ISlotResolver
             return -99;
         }
         if (Target is not null && SpellsDef.Guillotine
-                .GetSpell(Target!)
+                .GetSpell(Target)
                 .IsReadyWithCanCast() is false)
         {
             return -99;
@@ -44,7 +44,7 @@ public class GibGall : ISlotResolver
         if (Qt.Instance.GetQt("AOE") && (Target is not null))
         {
             return Helper.GetActionChange(SpellsDef.Guillotine)
-                .GetSpell(Target!);
+                .GetSpell(Target);
         }
         if (Core.Me.HasAura(AurasDef.EnhancedGallows))
         {
