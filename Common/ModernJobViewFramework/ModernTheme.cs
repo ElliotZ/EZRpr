@@ -42,9 +42,33 @@ public class ModernTheme
     public ColorScheme Colors { get; private set; }
 
     // 保存原始ImGui样式
-    //private ImGuiStylePtr? _savedStyle = null;
+    private ImGuiStylePtr? _savedStyle = null;
     private readonly Dictionary<ImGuiCol, Vector4> _savedColors = new();
     private bool _isApplied;
+    
+    // 保存其他样式属性
+    private float _savedWindowRounding;
+    private float _savedChildRounding;
+    private float _savedFrameRounding;
+    private float _savedPopupRounding;
+    private float _savedScrollbarRounding;
+    private float _savedGrabRounding;
+    private float _savedTabRounding;
+    private Vector2 _savedWindowPadding;
+    private Vector2 _savedFramePadding;
+    private Vector2 _savedItemSpacing;
+    private Vector2 _savedItemInnerSpacing;
+    private float _savedIndentSpacing;
+    private float _savedScrollbarSize;
+    private float _savedGrabMinSize;
+    private float _savedWindowBorderSize;
+    private float _savedChildBorderSize;
+    private float _savedPopupBorderSize;
+    private float _savedFrameBorderSize;
+    private float _savedTabBorderSize;
+    private Vector2 _savedWindowTitleAlign;
+    private Vector2 _savedButtonTextAlign;
+    private Vector2 _savedSelectableTextAlign;
 
     // 圆角半径
     private float BorderRadius { get; set; } = 8f;
@@ -284,6 +308,36 @@ public class ModernTheme
         {
             _savedColors[(ImGuiCol)i] = style.Colors[i];
         }
+        
+        // 保存圆角设置
+        _savedWindowRounding = style.WindowRounding;
+        _savedChildRounding = style.ChildRounding;
+        _savedFrameRounding = style.FrameRounding;
+        _savedPopupRounding = style.PopupRounding;
+        _savedScrollbarRounding = style.ScrollbarRounding;
+        _savedGrabRounding = style.GrabRounding;
+        _savedTabRounding = style.TabRounding;
+        
+        // 保存间距和内边距
+        _savedWindowPadding = style.WindowPadding;
+        _savedFramePadding = style.FramePadding;
+        _savedItemSpacing = style.ItemSpacing;
+        _savedItemInnerSpacing = style.ItemInnerSpacing;
+        _savedIndentSpacing = style.IndentSpacing;
+        _savedScrollbarSize = style.ScrollbarSize;
+        _savedGrabMinSize = style.GrabMinSize;
+        
+        // 保存边框设置
+        _savedWindowBorderSize = style.WindowBorderSize;
+        _savedChildBorderSize = style.ChildBorderSize;
+        _savedPopupBorderSize = style.PopupBorderSize;
+        _savedFrameBorderSize = style.FrameBorderSize;
+        _savedTabBorderSize = style.TabBorderSize;
+        
+        // 保存对齐设置
+        _savedWindowTitleAlign = style.WindowTitleAlign;
+        _savedButtonTextAlign = style.ButtonTextAlign;
+        _savedSelectableTextAlign = style.SelectableTextAlign;
     }
 
     /// <summary>
@@ -304,6 +358,35 @@ public class ModernTheme
 
         _savedColors.Clear();
         _isApplied = false;
+        
+        style.WindowRounding = _savedWindowRounding;
+        style.ChildRounding = _savedChildRounding;
+        style.FrameRounding = _savedFrameRounding;
+        style.PopupRounding = _savedPopupRounding;
+        style.ScrollbarRounding = _savedScrollbarRounding;
+        style.GrabRounding = _savedGrabRounding;
+        style.TabRounding = _savedTabRounding;
+        
+        // 恢复间距和内边距
+        style.WindowPadding = _savedWindowPadding;
+        style.FramePadding = _savedFramePadding;
+        style.ItemSpacing = _savedItemSpacing;
+        style.ItemInnerSpacing = _savedItemInnerSpacing;
+        style.IndentSpacing = _savedIndentSpacing;
+        style.ScrollbarSize = _savedScrollbarSize;
+        style.GrabMinSize = _savedGrabMinSize;
+        
+        // 恢复边框设置
+        style.WindowBorderSize = _savedWindowBorderSize;
+        style.ChildBorderSize = _savedChildBorderSize;
+        style.PopupBorderSize = _savedPopupBorderSize;
+        style.FrameBorderSize = _savedFrameBorderSize;
+        style.TabBorderSize = _savedTabBorderSize;
+        
+        // 恢复对齐设置
+        style.WindowTitleAlign = _savedWindowTitleAlign;
+        style.ButtonTextAlign = _savedButtonTextAlign;
+        style.SelectableTextAlign = _savedSelectableTextAlign;
     }
 
 
