@@ -123,7 +123,7 @@ public class EventHandler : IRotationEventHandler
                     TargetHelper.GetNearbyEnemyCount(8) < 3) &&
                 !Core.Me.HasAura(AurasDef.Enshrouded) &&
                 (Core.Me.GetCurrTarget() is not null &&
-                 Core.Me.GetCurrTarget()!.HasPositional()))
+                 Core.Me.GetCurrTarget().HasPositional()))
         {
             if (gibGallowsReady && !gibGallowsJustUsed)
             {

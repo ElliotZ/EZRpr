@@ -22,7 +22,7 @@ public static class DevTab
                 if (ECHelper.ClientState.LocalPlayer != null)
                 {
                     ImGui.Text($"周围小怪总当前血量百分比: " +
-                               $"{MobPullManager.GetTotalHealthPercentageOfNearbyEnemies() * 100f:F2}%" + "%");
+                               $"{MobPullManager.GetTotalHealthPercentageOfNearbyEnemies() * 100f:F2}%");
                     ImGui.Text($"预估周围小怪平均死亡时间: " +
                                $"{MobPullManager.GetAverageTTKOfNearbyEnemies() / 1000f:F2} 秒");
                     ImGui.Text($"上一个连击: {Core.Resolve<MemApiSpell>().GetLastComboSpellId()}");
@@ -30,7 +30,7 @@ public static class DevTab
                     ImGui.Text($"上一个能力技: {Core.Resolve<MemApiSpellCastSuccess>().LastAbility}");
                     ImGui.Text("下一个GCD技能：" + CheckFirstAvailableSkillGCD());
                     ImGui.Text("下一个offGCD技能：" + CheckFirstAvailableSkillOffGCD());
-                    ImGui.Text("目标距离：" + Core.Me.Distance(Core.Me.GetCurrTarget()!));
+                    ImGui.Text("目标距离：" + Core.Me.Distance(Core.Me.GetCurrTarget()));
                     ImGui.Text($"当前地图ID: {Core.Resolve<MemApiZoneInfo>().GetCurrTerrId()} ");
                     ImGui.Text($"角色当前坐标: {Core.Me.Position} ");
                     if (ImGui.Button("CID:" + ECHelper.ClientState.LocalContentId))
@@ -48,7 +48,7 @@ public static class DevTab
                     ImGui.Text("周围20m目标: " + text2);
                     var targetGOID = Core.Me.GetCurrTarget() is null ? 
                         "null" : 
-                        Core.Me.GetCurrTarget()!.GameObjectId.ToString();
+                        Core.Me.GetCurrTarget().GameObjectId.ToString();
                     ImGui.Text("Target GameObjectId:" + targetGOID);
                     ImGui.Text("Self Casting Spell ID" + (Core.Me.CastActionId).ToString());
                     ImGui.PopTextWrapPos();

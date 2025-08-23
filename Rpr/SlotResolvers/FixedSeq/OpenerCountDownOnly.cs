@@ -50,19 +50,20 @@ public class OpenerCountDownOnly : IOpener
     private static bool PrepullIngressCheck()
     {
         if (Core.Me.GetCurrTarget() is null) return false;
-        var targetRing = Core.Me.GetCurrTarget()!.HitboxRadius * 2;
+        var targetRing = Core.Me.GetCurrTarget().HitboxRadius * 2;
         var atkRange = Helper.GlblSettings.AttackRange;
 
         return SpellsDef.HellsIngress.GetSpell().IsReadyWithCanCast() &&
                //Core.Me.GetCurrTarget().Distance(Core.Me) < 15 + targetRing + atkRange &&
-               Core.Me.GetCurrTarget()!.Distance(Core.Me) > 15 - targetRing - atkRange;
+               Core.Me.GetCurrTarget().Distance(Core.Me) > 15 - targetRing - atkRange;
     }
 
     private static Spell PrepullIngress()
     {
         Core.Resolve<MemApiMoveControl>().Stop();
-        Core.Resolve<MemApiMove>().SetRot(Helper.GetRotationToTarget(Core.Me.Position,
-                                                                     Core.Me.GetCurrTarget()!.Position));
+        Core.Resolve<MemApiMove>()
+            .SetRot(Helper.GetRotationToTarget(Core.Me.Position,
+                                               Core.Me.GetCurrTarget().Position));
         return SpellsDef.HellsIngress.GetSpell();
     }
 

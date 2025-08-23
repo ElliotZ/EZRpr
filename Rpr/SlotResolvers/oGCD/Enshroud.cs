@@ -35,7 +35,8 @@ public class Enshroud : ISlotResolver
         var numGcdForShroud = neededShroud / 10;
         var numGcdForSoul = neededSoul / 10;
         var numGcdForDd = (int)Math.Ceiling((accd - DblEnshPrep.PreAcEnshTimer - ddTime) / 30000);
-        var maxPossibleSoulSliceUses = Math.Floor((accd - DblEnshPrep.PreAcEnshTimer) / 30000 + soulSliceCharge);
+        var maxPossibleSoulSliceUses = Math.Floor((accd - DblEnshPrep.PreAcEnshTimer) / 30000
+                                                          + soulSliceCharge);
         numGcdForSoul -= (int)maxPossibleSoulSliceUses * 4;
         return totalNumGCDsBeforeAC >= numGcdForSoul + numGcdForShroud + numGcdForDd;
     }
@@ -43,7 +44,7 @@ public class Enshroud : ISlotResolver
     {
         if (SpellsDef.Enshroud.GetSpell().IsReadyWithCanCast() is false) { return -99; }
         if (Qt.Instance.GetQt("魂衣") is false) { return -98; }
-        if (Core.Me.Distance(Core.Me.GetCurrTarget()!) 
+        if (Core.Me.Distance(Core.Me.GetCurrTarget()) 
             > Helper.GlblSettings.AttackRange + 2)
         {
             return -2;  // -2 for not in range
@@ -51,14 +52,16 @@ public class Enshroud : ISlotResolver
 
         if (Qt.MobMan.Holding) return -3;
 
-        // delay for ideal host when entering combat with gauge, perfectio can be fit into opener burst this way
+        // delay for ideal host when entering combat with gauge
+        // perfectio can be fit into opener burst this way
         if (Core.Me.HasAura(AurasDef.BloodsownCircle)
                 || Core.Me.HasAura(AurasDef.ImmortalSacrifice)
                     && !Core.Me.HasAura(AurasDef.IdealHost))
         {
             return -8;
         }
-        if (!Qt.Instance.GetQt("倾泻资源") && !Core.Me.HasAura(AurasDef.IdealHost))  // ignore all if dump qt is set
+        // ignore all if dump qt is set
+        if (!Qt.Instance.GetQt("倾泻资源") && !Core.Me.HasAura(AurasDef.IdealHost))
         {
             if (!Qt.Instance.GetQt("单魂衣") && RprHelper.Shroud < 100)
             {

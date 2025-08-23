@@ -60,7 +60,7 @@ public class GlobalSetting
         }
         finally
         {
-            Instance!.TempQtShow = true;
+            Instance.TempQtShow = true;
             Instance.TempHotShow = true;
         }
     }
