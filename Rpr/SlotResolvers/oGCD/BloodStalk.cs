@@ -3,7 +3,6 @@ using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Extension;
 using AEAssist.Helper;
-using AEAssist.JobApi;
 using Dalamud.Game.ClientState.Objects.Types;
 using ElliotZ.Common;
 using ElliotZ.Rpr.QtUI;
@@ -16,7 +15,9 @@ public class BloodStalk : ISlotResolver
 
     public int Check()
     {
-        Target = SpellsDef.GrimSwathe.OptimalAOETarget(4, 180, Qt.Instance.GetQt("智能AOE"));
+        Target = SpellsDef.GrimSwathe.OptimalAOETarget(4,
+                                                       180,
+                                                       Qt.Instance.GetQt("智能AOE"));
 
         if (Target is null &&
                 Helper.GetActionChange(SpellsDef.BloodStalk)
@@ -26,7 +27,7 @@ public class BloodStalk : ISlotResolver
             return -99;
         }
         if (Target is not null && SpellsDef.GrimSwathe
-                .GetSpell(Target!)
+                .GetSpell(Target)
                 .IsReadyWithCanCast() is false)
         {
             return -99;
@@ -121,7 +122,7 @@ public class BloodStalk : ISlotResolver
                                   BattleData.Instance.GcdDuration - GCDHelper.GetGCDCooldown()) &&
                     Qt.Instance.GetQt("真北") && Qt.Instance.GetQt("真北优化") &&
                     (Core.Me.GetCurrTarget() is not null &&
-                    Core.Me.GetCurrTarget()!.HasPositional()) &&
+                    Core.Me.GetCurrTarget().HasPositional()) &&
                     !SpellsDef.TrueNorth.IsMaxChargeReady(1.8f) &&
                     ((Core.Me.HasAura(AurasDef.EnhancedGallows) && !Helper.AtRear) ||
                         (Core.Me.HasAura(AurasDef.EnhancedGibbet) && !Helper.AtFlank)))  // &&
@@ -139,9 +140,9 @@ public class BloodStalk : ISlotResolver
         //var enemyCount = TargetHelper.GetEnemyCountInsideSector(Core.Me, Core.Me.GetCurrTarget(), 8, 180);
 
         if (Qt.Instance.GetQt("AOE") && Target is not null &&
-                SpellsDef.GrimSwathe.GetSpell(Target!).IsReadyWithCanCast())
+                SpellsDef.GrimSwathe.GetSpell(Target).IsReadyWithCanCast())
         {
-            return SpellsDef.GrimSwathe.GetSpell(Target!);
+            return SpellsDef.GrimSwathe.GetSpell(Target);
         }
         return Helper.GetActionChange(SpellsDef.BloodStalk).GetSpell();
     }

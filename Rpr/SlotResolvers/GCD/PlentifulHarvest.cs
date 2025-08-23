@@ -28,6 +28,6 @@ public class PlentifulHarvest : ISlotResolver
     public void Build(Slot slot)
     {
         slot.Add(SpellsDef.PlentifulHarvest
-            .GetSpell(Target!));
+            .GetSpell(Target));
     }
 }

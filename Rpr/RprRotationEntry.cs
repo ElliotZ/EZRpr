@@ -13,7 +13,8 @@ public class RprRotationEntry : IRotationEntry
     private const AcrType AcrType = AEAssist.CombatRoutine.AcrType.Normal;
     private const int MinLevel = 1;
     private const int MaxLevel = 100;
-    private const string Description = "RPR试水";
+    private const string Description = "镰刀ACR，日随场景经过测试，高难理论可行" +
+                                       "但是未特殊适配，欢迎使用并提出改进建议。";
     public static string SettingsFolderPath = "";
     
     public Rotation Build(string settingFolder)

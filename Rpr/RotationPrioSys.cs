@@ -39,6 +39,4 @@ public static class RotationPrioSys
         // Low Prio Always
         new(new Ingress(), SlotMode.Always),
     ];
-    
-
 }
