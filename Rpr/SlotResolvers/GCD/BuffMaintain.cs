@@ -15,8 +15,10 @@ public class BuffMaintain : ISlotResolver
     private static int GluttonyCD => (int)Math.Floor(SpellsDef.Gluttony.GetSpell().Cooldown.TotalMilliseconds);
     public int Check()
     {
-        if (SpellsDef.ShadowOfDeath.GetSpell().IsReadyWithCanCast() is false) { return -99; }  // -99 for not usable
-        if (Core.Me.Distance(Core.Me.GetCurrTarget()!) 
+        if (SpellsDef.ShadowOfDeath
+                .GetSpell()
+                .IsReadyWithCanCast() is false) { return -99; }  // -99 for not usable
+        if (Core.Me.Distance(Core.Me.GetCurrTarget()) 
             > Helper.GlblSettings.AttackRange)
         {
             return -2;  // -2 for not in range
@@ -27,7 +29,9 @@ public class BuffMaintain : ISlotResolver
 
         if (!Qt.Instance.GetQt("印记")) return -98;
         
-        if (Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign, GCDHelper.GetGCDDuration(), false))
+        if (Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign,
+                                       GCDHelper.GetGCDDuration(),
+                                       false))
         {
             return 1;  // 1 for buff maintain within a GCD
         }
@@ -84,7 +88,8 @@ public class BuffMaintain : ISlotResolver
         if (RprSettings.Instance.Debug)
         {
             LogHelper.Print("BuffMaintain.AOEAuraCheck() Internals");
-            LogHelper.Print($"{noDebuffEnemyCount}/{enemyCount}={(noDebuffEnemyCount / (double)enemyCount)}");
+            LogHelper.Print($"{noDebuffEnemyCount}/{enemyCount}=" +
+                            $"{noDebuffEnemyCount / (double)enemyCount}");
         }
         return (noDebuffEnemyCount / (double)enemyCount) > 0.5;
     }

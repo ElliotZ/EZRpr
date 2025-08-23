@@ -12,22 +12,23 @@ namespace ElliotZ.Rpr.SlotResolvers.oGCD;
 
 public class EnshroudAb : ISlotResolver
 {
-    //private int enemyCount => TargetHelper.GetEnemyCountInsideSector(Core.Me, Core.Me.GetCurrTarget(), 8, 180);
     private IBattleChara? Target { get; set; }
 
     public int Check()
     {
-        Target = SpellsDef.LemuresScythe.OptimalAOETarget(3, 180, Qt.Instance.GetQt("智能AOE"));
+        Target = SpellsDef.LemuresScythe.OptimalAOETarget(3,
+                                                          180,
+                                                          Qt.Instance.GetQt("智能AOE"));
 
         if (Core.Me.HasAura(AurasDef.Enshrouded) is false) { return -3; }  // -3 for Unmet Prereq Conditions
         if (Target is null &&
-                Core.Me.Distance(Core.Me.GetCurrTarget()!) 
+                Core.Me.Distance(Core.Me.GetCurrTarget()) 
                 > Helper.GlblSettings.AttackRange)
         {
             return -2;  // -2 for not in range
         }
         if (Target is not null && SpellsDef.LemuresScythe
-                .GetSpell(Target!)
+                .GetSpell(Target)
                 .IsReadyWithCanCast() is false)
         {
             return -4;
@@ -45,14 +46,11 @@ public class EnshroudAb : ISlotResolver
 
     private Spell Solve()
     {
-        //var enemyCount = TargetHelper.GetEnemyCountInsideSector(Core.Me, Core.Me.GetCurrTarget(), 8, 180);
-        //Target = SpellsDef.LemuresScythe.OptimalAOETarget(3, 180);
-
         if (Qt.Instance.GetQt("AOE") &&
                 Target is not null &&
-                SpellsDef.LemuresScythe.GetSpell(Target!).IsReadyWithCanCast())
+                SpellsDef.LemuresScythe.GetSpell(Target).IsReadyWithCanCast())
         {
-            return SpellsDef.LemuresScythe.GetSpell(Target!);
+            return SpellsDef.LemuresScythe.GetSpell(Target);
         }
         return SpellsDef.LemuresSlice.GetSpell();
     }
