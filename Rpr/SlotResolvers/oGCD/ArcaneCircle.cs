@@ -17,7 +17,7 @@ public class ArcaneCircle : ISlotResolver
         // mostly unused
         if (Core.Me.GetCurrTarget() is null 
             || Helper.AoeTTKCheck() 
-            && TTKHelper.IsTargetTTK(Core.Me.GetCurrTarget()!))
+            && TTKHelper.IsTargetTTK(Core.Me.GetCurrTarget()))
         {
             return -16;  // delay for next pack
         }

@@ -14,7 +14,7 @@ public class Ingress : ISlotResolver
     public int Check()
     {
         if (Core.Me.GetCurrTarget() is null) return -9;
-        var targetRing = Core.Me.GetCurrTarget()!.HitboxRadius * 2;
+        var targetRing = Core.Me.GetCurrTarget().HitboxRadius * 2;
         var atkRange = Helper.GlblSettings.AttackRange;
 
         if (SpellsDef.HellsIngress.GetSpell().IsReadyWithCanCast() &&
@@ -24,8 +24,8 @@ public class Ingress : ISlotResolver
                     Core.Resolve<JobApi_Reaper>().LemureShroud > 2) &&
                 Qt.Instance.GetQt("自动突进") &&
                 //GCDHelper.GetGCDCooldown() < 1100 &&
-                Core.Me.GetCurrTarget()!.Distance(Core.Me) < 15 + targetRing + atkRange &&
-                Core.Me.GetCurrTarget()!.Distance(Core.Me) > 15 - targetRing - atkRange &&
+                Core.Me.GetCurrTarget().Distance(Core.Me) < 15 + targetRing + atkRange &&
+                Core.Me.GetCurrTarget().Distance(Core.Me) > 15 - targetRing - atkRange &&
                 GCDHelper.GetGCDCooldown() >= RprSettings.Instance.AnimLock)
         {
             return 0;
@@ -37,7 +37,7 @@ public class Ingress : ISlotResolver
     {
         Core.Resolve<MemApiMoveControl>().Stop();
         Core.Resolve<MemApiMove>().SetRot(Helper.GetRotationToTarget(Core.Me.Position,
-                                                                     Core.Me.GetCurrTarget()!.Position));
+                                                                     Core.Me.GetCurrTarget().Position));
         slot.Add(SpellsDef.HellsIngress.GetSpell());
     }
 }

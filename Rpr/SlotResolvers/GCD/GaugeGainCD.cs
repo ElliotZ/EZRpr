@@ -38,7 +38,9 @@ public class GaugeGainCD : ISlotResolver
     private static uint Solve()
     {
         var enemyCount = TargetHelper.GetNearbyEnemyCount(5);
-        if (Qt.Instance.GetQt("AOE") && SpellsDef.SoulScythe.GetSpell().IsReadyWithCanCast() && enemyCount >= 3)
+        if (Qt.Instance.GetQt("AOE") && SpellsDef.SoulScythe
+                                                 .GetSpell()
+                                                 .IsReadyWithCanCast() && enemyCount >= 3)
         {
             return SpellsDef.SoulScythe;
         }

@@ -17,20 +17,22 @@ public class EnshroudSk : ISlotResolver
 
     public int Check()
     {
-        var enhancedReapingCheck = (Core.Me.HasAura(AurasDef.EnhancedCrossReaping) ||
-                                        Core.Me.HasAura(AurasDef.EnhancedVoidReaping)) ?
-                                    3 : 4;
+        var enhancedReapingCheck = Core.Me.HasAura(AurasDef.EnhancedCrossReaping) ||
+                                      Core.Me.HasAura(AurasDef.EnhancedVoidReaping) ?
+                                      3 : 4;
         Target = SpellsDef.GrimReaping.OptimalAOETarget(enhancedReapingCheck,
-                                                            180f,
-                                                            Qt.Instance.GetQt("智能AOE"));
-        CommunioTarget = SpellsDef.Communio.OptimalAOETarget(1, Qt.Instance.GetQt("智能AOE"), 5);
+                                                        180f,
+                                                        Qt.Instance.GetQt("智能AOE"));
+        CommunioTarget = SpellsDef.Communio.OptimalAOETarget(1,
+                                                             Qt.Instance.GetQt("智能AOE"),
+                                                             5);
 
         if (Core.Me.HasAura(AurasDef.Enshrouded) is false)
         {
             return -3;  // -3 for Unmet Prereq Conditions
         }
         if ((!SpellsDef.Communio.IsUnlock() || RprHelper.BlueOrb > 1) &&
-                Core.Me.Distance(Core.Me.GetCurrTarget()!) 
+                Core.Me.Distance(Core.Me.GetCurrTarget()) 
                 > Helper.GlblSettings.AttackRange)
         {
             return -2;  // -2 for not in range
@@ -66,29 +68,19 @@ public class EnshroudSk : ISlotResolver
 
     private Spell Solve()
     {
-        //var purpOrb = Core.Resolve<JobApi_Reaper>().VoidShroud;
-        //var enemyCount = TargetHelper.GetEnemyCountInsideSector(Core.Me, Core.Me.GetCurrTarget(), 8, 180);
-
         if (CommunioTarget is not null &&
                 SpellsDef.Communio.GetSpell().IsReadyWithCanCast() &&
                 RprHelper.BlueOrb < 2)
         {
-            return SpellsDef.Communio.GetSpell(CommunioTarget!);
+            return SpellsDef.Communio.GetSpell(CommunioTarget);
         }
         if (Qt.Instance.GetQt("AOE") && Target is not null)
         {
-            return SpellsDef.GrimReaping.GetSpell(Target!);
+            return SpellsDef.GrimReaping.GetSpell(Target);
         }
-        if (Core.Me.HasAura(AurasDef.EnhancedCrossReaping))
-        {
-            return SpellsDef.CrossReaping.GetSpell();
-        }
-        //if (SpellsDef.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds <= 5000 &&
-        //        Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign, 30000))  // TODO: Add Burst QT
-        //{
-        //    return SpellsDef.ShadowOfDeath;
-        //}
-        return SpellsDef.VoidReaping.GetSpell();
+        return Core.Me.HasAura(AurasDef.EnhancedCrossReaping) ?
+               SpellsDef.CrossReaping.GetSpell() : 
+               SpellsDef.VoidReaping.GetSpell();
     }
 
     public void Build(Slot slot)

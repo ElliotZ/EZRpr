@@ -79,7 +79,7 @@ public class MainWindow
 
         // 检查主题是否发生了变化
         if (_style.CurrentTheme !=
-            _theme!.GetType().GetField("CurrentPreset")?.GetValue(_theme) as ModernTheme.ThemePreset?)
+            _theme.GetType().GetField("CurrentPreset")?.GetValue(_theme) as ModernTheme.ThemePreset?)
         {
             UpdateTheme();
         }

@@ -408,21 +408,21 @@ public static class StopHelper
         if (Core.Me.HasAnyAura(Incapacitated)) { return 2; }
         if (Core.Me.GetCurrTarget() is not null &&
                 //!(Core.Me.GetCurrTarget()!.GameObjectId == Core.Me.GameObjectId) &&  <- this does nothing
-                Core.Me.GetCurrTarget()!.HasAnyAura(Invulns))
+                Core.Me.GetCurrTarget().HasAnyAura(Invulns))
         {
             return 2;
         }
         if (Core.Me.GetCurrTarget() is not null && 
                (Mode & StopMode.PhysRangedCond) != 0 &&
-               (Core.Me.GetCurrTarget()!.HasAnyAura(PhysImmune) || 
-                Core.Me.GetCurrTarget()!.HasAnyAura(PhysReflect)))
+               (Core.Me.GetCurrTarget().HasAnyAura(PhysImmune) || 
+                Core.Me.GetCurrTarget().HasAnyAura(PhysReflect)))
         {
             return 3;
         }
         if (Core.Me.GetCurrTarget() is not null && 
                (Mode & StopMode.MagicCond) != 0 &&
-               (Core.Me.GetCurrTarget()!.HasAnyAura(MagicImmune) || 
-                Core.Me.GetCurrTarget()!.HasAnyAura(MagicReflect)))
+               (Core.Me.GetCurrTarget().HasAnyAura(MagicImmune) || 
+                Core.Me.GetCurrTarget().HasAnyAura(MagicReflect)))
         {
             return 4;
         }

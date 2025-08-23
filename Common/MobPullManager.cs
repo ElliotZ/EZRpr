@@ -103,7 +103,7 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "")
                 SetAllQTs(true);  // also sets HoldingQT to false if possible
             }
         }
-        if (Holding && Core.Me.GetCurrTarget() is not null && Core.Me.GetCurrTarget()!.IsBoss())
+        if (Holding && Core.Me.GetCurrTarget() is not null && Core.Me.GetCurrTarget().IsBoss())
         {
             SetAllQTs(true);
         }
