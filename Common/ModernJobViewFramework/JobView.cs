@@ -418,6 +418,8 @@ public class JobViewWindow : IRotationUI
         {
             #region 加载UI
 
+            var mainWindowCollapsed = false;
+            
             var triggerlineName = "";
             if (AI.Instance.TriggerlineData.CurrTriggerLine != null)
             {
@@ -450,6 +452,7 @@ public class JobViewWindow : IRotationUI
                 if (ImGui.Begin(title, ref OverlayManager.Instance.Visible,
                         ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse))
                 {
+                    mainWindowCollapsed = false;
                     ImGui.SetWindowFontScale(SettingMgr.GetSetting<GeneralSettings>().OverlayScale);
 
                     // 绘制顶部运行状态栏
@@ -518,33 +521,28 @@ public class JobViewWindow : IRotationUI
                     }
                     ImGui.End();
                 }
-            }
-
-            if (GlobalSetting.Instance != null && GlobalSetting.Instance.QtShow && GlobalSetting.Instance.TempQtShow)
-            {
-                if (!OverlayManager.Instance.Visible)
-                {
-                    if (!GlobalSetting.Instance.Qt快捷栏随主界面隐藏)
-                    {
-                        DrawQtWindow();
-                    }
-                }
                 else
                 {
-                    DrawQtWindow();
+                    mainWindowCollapsed = true;
                 }
             }
 
-            if (GlobalSetting.Instance == null || !GlobalSetting.Instance.HotKeyShow ||
-                !GlobalSetting.Instance.TempHotShow) return;
-            if (!OverlayManager.Instance.Visible)
+            if (GlobalSetting.Instance is not null 
+                && GlobalSetting.Instance.QtShow 
+                && GlobalSetting.Instance.TempQtShow
+                && (OverlayManager.Instance.Visible && !mainWindowCollapsed 
+                    || !GlobalSetting.Instance.Qt快捷栏随主界面隐藏)
+                )
             {
-                if (!GlobalSetting.Instance.Qt快捷栏随主界面隐藏)
-                {
-                    DrawHotkeyWindow();
-                }
+                DrawQtWindow();
             }
-            else
+
+            if (GlobalSetting.Instance is not null 
+                && GlobalSetting.Instance.HotKeyShow 
+                && GlobalSetting.Instance.TempHotShow
+                && (OverlayManager.Instance.Visible && !mainWindowCollapsed 
+                    || !GlobalSetting.Instance.Qt快捷栏随主界面隐藏)
+                )
             {
                 DrawHotkeyWindow();
             }
