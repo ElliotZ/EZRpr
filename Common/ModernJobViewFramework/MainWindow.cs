@@ -63,7 +63,7 @@ public class MainWindow
         _theme = new ModernTheme(_style.CurrentTheme);
 
         // 确保主题设置被保存
-        _style.Save.CurrentTheme = _style.CurrentTheme;
+        if (_style.Save is not null) _style.Save.CurrentTheme = _style.CurrentTheme;
     }
 
     /// <summary>

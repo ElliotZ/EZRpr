@@ -17,7 +17,7 @@ public class QtStyle
     public ModernTheme ModernTheme { get; }
 
     // 标记现代主题是否已应用
-    private bool _isModernThemeApplied;
+    //private bool _isModernThemeApplied;
 
     // 主题预设
     private ModernTheme.ThemePreset _lastTheme;
@@ -102,9 +102,9 @@ public class QtStyle
     /// </summary>
     public void SetMainStyle()
     {
-        if (_isModernThemeApplied) return;
+        //if (_isModernThemeApplied) return;
         ModernTheme.Apply();
-        _isModernThemeApplied = true;
+        //_isModernThemeApplied = true;
     }
 
     /// <summary>
@@ -112,9 +112,9 @@ public class QtStyle
     /// </summary>
     public void EndMainStyle()
     {
-        if (!_isModernThemeApplied) return;
+        //if (!_isModernThemeApplied) return;
         ModernTheme.Restore();
-        _isModernThemeApplied = false;
+        //_isModernThemeApplied = false;
     }
 
     public void SetStyle()
