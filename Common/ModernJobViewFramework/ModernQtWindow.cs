@@ -30,26 +30,28 @@ public static class ModernQtWindow
     {
         EnsureThemeInitialized();
 
-        label = label switch
-        {
-            "GCD单体治疗" => "GCD单奶",
-            "GCD群体治疗" => "GCD群奶",
-            "能力技治疗" => "能力技奶",
-            _ => label
-        };
+        // label = label switch
+        // {
+        //     "GCD单体治疗" => "GCD单奶",
+        //     "GCD群体治疗" => "GCD群奶",
+        //     "能力技治疗" => "能力技奶",
+        //     _ => label
+        // };
 
         var buttonId = label + ImGui.GetID(label);
 
         // 初始化动画状态
-        if (!ButtonAnimations.TryGetValue(buttonId, out var animProgress))
+        if (!ButtonAnimations.ContainsKey(buttonId))
         {
-            animProgress = qt.QtValue ? 1f : 0f;
-            ButtonAnimations[buttonId] = animProgress;
+            ButtonAnimations[buttonId] = qt.QtValue ? 1f : 0f;
             ButtonAnimationTimes[buttonId] = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         }
 
         // 更新动画
+
         UpdateButtonAnimation(buttonId, qt.QtValue);
+
+        var animProgress = ButtonAnimations[buttonId];
         var baseColor = customColor ?? _theme.Colors.Primary;
         var currentColor = ModernTheme.BlendColor(
             _theme.Colors.Surface,

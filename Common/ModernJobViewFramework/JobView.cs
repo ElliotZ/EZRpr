@@ -5,9 +5,10 @@ using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.View;
 using AEAssist.Helper;
 using Dalamud.Interface.Utility.Raii;
-using ElliotZ.Common.ModernJobViewFramework.HotKey;
 using ImGuiNET;
 using System.Numerics;
+using AEAssist.CombatRoutine.View.JobView;
+using HotkeyWindow = ElliotZ.Common.ModernJobViewFramework.HotKey.HotkeyWindow;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable MemberCanBePrivate.Global
@@ -214,7 +215,7 @@ public class JobViewWindow : IRotationUI
     /// <summary>
     /// 添加新的qt控件
     /// </summary>
-    public void AddHotkey(string name, AEAssist.CombatRoutine.View.JobView.IHotkeyResolver slot)
+    public void AddHotkey(string name, IHotkeyResolver slot)
     {
         _hotkeyWindow.AddHotkey(name, slot);
     }
