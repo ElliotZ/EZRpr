@@ -15,9 +15,8 @@
         <WarningsAsErrors>CS4014</WarningsAsErrors>
     </PropertyGroup>
 
-    
     <ItemGroup>
-        <PackageReference Include="AEAssist.NET" Version="*" ExcludeAssets="runtime" />
+      <PackageReference Include="AEAssist.NET" Version="1.1.8" />
     </ItemGroup>
 
 </Project>
