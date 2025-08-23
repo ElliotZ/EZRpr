@@ -1,12 +1,11 @@
 #ACR介绍
-Remark: 这是一个ACR介绍
+Remark: 镰刀ACR，日随场景经过测试，高难理论可行但是未特殊适配，欢迎使用并提出改进建议。2025/08/23更新：迁移至新工作流
 #支持的职业
 SupportJobs:
-  - 白魔法师
-  - 黑魔法师
+  - 钐镰客
 #支持链接
-SupportUrl: https://exam.exam.com
+SupportUrl: https://github.com/ElliotZ/AE3-ACR
 #问题反馈链接
-ReportUrl: https://exam.exam.com
+ReportUrl: https://discord.com/channels/1191648233454313482/1403581424208183429
 #是否国际服版本
 EnVersion: false
