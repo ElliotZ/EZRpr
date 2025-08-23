@@ -36,7 +36,7 @@ public class DblEnshPrep : ISlotSequence
         {
             return -98;
         }
-        if (Core.Me.Distance(Core.Me.GetCurrTarget()!) 
+        if (Core.Me.Distance(Core.Me.GetCurrTarget()) 
                 > Helper.GlblSettings.AttackRange)
         {
             return -2;  // -2 for not in range

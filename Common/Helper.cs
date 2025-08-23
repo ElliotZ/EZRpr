@@ -202,7 +202,7 @@ public static class Helper
     }
 
     public static bool TgtHasAuraFromMe(List<uint> buffs) =>
-        buffs.Any(buff => Core.Me.GetCurrTarget()!.HasLocalPlayerAura(buff));
+        buffs.Any(buff => Core.Me.GetCurrTarget().HasLocalPlayerAura(buff));
 
     /// <summary>
     /// 带开关的智能AOE选择器

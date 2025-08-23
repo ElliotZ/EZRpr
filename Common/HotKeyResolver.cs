@@ -98,7 +98,7 @@ public class HotKeyResolver(uint spellId,
 
         if (UseHighPrioritySlot &&
                 Core.Me.GetCurrTarget() is not null &&
-                Core.Me.GetCurrTarget()!.CanAttack() &&
+                Core.Me.GetCurrTarget().CanAttack() &&
                 Core.Me.InCombat())
         {
             var slot = new Slot();

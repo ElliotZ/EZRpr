@@ -73,8 +73,9 @@ public class IngressHK(int hkType) :  // 1 - use current direction, 2 - face tar
                     if (Core.Me.GetCurrTarget() is not null)
                     {
                         Core.Resolve<MemApiMoveControl>().Stop();
-                        Core.Resolve<MemApiMove>().SetRot(Helper.GetRotationToTarget(Core.Me.Position,
-                                                                             Core.Me.GetCurrTarget()!.Position));
+                        Core.Resolve<MemApiMove>()
+                            .SetRot(Helper.GetRotationToTarget(Core.Me.Position,
+                                                               Core.Me.GetCurrTarget().Position));
                     }
                     break;
                 case 3:

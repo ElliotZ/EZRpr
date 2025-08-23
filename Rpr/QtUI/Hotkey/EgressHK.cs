@@ -69,8 +69,9 @@ public class EgressHK(
                     if (Core.Me.GetCurrTarget() is not null)
                     {
                         Core.Resolve<MemApiMoveControl>().Stop();
-                        Core.Resolve<MemApiMove>().SetRot(Helper.GetRotationToTarget(Core.Me.Position,
-                                                                             Core.Me.GetCurrTarget()!.Position));
+                        Core.Resolve<MemApiMove>()
+                            .SetRot(Helper.GetRotationToTarget(Core.Me.Position,
+                                                               Core.Me.GetCurrTarget().Position));
                     }
                     break;
                 case 3:
