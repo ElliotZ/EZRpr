@@ -18,8 +18,9 @@ using HotkeyWindow = ElliotZ.Common.ModernJobViewFramework.HotKey.HotkeyWindow;
 
 namespace ElliotZ.Common.ModernJobViewFramework;
 
-public class JobViewWindow : IRotationUI
+public class JobViewWindow : IRotationUI, IDisposable
 {
+    private bool _disposed;
     private Action _saveSetting;
     private QtWindow _qtWindow;
     private HotkeyWindow _hotkeyWindow;
@@ -28,6 +29,7 @@ public class JobViewWindow : IRotationUI
     //private float userFontGlobalScale = 1.17f;
     // 运行状态动画相关
     //private float statusAnimationTime = 0f;
+    private readonly Timer _uiFlushTimer = new(_ => { ModernQtWindow.Flush(); });
     
     public Dictionary<string, Action<JobViewWindow>> ExternalTab = new();
 
@@ -48,6 +50,7 @@ public class JobViewWindow : IRotationUI
         _qtWindow = new QtWindow(jobViewSave, name);
         _hotkeyWindow = new HotkeyWindow(jobViewSave, name + " hotkey");
         _mainWindow = new MainWindow(ref _style);
+        FlushUIEvery(new TimeSpan(hours: 1, minutes: 0, seconds: 0));
     }
 
     //public void CreateHotKey()
@@ -407,6 +410,18 @@ public class JobViewWindow : IRotationUI
         }
     }
 
+    public void FlushUIEvery(TimeSpan time)
+    {
+        try
+        {
+            _uiFlushTimer.Change(time, time);
+        }
+        catch (ObjectDisposedException)
+        {
+            if (_disposed) throw;
+        }
+    }
+
     public bool IsCustomMain()
     {
         return true;
@@ -418,7 +433,7 @@ public class JobViewWindow : IRotationUI
         try
         {
             #region 加载UI
-
+            
             var mainWindowCollapsed = false;
             
             var triggerlineName = "";
@@ -558,5 +573,33 @@ public class JobViewWindow : IRotationUI
         {
             EndMainStyle();
         }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    public void Dispose(bool disposing)
+    {
+        using var waitHandle = new ManualResetEvent(false);
+        if (_disposed) return;
+
+        if (disposing)
+        {
+            _qtWindow.Dispose();
+            _hotkeyWindow.Dispose();
+            ExternalTab = null;
+            if (_uiFlushTimer.Dispose(waitHandle))
+            {
+                if (!waitHandle.WaitOne(new TimeSpan(hours:0, minutes: 0, seconds: 3)))
+                {
+                    throw new TimeoutException("Timeout waiting for timer to stop");
+                }
+            }
+        }
+
+        _disposed = true;
     }
 }

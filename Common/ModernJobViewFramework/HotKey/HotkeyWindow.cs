@@ -16,8 +16,9 @@ namespace ElliotZ.Common.ModernJobViewFramework.HotKey;
 /// 快捷键窗口类
 public class HotkeyWindow(
     JobViewSave save,
-    string name)
+    string name) : IDisposable
 {
+    private bool _disposed;
     public JobViewSave Save = save;
     /// 用于储存所有hotkey控件的字典
     private Dictionary<string, HotkeyControl> _hotkeyDict = new();
@@ -371,14 +372,34 @@ public class HotkeyWindow(
     /// </summary>
     public void RunHotkey()
     {
-        foreach (var hotkey in HotkeyConfig)
+        foreach (var hotkey 
+                 in HotkeyConfig.Where(hotkey 
+                     => hotkey.Value.Keys != Keys.None)
+                     .Where(hotkey 
+                         => Core.Resolve<MemApiHotkey>()
+                             .CheckState(hotkey.Value.ModifierKey, hotkey.Value.Keys)))
         {
-            if (hotkey.Value.Keys == Keys.None) continue;
-            if (Core.Resolve<MemApiHotkey>().CheckState(hotkey.Value.ModifierKey, hotkey.Value.Keys))
-            {
-                //激活按钮
-                RunSlot(_hotkeyDict[hotkey.Key]);
-            }
+            //激活按钮
+            RunSlot(_hotkeyDict[hotkey.Key]);
         }
+    }
+    
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected void Dispose(bool disposing)
+    {
+        if (_disposed) return;
+
+        if (disposing)
+        {
+            _hotkeyDict = null;
+            ActiveList = null;
+            _lastActiveTime = null;
+        }
+        _disposed = true;
     }
 }

@@ -8,6 +8,7 @@ namespace ElliotZ.Rpr;
 
 public class RprRotationEntry : IRotationEntry
 {
+    private bool _disposed;
     public string AuthorName { get; set; } = Helper.AuthorName;
     private const Jobs TargetJob = Jobs.Reaper;
     private const AcrType AcrType = AEAssist.CombatRoutine.AcrType.Normal;
@@ -42,5 +43,6 @@ public class RprRotationEntry : IRotationEntry
     
     public IRotationUI GetRotationUI() { return Qt.Instance; }
     public void OnDrawSetting() { }
-    public void Dispose() { }
+
+    public void Dispose() => Qt.Instance.Dispose();
 }
