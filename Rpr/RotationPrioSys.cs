@@ -39,4 +39,24 @@ public static class RotationPrioSys
         // Low Prio Always
         new(new Ingress(), SlotMode.Always),
     ];
+    
+    public static string CheckFirstAvailableSkillGCD()
+    {
+        var slotResolverData =
+            SlotResolvers.FirstOrDefault(srd =>
+                srd.SlotMode == SlotMode.Gcd &&
+                srd.SlotResolver.Check() >= 0);
+        return slotResolverData != null ?
+            slotResolverData.SlotResolver.GetType().Name : "无技能";
+    }
+
+    public static string CheckFirstAvailableSkillOffGCD()
+    {
+        var slotResolverData =
+            SlotResolvers.FirstOrDefault(srd =>
+                srd.SlotMode == SlotMode.OffGcd &&
+                srd.SlotResolver.Check() >= 0);
+        return slotResolverData != null ?
+            slotResolverData.SlotResolver.GetType().Name : "无技能";
+    }
 }
