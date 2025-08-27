@@ -1,4 +1,5 @@
 ﻿
+using System.Numerics;
 using AEAssist.GUI;
 using Dalamud.Interface.Colors;
 using ElliotZ.Common.ModernJobViewFramework;
@@ -20,8 +21,7 @@ public static class ReadmeTab
             ImGui.Bullet();
             ImGui.SameLine();
             ImGui.Text("单魂衣：神秘环期间只会有一个免费送的变身。暂时逻辑还没有优化完，不保证开了之" +
-                       "后循环最优化。" +
-                       "如果高难环境以及写轴时有需要的话，请先联系我。");
+                       "后循环最优化。如果高难环境以及写轴时有需要的话，请先联系我。");
             ImGui.Bullet();
             ImGui.SameLine();
             ImGui.Text("神秘环/大丰收/灵魂割/挥割/暴食/魂衣/完人……：比较简单，开了就会打这个技能，" +
@@ -29,8 +29,8 @@ public static class ReadmeTab
             ImGui.Bullet();
             ImGui.SameLine();
             ImGui.Text("智能AOE：AOE技能以及类似暴食、团契这类多目标衰减的单体技能会自动寻找能打" +
-                       "到最多目标的目标来施放。" +
-                             "目前只会判断目标数，没有任何其他判断，一般来讲日随环境以外不建议开启。");
+                       "到最多目标的目标来施放。目前只会判断目标数，没有任何其他判断，一般来讲日随环境" +
+                       "以外不建议开启。");
             ImGui.Bullet();
             ImGui.SameLine();
             ImGui.Text("真北优化：开了之后挥割以及挥割变化的缢杀/绞决爪技能会在保证不溢出红条的情况" +
@@ -51,7 +51,7 @@ public static class ReadmeTab
             ImGui.Bullet();
             ImGui.SameLine();
             ImGui.PushStyleColor(ImGuiCol.Text,
-                ImGui.ColorConvertFloat4ToU32(new System.Numerics.Vector4(1f, 0f, 0f, 1f)));
+                ImGui.ColorConvertFloat4ToU32(new Vector4(1f, 0f, 0f, 1f)));
             ImGui.Text("播魂种和收获月的Hotkey不要一直猛点，否则后果自负，You have been warned.");
             ImGui.PopStyleColor();
             ImGui.Bullet();
@@ -65,8 +65,8 @@ public static class ReadmeTab
     {
         instance.AddTab("README", _ =>
         {
-            ImGui.Dummy(new System.Numerics.Vector2(0, 1));
-            ImGui.Dummy(new System.Numerics.Vector2(5, 0));
+            ImGui.Dummy(new Vector2(0, 1));
+            ImGui.Dummy(new Vector2(5, 0));
             ImGui.SameLine();
             Box.DrawStretched();
         });

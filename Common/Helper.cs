@@ -87,13 +87,10 @@ public static class Helper
 
     public static bool AnyAuraTimerLessThan(List<uint> auras, int timeLeft)
     {
-        foreach (var aura in Core.Me.StatusList)
-        {
-            if (aura.StatusId != 0 &&
-                    Math.Abs(aura.RemainingTime) * 1000.0 <= timeLeft &&
-                    auras.Contains(aura.StatusId)) return true;
-        }
-        return false;
+        return Core.Me.StatusList.Any(aura 
+            => aura.StatusId != 0 
+               && Math.Abs(aura.RemainingTime) * 1000.0 <= timeLeft 
+               && auras.Contains(aura.StatusId));
     }
 
     /// <summary>
@@ -118,7 +115,7 @@ public static class Helper
     public static bool TgtAuraTimerLessThan(uint buffId, int timeLeft, bool hasBuff = true)
     {
         var target = Core.Me.GetCurrTarget();
-        if (target == null) return false;
+        if (target is null) return false;
 
         if (hasBuff)
         {
@@ -140,7 +137,7 @@ public static class Helper
     public static bool TgtAuraTimerMoreThan(uint buffId, int timeLeft, bool hasBuff = true)
     {
         var target = Core.Me.GetCurrTarget();
-        if (target == null) return false;
+        if (target is null) return false;
 
         if (hasBuff)
         {
@@ -168,7 +165,7 @@ public static class Helper
                                                             DistanceMode.IgnoreTargetHitbox | 
                                                             DistanceMode.IgnoreHeight) <= 8 &&
                                            TTKHelper.IsTargetTTK(v.Value));
-        return (lowHpCount / (double)enemyCount > 0.667);
+        return lowHpCount / (double)enemyCount > 0.667;
     }
 
     public static bool AoeTTKCheck(int time)
@@ -180,7 +177,7 @@ public static class Helper
                                                             DistanceMode.IgnoreTargetHitbox |
                                                             DistanceMode.IgnoreHeight) <= 8 &&
                                            TTKHelper.IsTargetTTK(v.Value, time, false));
-        return (lowHpCount / (double)enemyCount > 0.667);
+        return lowHpCount / (double)enemyCount > 0.667;
     }
 
     /// <summary>
@@ -222,10 +219,9 @@ public static class Helper
             return TargetHelper.GetMostCanTargetObjects(spellId, count);
         }
         //var spellDmgRange = Core.Resolve<MemApiSpell>().
-        var enemyCount = TargetHelper.GetNearbyEnemyCount(Core.Me.GetCurrTarget() 
-                                                          ?? throw new NullReferenceException(),
+        var enemyCount = TargetHelper.GetNearbyEnemyCount(Core.Me.GetCurrTarget(),
                                                           (int)spellId.GetSpell().ActionRange, dmgRange);
-        return (count <= enemyCount ? Core.Me.GetCurrTarget() : null);
+        return count <= enemyCount ? Core.Me.GetCurrTarget() : null;
     }
 
     /// <summary>
@@ -246,11 +242,10 @@ public static class Helper
             return TargetHelper.GetMostCanTargetObjects(spellId, count, angle);
         }
         var enemyCount = TargetHelper.GetEnemyCountInsideSector(Core.Me,
-                                                                Core.Me.GetCurrTarget() 
-                                                                ?? throw new NullReferenceException(),
+                                                                Core.Me.GetCurrTarget(),
                                                      (int)spellId.GetSpell().ActionRange,
                                                                 angle);
-        return (count <= enemyCount ? Core.Me.GetCurrTarget() : null);
+        return count <= enemyCount ? Core.Me.GetCurrTarget() : null;
     }
 
     /// <summary>
@@ -271,11 +266,10 @@ public static class Helper
             return TargetHelper.GetMostCanTargetObjects(spellId, count);
         }
         var enemyCount = TargetHelper.GetEnemyCountInsideRect(Core.Me,
-                                                              Core.Me.GetCurrTarget() 
-                                                              ?? throw new NullReferenceException(),
+                                                              Core.Me.GetCurrTarget(),
                                                         (int)spellId.GetSpell().ActionRange,
                                                               width);
-        return (count <= enemyCount ? Core.Me.GetCurrTarget() : null);
+        return count <= enemyCount ? Core.Me.GetCurrTarget() : null;
     }
 
     public static float GetRotationToTarget(Vector3 from, Vector3 to)
