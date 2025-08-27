@@ -19,7 +19,7 @@ public static class DevTab
         {
             if (ImGui.CollapsingHeader("Dev信息"))
             {
-                if (ECHelper.ClientState.LocalPlayer != null)
+                if (ECHelper.ClientState.LocalPlayer is not null)
                 {
                     ImGui.Text($"周围小怪总当前血量百分比: " +
                                $"{MobPullManager.GetTotalHealthPercentageOfNearbyEnemies() * 100f:F2}%");
@@ -27,9 +27,9 @@ public static class DevTab
                                $"{MobPullManager.GetAverageTTKOfNearbyEnemies() / 1000f:F2} 秒");
                     ImGui.Text($"上一个连击: {Core.Resolve<MemApiSpell>().GetLastComboSpellId()}");
                     ImGui.Text($"上一个GCD: {Core.Resolve<MemApiSpellCastSuccess>().LastGcd}");
-                    ImGui.Text($"上一个能力技: {Core.Resolve<MemApiSpellCastSuccess>().LastAbility}");
-                    ImGui.Text("下一个GCD技能：" + CheckFirstAvailableSkillGCD());
-                    ImGui.Text("下一个offGCD技能：" + CheckFirstAvailableSkillOffGCD());
+                    ImGui.Text($"上一个oGCD: {Core.Resolve<MemApiSpellCastSuccess>().LastAbility}");
+                    ImGui.Text("下一个GCD Slot：" + RotationPrioSys.CheckFirstAvailableSkillGCD());
+                    ImGui.Text("下一个oGCD Slot：" + RotationPrioSys.CheckFirstAvailableSkillOffGCD());
                     ImGui.Text("目标距离：" + Core.Me.Distance(Core.Me.GetCurrTarget()));
                     ImGui.Text($"当前地图ID: {Core.Resolve<MemApiZoneInfo>().GetCurrTerrId()} ");
                     ImGui.Text($"角色当前坐标: {Core.Me.Position} ");
@@ -87,8 +87,9 @@ public static class DevTab
                 ImGui.Text("-------能力技-------");
                 if (AI.Instance.BattleData.HighPrioritySlots_OffGCD.Count > 0)
                 {
-                    foreach (SlotAction item in
-                             AI.Instance.BattleData.HighPrioritySlots_OffGCD.SelectMany(spell => spell.Actions))
+                    foreach (var item in
+                             AI.Instance.BattleData.HighPrioritySlots_OffGCD.SelectMany(spell 
+                                 => spell.Actions))
                     {
                         ImGui.Text(item.Spell.Name);
                     }
@@ -97,8 +98,9 @@ public static class DevTab
                 ImGui.Text("-------GCD-------");
                 if (AI.Instance.BattleData.HighPrioritySlots_GCD.Count > 0)
                 {
-                    foreach (SlotAction item2 in
-                             AI.Instance.BattleData.HighPrioritySlots_GCD.SelectMany(spell => spell.Actions))
+                    foreach (var item2 in
+                             AI.Instance.BattleData.HighPrioritySlots_GCD.SelectMany(spell 
+                                 => spell.Actions))
                     {
                         ImGui.Text(item2.Spell.Name);
                     }
@@ -118,29 +120,10 @@ public static class DevTab
                                   "2025/08/16：加入印记QT。\n" +
                                   "2025/08/17: UI重做，感谢HSS老师。\n" +
                                   "2025/08/20: 优化技能和爆发窗口逻辑，轻度重构。\n" +
-                                  "2025/08/23: 重构，，迁移至新工作流。");
+                                  "2025/08/23: 重构，迁移至新工作流。\n" +
+                                  "2025/08/27: 现在在切换地图的时候也会重置QT，如果启用了相关设置。");
                 ImGui.EndChild();
             }
         });
-    }
-
-    private static string CheckFirstAvailableSkillGCD()
-    {
-        var slotResolverData =
-            RotationPrioSys.SlotResolvers.FirstOrDefault(srd =>
-                srd.SlotMode == SlotMode.Gcd &&
-                srd.SlotResolver.Check() >= 0);
-        return slotResolverData != null ?
-            slotResolverData.SlotResolver.GetType().Name : "无技能";
-    }
-
-    private static string CheckFirstAvailableSkillOffGCD()
-    {
-        var slotResolverData =
-            RotationPrioSys.SlotResolvers.FirstOrDefault(srd =>
-                srd.SlotMode == SlotMode.OffGcd &&
-                srd.SlotResolver.Check() >= 0);
-        return slotResolverData != null ?
-            slotResolverData.SlotResolver.GetType().Name : "无技能";
     }
 }
