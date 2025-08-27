@@ -12,8 +12,10 @@ using Keys = AEAssist.Define.HotKey.Keys;
 namespace ElliotZ.Common.ModernJobViewFramework;
 
 /// Qt窗口类
-public class QtWindow
+public class QtWindow : IDisposable
 {
+    private bool _disposed;
+    
     public JobViewSave Save;
     public readonly string Name;
 
@@ -342,5 +344,22 @@ public class QtWindow
         {
             control.QtValue = !control.QtValue;
         }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected void Dispose(bool disposing)
+    {
+        if (_disposed) return;
+
+        if (disposing)
+        {
+            _qtDict = null;
+        }
+        _disposed = true;
     }
 }

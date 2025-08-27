@@ -363,4 +363,10 @@ public static class ModernQtWindow
         var tempTheme = new ModernTheme(targetTheme);
         return _theme.Colors.Primary.Equals(tempTheme.Colors.Primary);
     }
+
+    public static void Flush()
+    {
+        ButtonAnimations.Clear();
+        ButtonAnimationTimes.Clear();
+    }
 }
