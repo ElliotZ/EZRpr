@@ -87,10 +87,13 @@ public class Opener100 : IOpener
     private static void Step0(Slot slot)
     {
         slot.Add(SpellsDef.ShadowOfDeath.GetSpell());
-        if (Qt.Instance.GetQt("爆发药") && !Qt.Instance.GetQt("爆发药2分") && !RprSettings.Instance.TripleWeavePot)
+        if (Qt.Instance.GetQt("爆发药") 
+            && ItemHelper.CheckCurrJobPotion()
+            && !Qt.Instance.GetQt("爆发药2分") 
+            && !RprSettings.Instance.TripleWeavePot)
         {
             slot.Add(new SlotAction(SlotAction.WaitType.WaitInMs,
-                                    GCDHelper.GetGCDDuration() - RprSettings.Instance.AnimLock,
+                                    GCDHelper.GetGCDDuration() - RprSettings.Instance.AnimLock * 2,
                                     Spell.CreatePotion()));
         }
     }
@@ -98,10 +101,13 @@ public class Opener100 : IOpener
     private static void Step1(Slot slot)
     {
         slot.Add(SpellsDef.SoulSlice.GetSpell());
-        if (RprSettings.Instance.TripleWeavePot && Qt.Instance.GetQt("爆发药") && !Qt.Instance.GetQt("爆发药2分"))
+        if (RprSettings.Instance.TripleWeavePot 
+            && Qt.Instance.GetQt("爆发药") 
+            && ItemHelper.CheckCurrJobPotion()
+            && !Qt.Instance.GetQt("爆发药2分"))
         {
             slot.Add(new SlotAction(SlotAction.WaitType.WaitInMs,
-                        GCDHelper.GetGCDDuration() - RprSettings.Instance.AnimLock * 3,
+                        GCDHelper.GetGCDDuration() - RprSettings.Instance.AnimLock * 4,
                         SpellsDef.ArcaneCircle.GetSpell()));
             slot.Add(Spell.CreatePotion());
             slot.Add(SpellsDef.Gluttony.GetSpell());

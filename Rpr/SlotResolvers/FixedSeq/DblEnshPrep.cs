@@ -49,7 +49,7 @@ public class DblEnshPrep : ISlotSequence
     public int StopCheck(int index)
     {
         return -1;
-    }
+    }   
 
     public List<Action<Slot>> Sequence { get; } =
     [
@@ -67,8 +67,8 @@ public class DblEnshPrep : ISlotSequence
     private static void Step1(Slot slot)
     {
         slot.Add(SpellsDef.VoidReaping.GetSpell());
-
     }
+    
     private static void Step2(Slot slot)
     {
         if (Helper.TgtAuraTimerMoreThan(AurasDef.DeathsDesign, 30000) &&
@@ -76,25 +76,26 @@ public class DblEnshPrep : ISlotSequence
             slot.Add(SpellsDef.HarvestMoon.GetSpell());
         else
             slot.Add(GCD.BuffMaintain.Solve().GetSpell());
-        if (BattleData.Instance.NumBurstPhases == 0)
+        if (Qt.Instance.GetQt("爆发药") && ItemHelper.CheckCurrJobPotion())
         {
-            if (Qt.Instance.GetQt("爆发药") && ItemHelper.CheckCurrJobPotion())
+            if (BattleData.Instance.NumBurstPhases == 0)
             {
-                slot.Add(new SlotAction(SlotAction.WaitType.None, 0, Spell.CreatePotion()));
+                slot.Add(Spell.CreatePotion());
                 slot.Add(SpellsDef.ArcaneCircle.GetSpell());
             }
             else
             {
-                slot.Add(new SlotAction(SlotAction.WaitType.WaitForSndHalfWindow,
-                    0,
-                    SpellsDef.ArcaneCircle.GetSpell()));
-            }
+                slot.Add(SpellsDef.ArcaneCircle.GetSpell());
+                slot.Add(Spell.CreatePotion());    
+            }   
         }
         else
         {
-            slot.Add(SpellsDef.ArcaneCircle.GetSpell());
-            slot.Add(new SlotAction(SlotAction.WaitType.None, 0, Spell.CreatePotion()));
+            slot.Add(new SlotAction(SlotAction.WaitType.WaitForSndHalfWindow,
+                0,
+                SpellsDef.ArcaneCircle.GetSpell()));
         }
+        
         BattleData.Instance.NumBurstPhases++;
     }
 }
