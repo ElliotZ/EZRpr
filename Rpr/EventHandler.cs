@@ -73,9 +73,8 @@ public class EventHandler : IRotationEventHandler
         if (d > 0) BattleData.Instance.GcdDuration = d;
 
         //Single Weave Skills
-        AI.Instance.BattleData.CurrGcdAbilityCount = spell.Id is SpellsDef.VoidReaping
-                                                              or SpellsDef.CrossReaping ?
-                                                              1 : 2;
+        if (spell.Id is SpellsDef.VoidReaping or SpellsDef.CrossReaping)
+            AI.Instance.BattleData.CurrGcdAbilityCount = 1;
 
         BattleData.Instance.JustCastAC = spell.Id is SpellsDef.ArcaneCircle;
     }
