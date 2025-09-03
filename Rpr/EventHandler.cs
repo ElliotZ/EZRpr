@@ -73,10 +73,14 @@ public class EventHandler : IRotationEventHandler
         if (d > 0) BattleData.Instance.GcdDuration = d;
 
         //Single Weave Skills
-        if (spell.Id is SpellsDef.VoidReaping or SpellsDef.CrossReaping)
+        if (spell.Id
+                is SpellsDef.VoidReaping
+                or SpellsDef.CrossReaping
+                or SpellsDef.Communio
+                or SpellsDef.Harpe)
+        {
             AI.Instance.BattleData.CurrGcdAbilityCount = 1;
-
-        //BattleData.Instance.JustCastAC = spell.Id is SpellsDef.ArcaneCircle;
+        }
     }
 
     public void OnBattleUpdate(int currTime)
@@ -103,9 +107,9 @@ public class EventHandler : IRotationEventHandler
         if (RprSettings.Instance.HandleStopMechs) StopHelper.StopActions(1000);
 
         // positional indicator
-        var gcdProgPctg = (int)((GCDHelper.GetGCDCooldown() / (double)BattleData.Instance.GcdDuration) * 100);
+        var gcdProgPctg = (int)(GCDHelper.GetGCDCooldown() / (double)BattleData.Instance.GcdDuration * 100);
         var inTN = Core.Me.HasAura(AurasDef.TrueNorth) &&
-                   !RprSettings.Instance.NoPosDrawInTN;
+                        RprSettings.Instance.NoPosDrawInTN;
         var gibGallowsReady = Core.Me.HasAura(AurasDef.SoulReaver) ||
                               Core.Me.HasAura(AurasDef.Executioner);
         var gibGallowsJustUsed =
@@ -122,8 +126,8 @@ public class EventHandler : IRotationEventHandler
                 (!Qt.Instance.GetQt("AOE") || 
                     TargetHelper.GetNearbyEnemyCount(8) < 3) &&
                 !Core.Me.HasAura(AurasDef.Enshrouded) &&
-                (Core.Me.GetCurrTarget() is not null &&
-                 Core.Me.GetCurrTarget().HasPositional()))
+                 Core.Me.GetCurrTarget() is not null &&
+                 Core.Me.GetCurrTarget().HasPositional())
         {
             if (gibGallowsReady && !gibGallowsJustUsed)
             {

@@ -115,10 +115,10 @@ public class Opener100 : IOpener
         else
         {
             slot.Add(new SlotAction(SlotAction.WaitType.WaitInMs,
-                                    GCDHelper.GetGCDDuration() - 2000,
+                                    GCDHelper.GetGCDDuration() - (RprSettings.Instance.AnimLock * 2 + 800),
                                     SpellsDef.ArcaneCircle.GetSpell()));
             slot.Add(new SlotAction(SlotAction.WaitType.WaitInMs, 
-                                    600 - RprSettings.Instance.AnimLock,
+                                    700 - RprSettings.Instance.AnimLock,
                                     SpellsDef.Gluttony.GetSpell()));
             //slot.Add(SpellsDef.Gluttony.GetSpell());
             //LogHelper.Error("why does this not work");
