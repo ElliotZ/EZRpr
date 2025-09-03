@@ -106,8 +106,8 @@ public class Opener100 : IOpener
             && ItemHelper.CheckCurrJobPotion()
             && !Qt.Instance.GetQt("爆发药2分"))
         {
-            slot.Add(new SlotAction(SlotAction.WaitType.WaitInMs,
-                        GCDHelper.GetGCDDuration() - RprSettings.Instance.AnimLock * 4,
+            slot.Add(new SlotAction(SlotAction.WaitType.None, 0, 
+                        //GCDHelper.GetGCDDuration() - RprSettings.Instance.AnimLock * 4,
                         SpellsDef.ArcaneCircle.GetSpell()));
             slot.Add(Spell.CreatePotion());
             slot.Add(SpellsDef.Gluttony.GetSpell());
@@ -117,9 +117,12 @@ public class Opener100 : IOpener
             slot.Add(new SlotAction(SlotAction.WaitType.WaitInMs,
                                     GCDHelper.GetGCDDuration() - 2000,
                                     SpellsDef.ArcaneCircle.GetSpell()));
-            slot.Add(SpellsDef.Gluttony.GetSpell());
+            slot.Add(new SlotAction(SlotAction.WaitType.WaitInMs, 
+                                    600 - RprSettings.Instance.AnimLock,
+                                    SpellsDef.Gluttony.GetSpell()));
+            //slot.Add(SpellsDef.Gluttony.GetSpell());
             //LogHelper.Error("why does this not work");
-        }
+        }   
     }
 
     public uint Level { get; } = 88;

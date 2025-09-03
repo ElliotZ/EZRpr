@@ -76,7 +76,7 @@ public class EventHandler : IRotationEventHandler
         if (spell.Id is SpellsDef.VoidReaping or SpellsDef.CrossReaping)
             AI.Instance.BattleData.CurrGcdAbilityCount = 1;
 
-        BattleData.Instance.JustCastAC = spell.Id is SpellsDef.ArcaneCircle;
+        //BattleData.Instance.JustCastAC = spell.Id is SpellsDef.ArcaneCircle;
     }
 
     public void OnBattleUpdate(int currTime)

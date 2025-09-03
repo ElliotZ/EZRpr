@@ -31,6 +31,8 @@ public class Gluttony : ISlotResolver
         }
         if (Qt.MobMan.Holding) return -3;
 
+        if (Core.Me.HasAura(AurasDef.Enshrouded)) return -97;  // wrong door go use sacrificium
+        
         if (Core.Me.HasAura(AurasDef.Executioner) ||
                 Core.Me.HasAura(AurasDef.SoulReaver) ||
                 Qt.Instance.GetQt("魂衣") && Core.Resolve<JobApi_Reaper>().ShroudGauge > 80)

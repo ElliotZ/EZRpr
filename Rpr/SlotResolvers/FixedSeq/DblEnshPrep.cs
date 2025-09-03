@@ -25,7 +25,7 @@ public class DblEnshPrep : ISlotSequence
         }
 
         // only weave in 1st weaving window
-        if (GCDHelper.GetGCDCooldown() < 1000) return -8;
+        if (GCDHelper.GetGCDCooldown() is > 0 and < 1000) return -8;
 
         if (SpellsDef.Enshroud.GetSpell().IsReadyWithCanCast() is false) { return -99; }
         if (!Qt.Instance.GetQt("神秘环") || !Qt.Instance.GetQt("魂衣")) { return -98; }
@@ -91,7 +91,10 @@ public class DblEnshPrep : ISlotSequence
         }
         else
         {
-            slot.Add(new SlotAction(SlotAction.WaitType.WaitForSndHalfWindow,
+            var wait = BattleData.Instance.NumBurstPhases == 0 ? 
+                       SlotAction.WaitType.WaitForSndHalfWindow 
+                       : SlotAction.WaitType.None;
+            slot.Add(new SlotAction(wait,
                 0,
                 SpellsDef.ArcaneCircle.GetSpell()));
         }
