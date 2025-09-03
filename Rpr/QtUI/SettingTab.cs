@@ -29,9 +29,9 @@ public static class SettingTab
                     ref RprSettings.Instance.AnimLock, 10, 1000);
                 ImGui.PushStyleColor(ImGuiCol.Text, 
                     ImGui.ColorConvertFloat4ToU32(new Vector4(1f, 1f, 0f, 1f)));
-                ImGui.Text("↑没装FuckAnimationLock或者类似插件的建议装一个，设置同样的数字。" +
-                           "如果要三插的话这里也记得改。");
-                ImGui.Text("除了起手的爆发药三插以外本ACR无特定支持三插的技能逻辑，不回答相关问题");
+                ImGui.Text("↑没装FuckAnimationLock或者类似插件的建议装一个。安装之后，这边应该填写" +
+                           "FuckAnimationLock中设置的时间再加上你的ping，并酌情增加10-20ms的余量。");
+                ImGui.Text("除了起手的爆发药三插选项以外本ACR不会打出三插。");
                 ImGui.PopStyleColor();
                 ImGui.Checkbox("读条技能施放忽略移动状态（移动中也会使用）", 
                     ref RprSettings.Instance.ForceCast);
