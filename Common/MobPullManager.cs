@@ -120,12 +120,12 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "")
     /// <param name="minTTK">设定的小怪平均死亡时间阈值，用ms计算</param>
     public void HoldBurstIfMobsDying(int currTime, float mobHPThreshold, int minTTK)
     {
-        // exclude boss battles, msq ultima wep, and 8 man duties in general
+        // exclude boss battles, msq ultima wep / arr primals, and duties with no mobs in general
         if (Core.Resolve<MemApiDuty>().InMission &&
-               Core.Resolve<MemApiDuty>().DutyMembersNumber() != 8 &&
+               Core.Resolve<MemApiDuty>().DutyMembersNumber() is 4 or 24 &&
                !Core.Resolve<MemApiDuty>().InBossBattle &&  
                //!Core.Me.GetCurrTarget().IsDummy() &&
-               GetTerritoryId != 1048 &&
+               GetTerritoryId is not (1048 or 1045 or 1046 or 1047)  &&
                currTime > 10000 &&
                (GetTotalHealthPercentageOfNearbyEnemies() < mobHPThreshold ||
                 GetAverageTTKOfNearbyEnemies() < minTTK))
