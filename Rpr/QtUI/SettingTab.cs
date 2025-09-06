@@ -253,7 +253,7 @@ public static class SettingTab
             ImGui.Text("高难模式会把自回设置全部关闭，如果你有需求就自己开。默认也会关闭AOE。");
             if (ImGui.Button("日随推荐配置", new Vector2(100f, 30f)))
             {
-                RprSettings.Instance.ForceCast = false;
+                //RprSettings.Instance.ForceCast = false;
                 RprSettings.Instance.NoBurst = true;
                 RprSettings.Instance.PullingNoBurst = true;
                 RprSettings.Instance.AutoBloodBath = true;
@@ -303,7 +303,7 @@ public static class SettingTab
             ImGui.SameLine();
             if (ImGui.Button("高难推荐配置", new Vector2(100f, 30f)))
             {
-                RprSettings.Instance.ForceCast = true;
+                //RprSettings.Instance.ForceCast = true;
                 RprSettings.Instance.NoBurst = false;
                 RprSettings.Instance.PullingNoBurst = false;
                 RprSettings.Instance.AutoBloodBath = false;
