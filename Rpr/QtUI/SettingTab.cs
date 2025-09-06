@@ -297,8 +297,8 @@ public static class SettingTab
                 Qt.Instance.SetQt("真北优化", true);
                 Qt.Instance.NewDefault("智能AOE", true);
                 Qt.Instance.SetQt("智能AOE", true);
-                Qt.Instance.NewDefault("自动突进", true);
-                Qt.Instance.SetQt("自动突进", true);
+                Qt.Instance.NewDefault("自动突进", false);
+                Qt.Instance.SetQt("自动突进", false);
             }
             ImGui.SameLine();
             if (ImGui.Button("高难推荐配置", new Vector2(100f, 30f)))
