@@ -50,17 +50,20 @@ public class EnshroudSk : ISlotResolver
                                                Helper.GetAuraTimeLeft(AurasDef.ArcaneCircle), 
                                                false)
                 && Core.Me.HasAura(AurasDef.Enshrouded, 8500)
+                && !SpellsDef.ShadowOfDeath.GetSpell().RecentlyUsed(8500)
+                && !SpellsDef.WhorlOfDeath.GetSpell().RecentlyUsed(8500)
+                && !Qt.MobMan.Holding
                 // && !Core.Me.HasAura(AurasDef.PerfectioOculta)
             )
         {
-            if (TargetMgr.Instance.EnemysIn20.Count <= 2 &&
-                Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign, 30000, false))
+            switch (TargetMgr.Instance.EnemysIn20.Count)
             {
-                return -6;
-            }
-            if (TargetMgr.Instance.EnemysIn20.Count > 2 && BuffMaintain.AOEAuraCheck())
-            {
-                return -7;
+                case <= 2 when Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign,
+                                                           30000,
+                                                           false):
+                    return -6;
+                case > 2 when BuffMaintain.AOEAuraCheck():
+                    return -7;
             }
         }
         return 0;
