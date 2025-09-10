@@ -22,6 +22,7 @@ public class GlobalSetting
     public bool 缩放同时隐藏Hotkey = false;
     public Vector2 缩放后窗口大小 = new(225f, 100f);
     public bool 关闭动效 = false;
+    //public float configHeight = 500f;
 
 
     public static string StyleStr =

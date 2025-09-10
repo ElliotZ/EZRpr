@@ -365,6 +365,13 @@ public class JobViewWindow : IRotationUI, IDisposable
             _style.QtWindowBgAlpha = qtBackGroundAlpha;
         }
 
+        /*var configWindowHeight = GlobalSetting.Instance.configHeight;
+        if (ImGui.SliderFloat("设置窗格高度", ref configWindowHeight, 100f, 2000f, "%.1f"))
+        {
+            GlobalSetting.Instance.configHeight = configWindowHeight;
+            GlobalSetting.Instance.Save();
+        }*/
+
         var smallWindowSize = GlobalSetting.Instance.缩放后窗口大小;
         if (ImGui.InputFloat2("缩放后窗口大小", ref smallWindowSize))
         {

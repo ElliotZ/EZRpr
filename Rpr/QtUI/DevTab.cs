@@ -32,7 +32,6 @@ public static class DevTab
                     ImGui.Text("下一个oGCD Slot：" + RotationPrioSys.CheckFirstAvailableSkillOffGCD());
                     ImGui.Text("神秘环CD毫秒：" + SpellsDef.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds);
                     ImGui.Text("目标距离：" + Core.Me.Distance(Core.Me.GetCurrTarget()));
-                    ImGui.Text($"当前地图ID: {Core.Resolve<MemApiZoneInfo>().GetCurrTerrId()} ");
                     ImGui.Text($"角色当前坐标: {Core.Me.Position} ");
                     if (ImGui.Button("CID:" + ECHelper.ClientState.LocalContentId))
                     {
@@ -125,7 +124,7 @@ public static class DevTab
                                   "2025/08/27: 现在在切换地图的时候也会重置QT，如果启用了相关设置。\n" +
                                   "2025/09/02: 修复4分以后的爆发药QT失效问题。\n" +
                                   "2025/09/03: 修复开启三插时的插入问题，祭牲的QT现在可以用了。\n" +
-                                  "2025/09/10: 增加职业量谱的轴控Conditions.");
+                                  "2025/09/10: 增加职业量谱的轴控Conditions，并调整UI。");
                 ImGui.EndChild();
             }
         });

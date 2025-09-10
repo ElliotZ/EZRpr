@@ -4,6 +4,8 @@ using AEAssist.CombatRoutine.Trigger;
 using AEAssist.GUI;
 using ImGuiNET;
 using System.Numerics;
+using AEAssist;
+using AEAssist.MemoryApi;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 #pragma warning disable CS9113 // 参数未读。
@@ -818,7 +820,8 @@ public class MainWindow
         ImGui.PushStyleVar(ImGuiStyleVar.ChildBorderSize, 1f);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(12, 8));
 
-        ImGui.BeginChild("##TipsCard", new Vector2(-1, 50), true);
+        //var height = GlobalSetting.Instance.configHeight;
+        ImGui.BeginChild("##TipsCard", new Vector2(-1, 112.5f * QtStyle.OverlayScale), true);
 
         var notice = "无";
         ImGui.TextColored(GetCurrentTheme().Colors.Primary, "当前时间轴:");
@@ -829,6 +832,56 @@ public class MainWindow
 
         ImGui.SameLine();
         ImGui.TextColored(GetCurrentTheme().Colors.Text, notice);
+        ImGui.SameLine();
+        if (currTriggerLine != null)
+        {
+            if (ImGui.Button("卸载时间轴")) AI.Instance.TriggerlineData.Clear();
+        }
+        var rightAlignWidth = currTriggerLine is null ? 
+                                     30f 
+                                   : 30f + 23f * QtStyle.OverlayScale + ImGui.GetItemRectSize().X;
+        ImGui.SameLine(ImGui.GetContentRegionAvail().X - rightAlignWidth);
+        ImGui.SetNextItemWidth(80f);
+        if (ImGui.BeginCombo("职能设置", AI.Instance.PartyRole, ImGuiComboFlags.HeightLargest))
+        {
+            if (ImGui.Selectable("MT", AI.Instance.PartyRole == "MT"))
+            {
+                AI.Instance.PartyRole = "MT";
+            }
+            if (ImGui.Selectable("ST", AI.Instance.PartyRole == "ST"))
+            {
+                AI.Instance.PartyRole = "ST";
+            }
+            if (ImGui.Selectable("H1", AI.Instance.PartyRole == "H1"))
+            {
+                AI.Instance.PartyRole = "H1";
+            }
+            if (ImGui.Selectable("H2", AI.Instance.PartyRole == "H2"))
+            {
+                AI.Instance.PartyRole = "H2";
+            }
+            if (ImGui.Selectable("D1", AI.Instance.PartyRole == "D1"))
+            {
+                AI.Instance.PartyRole = "D1";
+            }
+            if (ImGui.Selectable("D2", AI.Instance.PartyRole == "D2"))
+            {
+                AI.Instance.PartyRole = "D2";
+            }
+            if (ImGui.Selectable("D3", AI.Instance.PartyRole == "D3"))
+            {
+                AI.Instance.PartyRole = "D3";
+            }
+            if (ImGui.Selectable("D4", AI.Instance.PartyRole == "D4"))
+            {
+                AI.Instance.PartyRole = "D4";
+            }
+
+            ImGui.EndCombo();
+        }
+        
+        ImGui.Text($"当前地图ID: {Core.Resolve<MemApiZoneInfo>().GetCurrTerrId()} ");
+        ImGui.Text($"当前天气ID: {Core.Resolve<MemApiZoneInfo>().GetWeatherId()} ");
 
         ImGui.EndChild();
 
