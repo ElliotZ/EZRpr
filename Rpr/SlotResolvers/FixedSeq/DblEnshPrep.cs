@@ -49,7 +49,7 @@ public class DblEnshPrep : ISlotSequence
     public int StopCheck(int index)
     {
         return -1;
-    }   
+    }
 
     public List<Action<Slot>> Sequence { get; } =
     [
