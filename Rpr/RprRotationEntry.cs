@@ -34,8 +34,13 @@ public class RprRotationEntry : IRotationEntry
         };
         rot.AddOpener(level => level < 88 ? new OpenerCountDownOnly() : new Opener100());
         rot.SetRotationEventHandler(new EventHandler());
-        rot.AddTriggerAction(new TriggerActionQt(), new TriggerActionHotkey());
-        rot.AddTriggerCondition(new TriggerCondQt());
+        rot.AddTriggerAction(new TriggerActionQt(), 
+                             new TriggerActionHotkey());
+        rot.AddTriggerCondition(new TriggerCondQt(), 
+                                new TriggerCondSoul(), 
+                                new TriggerCondShroud(), 
+                                new TriggerCondBluOrb(), 
+                                new TriggerCondPurpOrb());
         rot.AddCanUseHighPrioritySlotCheck(Helper.HighPrioritySlotCheckFunc);
         rot.AddSlotSequences(new DblEnshPrep());
         return rot;
