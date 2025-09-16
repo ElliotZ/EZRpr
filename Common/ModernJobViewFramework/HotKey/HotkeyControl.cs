@@ -1,16 +1,14 @@
 ﻿using AEAssist.CombatRoutine.View.JobView;
 
-namespace ElliotZ.Common.ModernJobViewFramework.HotKey;
+namespace ElliotZ.ModernJobViewFramework.HotKey;
 
-public class HotkeyControl
-{
-    internal readonly string Name;
-    internal IHotkeyResolver Slot;
-    internal string ToolTip = "";
+public class HotkeyControl {
+  internal readonly string _name;
+  internal IHotkeyResolver _slot;
+  internal string _toolTip = "";
 
-    internal HotkeyControl(string name, IHotkeyResolver slot)
-    {
-        Name = name;
-        Slot = slot;
-    }
+  internal HotkeyControl(string name, IHotkeyResolver slot) {
+    _name = name;
+    _slot = slot;
+  }
 }
