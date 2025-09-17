@@ -1,5 +1,4 @@
 ﻿using AEAssist.CombatRoutine;
-using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
 using AEAssist.Helper;
 using ElliotZ.Rpr.QtUI.Hotkey;
@@ -14,7 +13,7 @@ public static class Qt {
   public static MacroManager MacroMan;
   public static MobPullManager MobMan;
   private static readonly bool _forceNextSlots = RprSettings.Instance.ForceNextSlotsOnHKs;
-  private static Dictionary<string, bool> _currQtStatesDict;
+  private static Dictionary<string, bool> _currQtStatesDict = RprSettings.Instance.QtStatesCasual;
 
   private static readonly List<QtInfo> _qtKeys = [
       new("爆发药", "Pot", false, null, ""),
