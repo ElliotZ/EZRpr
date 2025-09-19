@@ -1,27 +1,41 @@
-﻿using FFXIVClientStructs.FFXIV.Client.UI;
+﻿using System.Runtime.InteropServices;
+using AEAssist.Helper;
+using FFXIVClientStructs.FFXIV.Client.Game.Control;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Common.Math;
 using CSFramework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework;
 
 namespace ElliotZ;
 
 public static class CameraHelper {
-  private static unsafe RaptureAtkModule* _raptureAtkModule =>
-      CSFramework.Instance() -> GetUIModule() -> GetRaptureAtkModule();
+//  private static unsafe RaptureAtkModule* _raptureAtkModule =>
+//      CSFramework.Instance() -> GetUIModule() -> GetRaptureAtkModule();
+//
+//  internal static float GetCameraRotation() {
+//    unsafe {
+//      // 获取相机旋转角度（度数）
+//      int cameraRotation =
+//          _raptureAtkModule -> AtkModule.AtkArrayDataHolder.NumberArrays[24] -> IntArray[3];
+//
+//      // 将角度转换为弧度，并确保范围在 [-π, π]
+//      int sign = Math.Sign(cameraRotation) == -1 ? -1 : 1;
+//      float rotation = (float)((Math.Abs(cameraRotation * (Math.PI / 180)) - Math.PI) * sign);
+//
+//      return rotation;
+//    }
+//  }
 
-  internal static float GetCameraRotation() {
-    unsafe {
-      // 获取相机旋转角度（度数）
-      int cameraRotation =
-          _raptureAtkModule -> AtkModule.AtkArrayDataHolder.NumberArrays[24] -> IntArray[3];
-
-      // 将角度转换为弧度，并确保范围在 [-π, π]
-      int sign = Math.Sign(cameraRotation) == -1 ? -1 : 1;
-      float rotation = (float)((Math.Abs(cameraRotation * (Math.PI / 180)) - Math.PI) * sign);
-
-      return rotation;
-    }
+  internal static unsafe float GetCameraRotation() {
+    float cameraRotation = ((CameraEx*)CameraManager.Instance() -> GetActiveCamera()) -> DirH;
+    int sign = Math.Sign(cameraRotation) == -1 ? -1 : 1;
+    return (float)(Math.Abs(cameraRotation) - Math.PI) * sign;
   }
-
+  
+  internal static unsafe CameraEx GetCameraExData() {
+    CameraEx cameraStats = *(CameraEx*)CameraManager.Instance() -> GetActiveCamera();
+    return cameraStats;
+  }
+  
   /*
   /// <summary>
   /// 将世界坐标转换为屏幕坐标。
@@ -75,5 +89,33 @@ public static class CameraHelper {
     float dz = (float)(Math.Cos(facingRadians) * distance);
 
     return new Vector3(position.X + dx, position.Y, position.Z + dz);
+  }
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 688)]
+public struct CameraEx
+{
+  [FieldOffset(320)]
+  public float DirH;
+  [FieldOffset(324)]
+  public float DirV;
+  [FieldOffset(328)]
+  public float InputDeltaHAdjusted;
+  [FieldOffset(332)]
+  public float InputDeltaVAdjusted;
+  [FieldOffset(336)]
+  public float InputDeltaH;
+  [FieldOffset(340)]
+  public float InputDeltaV;
+  [FieldOffset(344)]
+  public float DirVMin;
+  [FieldOffset(348)]
+  public float DirVMax;
+
+  public override string ToString() {
+    return $"DirH: {DirH}, DirV: {DirV}, \n"
+         + $"InputDeltaHAdjusted: {InputDeltaHAdjusted}, InputDeltaVAdjusted: {InputDeltaVAdjusted},\n"
+         + $"InputDeltaH: {InputDeltaH}, InputDeltaV: {InputDeltaV},\n"
+         + $"DirVMin: {DirVMin}, DirVMax: {DirVMax}";
   }
 }

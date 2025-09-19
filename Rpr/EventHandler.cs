@@ -16,7 +16,7 @@ public class EventHandler : IRotationEventHandler {
     BattleData.Instance = new BattleData();
     MeleePosHelper.Clear();
     BattleData.ReBuildSettings();
-
+    
     if (RprSettings.Instance.RestoreQtSet) Qt.LoadQtStatesNoPot();
 
     // When entering combat
@@ -28,7 +28,7 @@ public class EventHandler : IRotationEventHandler {
       } else if (RprSettings.Instance.AutoSetCasual) {
         RprHelper.CasualMode();
       }
-
+      
     }
   }
 

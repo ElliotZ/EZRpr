@@ -56,6 +56,8 @@ public static class DevTab {
           ImGui.PopTextWrapPos();
           ImGui.Text($"Qt.mobMan.Holding: {Qt.MobMan.Holding}");
           ImGui.Text($"自身面向 ({Core.Me.Rotation:F2})");
+          ImGui.Text($"GetCameraRotation ({CameraHelper.GetCameraRotation():F2})");
+          ImGui.Text($"CameraData:{CameraHelper.GetCameraExData()}");
         }
 
         ImGuiHelper.Separator();
