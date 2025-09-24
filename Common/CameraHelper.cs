@@ -1,9 +1,7 @@
 ﻿using System.Runtime.InteropServices;
-using AEAssist.Helper;
 using FFXIVClientStructs.FFXIV.Client.Game.Control;
-using FFXIVClientStructs.FFXIV.Client.UI;
+
 using FFXIVClientStructs.FFXIV.Common.Math;
-using CSFramework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework;
 
 namespace ElliotZ;
 
@@ -25,10 +23,23 @@ public static class CameraHelper {
 //    }
 //  }
 
-  internal static unsafe float GetCameraRotation() {
+  public static unsafe float GetCameraRotation() {
+
     float cameraRotation = ((CameraEx*)CameraManager.Instance() -> GetActiveCamera()) -> DirH;
     int sign = Math.Sign(cameraRotation) == -1 ? -1 : 1;
     return (float)(Math.Abs(cameraRotation) - Math.PI) * sign;
+  }
+  
+  public static float GetCameraRotationReversed() {
+    float result = GetCameraRotation() + (float)Math.PI;
+
+    if (result > Math.PI) {
+      result -= (float)(2 * Math.PI);
+    } else if (result < -1.0 * Math.PI) {
+      result += (float)(2 * Math.PI);
+    }
+
+    return result;
   }
   
   internal static unsafe CameraEx GetCameraExData() {
@@ -88,7 +99,13 @@ public static class CameraHelper {
     float dx = (float)(Math.Sin(facingRadians) * distance);
     float dz = (float)(Math.Cos(facingRadians) * distance);
 
-    return new Vector3(position.X + dx, position.Y, position.Z + dz);
+    return new Vector3(position.X + dx, position.Y + 5f, position.Z + dz);
+  }
+  
+  public static Vector3 向量位移反向(Vector3 position, float facingRadians, float distance) {
+    float dx = (float)(Math.Sin(facingRadians) * -(double)distance);
+    float dz = (float)(Math.Cos(facingRadians) * -(double)distance);
+    return new Vector3(position.X + dx, position.Y + 5f, position.Z + dz);
   }
 }
 

@@ -89,6 +89,15 @@ public class EnshroudSk : ISlotResolver {
   }
 
   public void Build(Slot slot) {
-    slot.Add(Solve());
+    if (SpellsDef.ArcaneCircle.GetSpell().RecentlyUsed()) {
+      Spell ac = SpellsDef.ArcaneCircle.GetSpell();
+      int wait = 650 - (int) (ac.RecastTimeElapsed * 1000);
+      if (RprSettings.Instance.Debug) LogHelper.Print($"wait: {wait}");
+      slot.Add(new SlotAction(SlotAction.WaitType.WaitInMs,
+                              wait,
+                              Solve()));
+    } else {
+      slot.Add(Solve());
+    }
   }
 }

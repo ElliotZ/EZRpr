@@ -13,7 +13,7 @@ namespace ElliotZ.Rpr.SlotResolvers.FixedSeq;
 
 public class DblEnshPrep : ISlotSequence {
   //private static bool needShadow(int t) => Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign, t, false);
-  public static double PreAcEnshTimer => GCDHelper.GetGCDDuration() * 1.5 + 800;
+  public static double PreAcEnshTimer => GCDHelper.GetGCDDuration() * 1.5 + 900;
 
   public int StartCheck() {
     if (Core.Me.Level < 88) return -99;
