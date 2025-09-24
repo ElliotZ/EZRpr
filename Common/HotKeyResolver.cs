@@ -14,8 +14,8 @@ namespace ElliotZ;
 /// </summary>
 /// <param name="spellId"></param>
 /// <param name="targetType"></param>
-/// <param name="useHighPrioritySlot">使用不卡GCD的强插</param>
-/// <param name="waitCoolDown">是否允许提早5秒点HK</param>
+/// <param name="useHighPrioritySlot">使用不卡GCD的强插，GCD</param>
+/// <param name="waitCoolDown">是否允许提早5秒点HK, GCD技能都应该是true</param>
 public class HotKeyResolver(uint spellId,
                             SpellTargetType targetType = SpellTargetType.Target,
                             bool useHighPrioritySlot = true,
@@ -57,7 +57,7 @@ public class HotKeyResolver(uint spellId,
   public virtual int Check() {
     Spell s = _spellId.AdaptiveId().GetSpell(_targetType);
     if (_waitCoolDown && !s.IsUnlockWithRoleSkills()) return -1;
-    if (_useHighPrioritySlot && s.CheckInHPQueueTop()) return -3;
+    if (_useHighPrioritySlot && s.CheckInHPQueue()) return -3;
     bool isReady = _waitCoolDown 
                        ? s.Cooldown.TotalMilliseconds <= 5000 
                        : s.IsReadyWithCanCast();
@@ -70,6 +70,9 @@ public class HotKeyResolver(uint spellId,
     double cooldown = spell.Cooldown.TotalMilliseconds;
 
     if (_waitCoolDown && (cooldown > 0)) {
+      if (spell.IsAbility() is false) {
+        cooldown -= 500;
+      }
       _ = Run1(spell, (int)cooldown);
     } else {
       _ = Run1(spell);
@@ -77,8 +80,6 @@ public class HotKeyResolver(uint spellId,
   }
 
   protected virtual async Task Run1(Spell spell, int delay = 0) {
-    if (delay > 0) await Coroutine.Instance.WaitAsync(delay);
-
     if (_useHighPrioritySlot
      && Core.Me.GetCurrTarget() is not null
      && Core.Me.GetCurrTarget().CanAttack()
@@ -86,12 +87,15 @@ public class HotKeyResolver(uint spellId,
       var slot = new Slot();
       slot.Add(spell);
 
-      if (spell.IsAbility()) {
-        AI.Instance.BattleData.HighPrioritySlots_OffGCD.Enqueue(slot);
-      } else {
-        AI.Instance.BattleData.HighPrioritySlots_GCD.Enqueue(slot);
+      if (spell.CheckInHPQueueTop() is false) {
+        if (spell.IsAbility()) {
+          AI.Instance.BattleData.HighPrioritySlots_OffGCD.Enqueue(slot);
+        } else {
+          AI.Instance.BattleData.HighPrioritySlots_GCD.Enqueue(slot);
+        }
       }
     } else {
+      if (delay > 0) await Coroutine.Instance.WaitAsync(delay);
       AI.Instance.BattleData.AddSpell2NextSlot(spell);
     }
   }

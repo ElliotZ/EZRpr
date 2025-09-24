@@ -2,6 +2,9 @@
 using AEAssist.CombatRoutine.Trigger;
 using Dalamud.Bindings.ImGui;
 using ElliotZ.Rpr.QtUI;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable ConvertConstructorToMemberInitializers
+// ReSharper disable FieldCanBeMadeReadOnly.Global
 
 namespace ElliotZ.Rpr.Triggers;
 
@@ -9,9 +12,13 @@ public class TriggerActionQt : ITriggerAction {
   public string DisplayName { get; } = "Reaper/QT";
   public string Remark { get; set; } = "";
 
-  private readonly Dictionary<string, bool> _qtValues = new();
+  public Dictionary<string, bool> QTValues = new();
 
-  private readonly string[] _qtArray = Qt.Instance.GetQtArray();
+  private readonly string[] _qtArray;
+  
+  public TriggerActionQt() {
+    _qtArray = Qt.Instance.GetQtArray();
+  }
 
   public bool Draw() {
     ImGui.NewLine();
@@ -24,7 +31,7 @@ public class TriggerActionQt : ITriggerAction {
     foreach (string qt in _qtArray) {
       ImGui.PushID(qt);
 
-      if (_qtValues.TryGetValue(qt, out bool isEnabled)) {
+      if (QTValues.TryGetValue(qt, out bool isEnabled)) {
         ImGui.PushStyleColor(ImGuiCol.Text,
                              isEnabled
                                  ? new Vector4(0f, 1f, 0f, 1f) // ✅ 启用：绿色
@@ -35,11 +42,11 @@ public class TriggerActionQt : ITriggerAction {
       }
 
       if (ImGui.Button(qt)) {
-        if (_qtValues.TryAdd(qt, false)) { } // 🆕 → ❌
-        else if (!_qtValues[qt]) {
-          _qtValues[qt] = true; // ❌ → ✅
+        if (QTValues.TryAdd(qt, false)) { } // 🆕 → ❌
+        else if (!QTValues[qt]) {
+          QTValues[qt] = true; // ❌ → ✅
         } else {
-          _qtValues.Remove(qt); // ✅ → 🆕
+          QTValues.Remove(qt); // ✅ → 🆕
         }
       }
 
@@ -54,16 +61,16 @@ public class TriggerActionQt : ITriggerAction {
     ImGui.NewLine();
     ImGui.Separator();
 
-    if (_qtValues.Count is 0) return true;
+    if (QTValues.Count is 0) return true;
 
     List<string> toRemove = [];
 
-    foreach (var kvp in _qtValues) {
+    foreach (var kvp in QTValues) {
       string qt = kvp.Key;
       bool val = kvp.Value;
 
       ImGui.PushID(qt);
-      if (ImGui.Checkbox(" ", ref val)) _qtValues[qt] = val;
+      if (ImGui.Checkbox(" ", ref val)) QTValues[qt] = val;
 
       ImGui.SameLine();
       ImGui.Text(qt);
@@ -80,33 +87,33 @@ public class TriggerActionQt : ITriggerAction {
     }
 
     // 删除被标记的项
-    foreach (string qt in toRemove) _qtValues.Remove(qt);
+    foreach (string qt in toRemove) QTValues.Remove(qt);
 
     ImGui.Separator();
 
     if (ImGui.Button("全部启用")) {
-      foreach (string key in _qtValues.Keys.ToList()) {
-        _qtValues[key] = true;
+      foreach (string key in QTValues.Keys.ToList()) {
+        QTValues[key] = true;
       }
     }
 
     ImGui.SameLine();
 
     if (ImGui.Button("全部关闭")) {
-      foreach (string key in _qtValues.Keys.ToList()) {
-        _qtValues[key] = false;
+      foreach (string key in QTValues.Keys.ToList()) {
+        QTValues[key] = false;
       }
     }
 
     ImGui.SameLine();
 
-    if (ImGui.Button("清除所有")) _qtValues.Clear();
+    if (ImGui.Button("清除所有")) QTValues.Clear();
 
     return true;
   }
 
   public bool Handle() {
-    foreach (var kvp in _qtValues) Qt.Instance.SetQt(kvp.Key, kvp.Value);
+    foreach (var kvp in QTValues) Qt.Instance.SetQt(kvp.Key, kvp.Value);
     return true;
   }
 }
