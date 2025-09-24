@@ -99,7 +99,7 @@ public static class DevTab {
 
         if (AI.Instance.BattleData.HighPrioritySlots_OffGCD.Count > 0) {
           foreach (SlotAction item in AI.Instance.BattleData.HighPrioritySlots_OffGCD
-                                        .SelectMany(spell => spell.Actions)) {
+                                        .SelectMany(slot => slot.Actions)) {
             ImGui.Text(item.Spell.Name);
           }
         }
@@ -108,7 +108,7 @@ public static class DevTab {
 
         if (AI.Instance.BattleData.HighPrioritySlots_GCD.Count > 0) {
           foreach (SlotAction item2 in AI.Instance.BattleData.HighPrioritySlots_GCD
-                                         .SelectMany(spell => spell.Actions)) {
+                                         .SelectMany(slot => slot.Actions)) {
             ImGui.Text(item2.Spell.Name);
           }
         }

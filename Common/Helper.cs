@@ -287,15 +287,12 @@ public static class Helper {
   /// <param name="spell"></param>
   /// <returns>True if spell is in HP queue, false otherwise</returns>
   public static bool CheckInHPQueue(this Spell spell) {
-    Slot t = new();
-    t.Add(spell);
-
     if (spell.IsAbility()) {
-      return (AI.Instance.BattleData.HighPrioritySlots_OffGCD.Count > 0)
-          && AI.Instance.BattleData.HighPrioritySlots_OffGCD.Contains(t);
+      var all = HPQueueToStrList(AI.Instance.BattleData.HighPrioritySlots_OffGCD);
+      return all.Contains(spell.Name);
     } else {
-      return (AI.Instance.BattleData.HighPrioritySlots_GCD.Count > 0)
-          && AI.Instance.BattleData.HighPrioritySlots_GCD.Contains(t);
+      var all = HPQueueToStrList(AI.Instance.BattleData.HighPrioritySlots_GCD);
+      return all.Contains(spell.Name);
     }
   }
 
@@ -305,16 +302,21 @@ public static class Helper {
   /// <param name="spell"></param>
   /// <returns>True if spell is at the top of HP queue, false otherwise</returns>
   public static bool CheckInHPQueueTop(this Spell spell) {
-    Slot t = new();
-    t.Add(spell);
-
     if (spell.IsAbility()) {
-      return (AI.Instance.BattleData.HighPrioritySlots_OffGCD.Count > 0)
-          && AI.Instance.BattleData.HighPrioritySlots_OffGCD.Peek().Equals(t);
+      var all = HPQueueToStrList(AI.Instance.BattleData.HighPrioritySlots_OffGCD);
+      return all.Count > 0 && all[0] == spell.Name;
     } else {
-      return (AI.Instance.BattleData.HighPrioritySlots_GCD.Count > 0)
-          && AI.Instance.BattleData.HighPrioritySlots_GCD.Peek().Equals(t);
+      var all = HPQueueToStrList(AI.Instance.BattleData.HighPrioritySlots_GCD);
+      return all.Count > 0 && all[0] == spell.Name;
     }
+  }
+
+  private static List<string> HPQueueToStrList(Queue<Slot> src) {
+    List<string> result = [];
+    foreach (SlotAction item in src.SelectMany(slot => slot.Actions)) {
+      result.Add(item.Spell.Name);
+    }
+    return result;
   }
 
   private const uint _背刺 = 3849,

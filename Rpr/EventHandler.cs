@@ -69,10 +69,15 @@ public class EventHandler : IRotationEventHandler {
 
   public void OnBattleUpdate(int currTime) {
     //stop casting soulsow if just entered combat
-    if ((currTime < 3000) && (Core.Me.CastActionId == SpellsDef.Soulsow)) {
-      Core.Resolve<MemApiSpell>().CancelCast();
+    if (currTime < 3000) {
+      if (Core.Me.CastActionId == SpellsDef.Soulsow) {
+        Core.Resolve<MemApiSpell>().CancelCast();
+      }
+      if (SpellsDef.Soulsow.GetSpell().CheckInHPQueueTop()) {
+        AI.Instance.BattleData.HighPrioritySlots_GCD.Dequeue();
+      }
     }
-
+    
     if (RprSettings.Instance.PullingNoBurst) {
       Qt.MobMan.HoldBurstIfPulling(currTime, RprSettings.Instance.ConcentrationThreshold);
     }

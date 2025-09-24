@@ -1,10 +1,12 @@
 ﻿using AEAssist.CombatRoutine.Trigger;
 using AEAssist.GUI;
 using ElliotZ.Rpr.QtUI;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable ConvertConstructorToMemberInitializers
 
 namespace ElliotZ.Rpr.Triggers;
 
-public class TriggerActionHotkey() : ITriggerAction {
+public class TriggerActionHotkey : ITriggerAction {
   public string DisplayName { get; } = "Reaper/Hotkey";
   public string Remark { get; set; } = "";
 
@@ -13,7 +15,12 @@ public class TriggerActionHotkey() : ITriggerAction {
 
   // 辅助数据 因为是private 所以不存档
   private int _selectIndex;
-  private readonly string[] _hotkeyArray = Qt.Instance.GetHotkeyArray();
+  private readonly string[] _hotkeyArray;
+  
+  public TriggerActionHotkey()
+  {
+    _hotkeyArray = Qt.Instance.GetHotkeyArray();
+  }
 
   public bool Draw() {
     _selectIndex = Array.IndexOf(_hotkeyArray, Key);
