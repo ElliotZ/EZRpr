@@ -9,8 +9,6 @@ public class GlobalSetting {
   public static GlobalSetting? Instance;
   
   public bool HotKey配置窗口 = false;
-  public static string Title = "EZRpr";
-  public static string Desc = "";
   public bool QtShow = true;
   public bool HotKeyShow = true;
   public bool TempQtShow = true;
@@ -24,18 +22,17 @@ public class GlobalSetting {
 
   private static string _path = "";
   
-  public static void Build(string settingPath, string t, bool rebuild) {
+  public static void Build(string settingPath, bool rebuild) {
     if (!rebuild) {
       if (Instance != null) {
         return;
       }
     }
 
-    Init(settingPath, t);
+    Init(settingPath);
   }
 
-  private static void Init(string settingPath, string t) {
-    Title = t;
+  private static void Init(string settingPath) {
     _path = Path.Combine(settingPath, "GlobalSettings.json");
 
     if (!File.Exists(_path)) {
