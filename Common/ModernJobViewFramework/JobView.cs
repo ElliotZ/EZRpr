@@ -29,6 +29,8 @@ public class JobViewWindow : IRotationUI, IDisposable {
   // 运行状态动画相关
   //private float statusAnimationTime = 0f;
   private readonly Timer _uiFlushTimer = new(_ => { ModernQtWindow.Flush(); });
+  private string _battleTime => AI.Instance.BattleData.CurrBattleTimeInSec;
+  private string _name;
 
   public Dictionary<string, Action<JobViewWindow>> ExternalTab = new();
   public Action? UpdateAction;
@@ -40,6 +42,7 @@ public class JobViewWindow : IRotationUI, IDisposable {
   public JobViewWindow(JobViewSave jobViewSave, Action save, string name) {
     _style = new QtStyle(jobViewSave);
     _saveSetting = save;
+    _name = name;
     _qtWindow = new QtWindow(jobViewSave, name);
     _hotkeyWindow = new HotkeyWindow(jobViewSave, name + " hotkey");
     _mainWindow = new MainWindow(ref _style);
@@ -398,15 +401,7 @@ public class JobViewWindow : IRotationUI, IDisposable {
       }
 
       string acrModeCN = AcrMode is AcrModeTypes.HardCore ? "高难" : "日随";
-      string title = $"{
-        GlobalSetting.Title
-      } | {
-        AI.Instance.BattleData.CurrBattleTimeInSec
-      } | { 
-        acrModeCN 
-      } {
-        triggerlineName
-      } ###aeassist";
+      string title = $"{_name} | {_battleTime} | {acrModeCN} {triggerlineName} ###aeassist";
 
       if (OverlayManager.Instance.Visible) {
         // 根据小窗口状态设置窗口大小约束

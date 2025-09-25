@@ -22,7 +22,7 @@ public class RprRotationEntry : IRotationEntry {
   public Rotation Build(string settingFolder) {
     SettingsFolderPath = settingFolder;
     RprSettings.Build(SettingsFolderPath);
-    GlobalSetting.Build(SettingsFolderPath, "EZRpr", false);
+    GlobalSetting.Build(SettingsFolderPath, false);
     Qt.Build();
     var rot = new Rotation(RotationPrioSys.SlotResolvers) {
         TargetJob = _targetJob,

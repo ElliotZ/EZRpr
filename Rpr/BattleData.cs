@@ -15,7 +15,7 @@ public class BattleData {
     if (!_isChange) return;
 
     _isChange = false;
-    GlobalSetting.Build(RprRotationEntry.SettingsFolderPath, "EZRpr", true);
+    GlobalSetting.Build(RprRotationEntry.SettingsFolderPath, true);
     RprSettings.Build(RprRotationEntry.SettingsFolderPath);
   }
 }
