@@ -9,12 +9,13 @@ public class BattleData {
   public int GcdDuration = 2500;
   public int NumBurstPhases = 0;
   
-  private static bool _isChange;
-  
-  public static void ReBuildSettings() {
-    if (!_isChange) return;
+  private static bool _isChanged;
+  public int HoldCommunio = 0;
 
-    _isChange = false;
+  public static void RebuildSettings() {
+    if (!_isChanged) return;
+
+    _isChanged = false;
     GlobalSetting.Build(RprRotationEntry.SettingsFolderPath, true);
     RprSettings.Build(RprRotationEntry.SettingsFolderPath);
   }

@@ -2,6 +2,7 @@
 using ElliotZ.Rpr.QtUI;
 using ElliotZ.Rpr.SlotResolvers.FixedSeq;
 using ElliotZ.Rpr.Triggers;
+
 // ReSharper disable ClassNeverInstantiated.Global
 
 namespace ElliotZ.Rpr;
@@ -33,7 +34,9 @@ public class RprRotationEntry : IRotationEntry {
     };
     rot.AddOpener(level => level < 88 ? new OpenerCountDownOnly() : new Opener100());
     rot.SetRotationEventHandler(new EventHandler());
-    rot.AddTriggerAction(new TriggerActionQt(), new TriggerActionHotkey());
+    rot.AddTriggerAction(new TriggerActionQt(), 
+                         new TriggerActionHotkey(), 
+                         new TriggerActionHoldCommunio());
     rot.AddTriggerCondition(new TriggerCondQt(),
                             new TriggerCondSoul(),
                             new TriggerCondShroud(),

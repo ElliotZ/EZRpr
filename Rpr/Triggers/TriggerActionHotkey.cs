@@ -1,6 +1,7 @@
 ﻿using AEAssist.CombatRoutine.Trigger;
 using AEAssist.GUI;
 using ElliotZ.Rpr.QtUI;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ConvertConstructorToMemberInitializers
 

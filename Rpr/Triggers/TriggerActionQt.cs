@@ -2,6 +2,7 @@
 using AEAssist.CombatRoutine.Trigger;
 using Dalamud.Bindings.ImGui;
 using ElliotZ.Rpr.QtUI;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ConvertConstructorToMemberInitializers
 // ReSharper disable FieldCanBeMadeReadOnly.Global

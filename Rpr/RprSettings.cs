@@ -60,6 +60,7 @@ public class RprSettings {
   public bool CommandWindowOpen = true;
   public bool ShowToast = false;
   public bool Debug = false;
+  public bool TimelineDebug = false;
 
   // Roulette Utility Settings
   public bool NoBurst = true;
