@@ -1,8 +1,8 @@
-﻿using AEAssist.CombatRoutine.Trigger;
+﻿using System.Drawing;
+using AEAssist.CombatRoutine.Trigger;
 using AEAssist.GUI;
-using ElliotZ.Rpr.QtUI;
-using System.Drawing;
 using Dalamud.Bindings.ImGui;
+using ElliotZ.Rpr.QtUI;
 
 namespace ElliotZ.Rpr.Triggers;
 

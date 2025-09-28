@@ -104,6 +104,7 @@ public static class SettingTab {
         ImGui.Checkbox("Debug", ref RprSettings.Instance.Debug);
         ImGui.SameLine();
         ImGui.Checkbox("StopHelper Debug", ref StopHelper.Debug);
+        ImGui.Checkbox("时间轴Debug", ref RprSettings.Instance.TimelineDebug);
         ImGui.EndGroup();
         ImGui.Dummy(new Vector2(0, 10));
       }

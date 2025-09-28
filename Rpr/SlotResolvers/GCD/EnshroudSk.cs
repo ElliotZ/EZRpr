@@ -76,7 +76,11 @@ public class EnshroudSk : ISlotResolver {
     if (_communioTarget is not null
      && SpellsDef.Communio.GetSpell().IsReadyWithCanCast()
      && (RprHelper.BlueOrb < 2)) {
-      return SpellsDef.Communio.GetSpell(_communioTarget);
+      return BattleData.Instance.HoldCommunio switch {
+          1 => BuffMaintain.Solve().GetSpell(),
+          2 => SpellsDef.Harpe.GetSpell(),
+          _ => SpellsDef.Communio.GetSpell(_communioTarget)
+      };
     }
 
     if (Qt.Instance.GetQt("AOE") && _target is not null) {

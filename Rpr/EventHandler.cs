@@ -15,7 +15,7 @@ public class EventHandler : IRotationEventHandler {
   public void OnResetBattle() {  // When entering or leaving combat
     BattleData.Instance = new BattleData();
     MeleePosHelper.Clear();
-    BattleData.ReBuildSettings();
+    BattleData.RebuildSettings();
     
     if (RprSettings.Instance.RestoreQtSet) Qt.LoadQtStatesNoPot();
 

@@ -1,6 +1,8 @@
 ﻿using AEAssist.CombatRoutine.Trigger;
 using AEAssist.GUI;
+using AEAssist.Helper;
 using ElliotZ.Rpr.QtUI;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ConvertConstructorToMemberInitializers
 
@@ -33,7 +35,10 @@ public class TriggerActionHotkey : ITriggerAction {
 
   public bool Handle() {
     Qt.Instance.SetHotkey(Key);
-    //if (RprSettings.Instance.TimeLinesDebug) LogHelper.Print("时间轴", $"使用hotkey => {Key}");
+    if (RprSettings.Instance.TimelineDebug) {
+      LogHelper.Print("轴控", $"使用hotkey => {Key}");
+    }
+
     return true;
   }
 }
