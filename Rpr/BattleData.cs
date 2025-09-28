@@ -8,10 +8,10 @@ public class BattleData {
   /// </summary>
   public int GcdDuration = 2500;
   public int NumBurstPhases = 0;
+  public int HoldCommunio = 0;
   
   private static bool _isChanged;
-  public int HoldCommunio = 0;
-
+  
   public static void RebuildSettings() {
     if (!_isChanged) return;
 

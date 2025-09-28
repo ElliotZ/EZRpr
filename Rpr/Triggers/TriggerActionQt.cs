@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using AEAssist.CombatRoutine.Trigger;
+using AEAssist.Helper;
 using Dalamud.Bindings.ImGui;
 using ElliotZ.Rpr.QtUI;
 
@@ -114,7 +115,13 @@ public class TriggerActionQt : ITriggerAction {
   }
 
   public bool Handle() {
-    foreach (var kvp in QTValues) Qt.Instance.SetQt(kvp.Key, kvp.Value);
+    foreach (var kvp in QTValues) {
+      if (RprSettings.Instance.TimelineDebug) {
+        LogHelper.Print("轴控",$"设置Qt{kvp.Key} => {kvp.Value}");
+      }
+      Qt.Instance.SetQt(kvp.Key, kvp.Value);
+    }
+
     return true;
   }
 }
