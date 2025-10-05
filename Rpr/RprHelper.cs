@@ -53,7 +53,8 @@ public static class RprHelper {
     RprSettings.Instance.AutoSecondWind = true;
     RprSettings.Instance.AutoFeint = true;
     RprSettings.Instance.HandleStopMechs = true;
-    RprSettings.Instance.AcrMode = AcrModeTypes.Casual;
+    RprSettings.Instance.IsHardCoreMode = false;
+    RprSettings.Instance.AutoDumpResources = true;
   }
 
   public static void HardCoreMode() {
@@ -64,6 +65,7 @@ public static class RprHelper {
     RprSettings.Instance.AutoSecondWind = false;
     RprSettings.Instance.AutoFeint = false;
     RprSettings.Instance.HandleStopMechs = false;
-    RprSettings.Instance.AcrMode = AcrModeTypes.HardCore;
+    RprSettings.Instance.IsHardCoreMode = true;
+    RprSettings.Instance.AutoDumpResources = false;
   }
 }

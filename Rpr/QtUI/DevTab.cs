@@ -15,6 +15,9 @@ public static class DevTab {
     instance.AddTab("Dev", _ => { 
       if (ImGui.CollapsingHeader("Dev信息")) {
         if (ECHelper.ClientState.LocalPlayer is not null) {
+          if (ImGui.Button("Test")) {
+            LogHelper.Print(Helper.Test());
+          }
           ImGui.Text($"周围小怪总当前血量百分比: {
                      MobPullManager.GetTotalHealthPercentageOfNearbyEnemies() * 100f
                      :F2}%");
@@ -134,7 +137,9 @@ public static class DevTab {
           + "2025/09/16: 适配技改，重构QT保存机制和ACR模式机制。“爆发药2分”QT\n"
           + "        重命名为“起手药”，并逆转所有相关逻辑。\n"
           + "2025/09/24: 适配gcd偏移优化。\n"
-          + "2025/09/28：增加保留团契的轴控Action。");
+          + "2025/09/28：增加保留团契的轴控Action。\n"
+          + "2025/10/05：微调Hotkey的执行机制，目标类型判断重构，低等级续buff逻辑改进，\n"
+          + "        增加自动控制资源倾泻QT的日随QoL功能以及开关选项，ACR模式加入轴控");
         ImGui.EndChild();
       }
     });

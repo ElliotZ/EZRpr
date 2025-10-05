@@ -8,12 +8,8 @@ using System.Numerics;
 
 namespace ElliotZ.Rpr.QtUI.Hotkey;
 
-public class EgressHK(int hkType, // 1 - use current direction, 2 - face target, 3 - face camera
-                      bool waitForCD = true)
-    : HotKeyResolver(SpellsDef.HellsEgress, 
-                     SpellTargetType.Self, 
-                     false, 
-                     waitForCD) {
+public class EgressHK(int hkType)
+    : HotKeyResolver(SpellsDef.HellsEgress, SpellTargetType.Self, false, false) {
   public override void Draw(Vector2 size) {
     if (Core.Me.HasAura(AurasDef.RegressReady)) {
       HotkeyHelper.DrawSpellImage(size, _spellId.AdaptiveId());

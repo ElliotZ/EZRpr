@@ -17,19 +17,12 @@ public class EventHandler : IRotationEventHandler {
     MeleePosHelper.Clear();
     BattleData.RebuildSettings();
     
-    if (RprSettings.Instance.RestoreQtSet) Qt.LoadQtStatesNoPot();
-
-    // When entering combat
-    if (AI.Instance.BattleData.CurrBattleTimeInMs >= 0) {
-      if (RprSettings.Instance.PullingNoBurst) Qt.MobMan.Reset();
-    } else {  // When leaving Combat, load area, countdown, and reload dll
-      if (AI.Instance.TriggerlineData.CurrTriggerLine is not null) {
-        RprHelper.HardCoreMode();
-      } else if (RprSettings.Instance.AutoSetCasual) {
-        RprHelper.CasualMode();
-      }
-      
+    if (RprSettings.Instance.AutoSetCasual) {
+      RprHelper.CasualMode();
     }
+    
+    if (RprSettings.Instance.PullingNoBurst) Qt.MobMan.Reset();
+    if (RprSettings.Instance.RestoreQtSet) Qt.LoadQtStatesNoPot();
   }
 
   public async Task OnNoTarget() {

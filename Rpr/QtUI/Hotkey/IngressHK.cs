@@ -13,7 +13,7 @@ namespace ElliotZ.Rpr.QtUI.Hotkey;
 /// 只使用不卡gcd的强插
 /// </summary>
 public class IngressHK(int hkType) : // 1 - use current direction, 2 - face target, 3 - face camera
-    HotKeyResolver(SpellsDef.HellsIngress, SpellTargetType.Self, false) {
+    HotKeyResolver(SpellsDef.HellsIngress, SpellTargetType.Self, false, false) {
   public const int CurrDir = 1;
   public const int FaceTarget = 2;
   public const int FaceCam = 3;

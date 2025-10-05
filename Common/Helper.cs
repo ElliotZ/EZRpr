@@ -3,6 +3,7 @@ using AEAssist;
 using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.Module.Target;
+using AEAssist.CombatRoutine.Trigger;
 using AEAssist.Define;
 using AEAssist.Extension;
 using AEAssist.Helper;
@@ -30,6 +31,9 @@ public static class Helper {
 
   public static int GetAuraTimeLeft(IBattleChara c, uint buffId) 
       => Core.Resolve<MemApiBuff>().GetAuraTimeleft(c, buffId, true);
+
+  public static bool TargetIsBossOrDummy =>
+      Core.Me.GetCurrTarget().IsBoss() || Core.Me.GetCurrTarget().IsDummy();
 
   /// <summary>显示一个文本提示，用于在游戏中显示简短的消息。</summary>
   /// <param name="msg">要显示的消息文本。</param>
@@ -319,6 +323,21 @@ public static class Helper {
     return result;
   }
 
+  public static string Test() {
+    TriggerlineData dat = AI.Instance.TriggerlineData;
+    AfterSpellCondParams c1 = dat.CreateAfterSpellParams(SpellsDef.Harpe);
+    BattleStartCondParams c2 = dat.CreateBattleStartParams();
+    BattleEndCondParams c3 = dat.CreateBattleEndParams();
+    AddStatusCondParams c4 = dat.CreateAddStatusParams(AurasDef.Soulsow);
+    TargetAbleCondParams c5 = dat.CreateTargetAbleParams(Core.Me, true);
+    dat.TriggerCustomCondParams(c1);
+    dat.TriggerCustomCondParams(c2);
+    dat.TriggerCustomCondParams(c3);
+    dat.TriggerCustomCondParams(c4);
+    dat.TriggerCustomCondParams(c5);
+    return c5.ToString();
+  }
+  
   private const uint _背刺 = 3849,
                      _强化药 = 49,
                      _灼热之光 = 2703,

@@ -137,8 +137,8 @@ public static class Qt {
 
   private static void OnUIUpdate() {
     MacroMan.UseToast2 = RprSettings.Instance.ShowToast;
-    Instance.AcrMode = RprSettings.Instance.AcrMode;
-    _currQtStatesDict = RprSettings.Instance.AcrMode is AcrModeTypes.HardCore 
+    Instance.IsHardCoreMode = RprSettings.Instance.IsHardCoreMode;
+    _currQtStatesDict = RprSettings.Instance.IsHardCoreMode 
                             ? RprSettings.Instance.QtStatesHardCore 
                             : RprSettings.Instance.QtStatesCasual;
 

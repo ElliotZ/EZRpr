@@ -366,9 +366,7 @@ public static class StopHelper {
 
   public static bool Debug = false;
 
-  public static void 停手(int time) {
-    StopActions(time);
-  }
+  public static void 停手(int time) => StopActions(time);
 
   public static void StopActions(int time) {
     int check = StopCheck(time);
@@ -389,8 +387,7 @@ public static class StopHelper {
         if (_untargeted
          && (TargetMgr.Instance.EnemysIn20.Count > 0)
          && !TargetMgr.Instance.EnemysIn20.Values.First().HasAnyAura(Invulns)
-         && Core.Me.GetCurrTarget() is null) // &&
-            //Core.Me.GetCurrTarget()!.GameObjectId == Core.Me.GameObjectId)//)
+         && Core.Me.GetCurrTarget() is null)
         {
           if (Debug) LogHelper.Print("Setting Target");
           Core.Me.SetTarget(TargetMgr.Instance.EnemysIn20.Values.First());
@@ -413,9 +410,7 @@ public static class StopHelper {
     if (Core.Me.HasAnyAura(Incapacitated)) return 2;
 
     if (Core.Me.GetCurrTarget() is not null
-      &&
-        //!(Core.Me.GetCurrTarget()!.GameObjectId == Core.Me.GameObjectId) &&  <- this does nothing
-        Core.Me.GetCurrTarget().HasAnyAura(Invulns)) {
+     && Core.Me.GetCurrTarget().HasAnyAura(Invulns)) {
       return 2;
     }
 

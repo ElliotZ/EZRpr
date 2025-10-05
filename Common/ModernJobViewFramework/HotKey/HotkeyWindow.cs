@@ -28,7 +28,7 @@ public class HotkeyWindow(JobViewSave save, string name) : IDisposable {
   /// 动态按顺序储存hotkey名称的list，用于排序显示hotkey
   public List<string> HotkeyNameList => Save.HotkeyNameList;
 
-  // 记录控件名称和对应快捷键的字典
+  /// 记录控件名称和对应快捷键的字典
   public Dictionary<string, HotkeyConfig> HotkeyConfig => Save.HotkeyConfig;
 
   ///窗口拖动

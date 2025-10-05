@@ -54,7 +54,7 @@ public class RprSettings {
 
   public bool RestoreQtSet = true;
   public bool AutoSetCasual = true;
-  public AcrModeTypes AcrMode = AcrModeTypes.Casual;
+  public bool IsHardCoreMode = false;
 
   //public bool SmartAOE = true;
   public bool CommandWindowOpen = true;
@@ -76,6 +76,7 @@ public class RprSettings {
   public float ConcentrationThreshold = 0.75f;
   public int MinTTK = 10;
   public bool HandleStopMechs = true;
+  public bool AutoDumpResources = true;
 
   // Opener Settings
   public bool TripleWeavePot = false;
@@ -87,13 +88,13 @@ public class RprSettings {
   public Dictionary<string, bool> QtStatesCasual;
 
   private RprSettings() {
-    ResetQtStates(AcrModeTypes.HardCore);
-    ResetQtStates(AcrModeTypes.Casual);
+    ResetQtStates(true);
+    ResetQtStates(false);
   }
 
-  public void ResetQtStates(AcrModeTypes mode) {
+  public void ResetQtStates(bool isHardCoreMode) {
     // QT设置存档
-    if (mode is AcrModeTypes.HardCore) {
+    if (isHardCoreMode is true) {
       QtStatesHardCore = new Dictionary<string, bool> {
           ["起手"] = true,
           ["起手药"] = false,

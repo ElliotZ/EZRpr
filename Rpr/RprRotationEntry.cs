@@ -36,7 +36,8 @@ public class RprRotationEntry : IRotationEntry {
     rot.SetRotationEventHandler(new EventHandler());
     rot.AddTriggerAction(new TriggerActionQt(), 
                          new TriggerActionHotkey(), 
-                         new TriggerActionHoldCommunio());
+                         new TriggerActionHoldCommunio(), 
+                         new TriggerActionAcrModeSettings());
     rot.AddTriggerCondition(new TriggerCondQt(),
                             new TriggerCondSoul(),
                             new TriggerCondShroud(),

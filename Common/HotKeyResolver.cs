@@ -10,10 +10,10 @@ using ElliotZ.ModernJobViewFramework.HotKey;
 namespace ElliotZ;
 
 /// <summary>
-/// 
+/// 基本上通用的HotKeyResolver
 /// </summary>
-/// <param name="spellId"></param>
-/// <param name="targetType"></param>
+/// <param name="spellId">技能id</param>
+/// <param name="targetType">使用SpellTargetType中的Enum</param>
 /// <param name="useHighPrioritySlot">使用不卡GCD的强插，GCD</param>
 /// <param name="waitCoolDown">是否允许提早5秒点HK, GCD技能都应该是true</param>
 public class HotKeyResolver(uint spellId,
@@ -80,6 +80,8 @@ public class HotKeyResolver(uint spellId,
   }
 
   protected virtual async Task Run1(Spell spell, int delay = 0) {
+    if (delay > 0) await Coroutine.Instance.WaitAsync(delay);
+    
     if (_useHighPrioritySlot
      && Core.Me.GetCurrTarget() is not null
      && Core.Me.GetCurrTarget().CanAttack()
@@ -95,7 +97,6 @@ public class HotKeyResolver(uint spellId,
         }
       }
     } else {
-      if (delay > 0) await Coroutine.Instance.WaitAsync(delay);
       AI.Instance.BattleData.AddSpell2NextSlot(spell);
     }
   }

@@ -21,7 +21,7 @@ public class MainWindow {
   private bool _showSaveSuccess;
   private long _saveAnimationTime;
 
-  // 初始化主题
+  /// 初始化主题
   public MainWindow(ref QtStyle style) {
     _style = style;
     // 根据当前设置初始化主题

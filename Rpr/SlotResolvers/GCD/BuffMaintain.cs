@@ -13,6 +13,7 @@ namespace ElliotZ.Rpr.SlotResolvers.GCD;
 public class BuffMaintain : ISlotResolver {
   private static int _gluttonyCD =>
       (int)Math.Floor(SpellsDef.Gluttony.GetSpell().Cooldown.TotalMilliseconds);
+  private static int _aoeEnemyCount => TargetHelper.GetNearbyEnemyCount(5);
 
   public int Check() {
     if (SpellsDef.ShadowOfDeath.GetSpell().IsReadyWithCanCast() is false) {
@@ -33,7 +34,8 @@ public class BuffMaintain : ISlotResolver {
 
     if (Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign, 
                                     GCDHelper.GetGCDDuration(), 
-                                    false)) {
+                                    false)
+        && (_aoeEnemyCount < 3 || Helper.TargetIsBossOrDummy)) {
       return 1; // 1 for buff maintain within a GCD
     }
 
@@ -59,8 +61,10 @@ public class BuffMaintain : ISlotResolver {
 //      return 3; // 3 for burst prep
 //    }
     
-    if (Qt.Instance.GetQt("神秘环") && 
-        SpellsDef.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds 
+    if (Qt.Instance.GetQt("神秘环")
+     && Qt.Instance.GetQt("倾泻资源") is false
+     && SpellsDef.ArcaneCircle.IsUnlock()
+     && SpellsDef.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds 
                                                   < 30000 + DblEnshPrep.PreAcEnshTimer
      && Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign, 
                                     30000, 
@@ -83,7 +87,6 @@ public class BuffMaintain : ISlotResolver {
   /// </summary>
   /// <returns>true if less than half enemies around have the debuff, false otherwise</returns>
   public static bool AOEAuraCheck() {
-    int enemyCount = TargetHelper.GetNearbyEnemyCount(5);
     var enemyList = TargetMgr.Instance.EnemysIn12;
     int noDebuffEnemyCount = 
         enemyList.Count(v => {
@@ -97,19 +100,17 @@ public class BuffMaintain : ISlotResolver {
 
     if (RprSettings.Instance.Debug) {
       LogHelper.Print("BuffMaintain.AOEAuraCheck() Internals");
-      LogHelper.Print($"{noDebuffEnemyCount}/{enemyCount}="
-                    + $"{noDebuffEnemyCount / (double)enemyCount}");
+      LogHelper.Print($"{noDebuffEnemyCount}/{_aoeEnemyCount}="
+                    + $"{noDebuffEnemyCount / (double)_aoeEnemyCount}");
     }
 
-    return noDebuffEnemyCount / (double)enemyCount > 0.5;
+    return noDebuffEnemyCount / (double)_aoeEnemyCount > 0.5;
   }
 
   public static uint Solve() {
-    int enemyCount = TargetHelper.GetNearbyEnemyCount(5);
-
     if (Qt.Instance.GetQt("AOE")
      && SpellsDef.WhorlOfDeath.GetSpell().IsReadyWithCanCast()
-     && (enemyCount >= 3)) {
+     && (_aoeEnemyCount >= 3)) {
       return SpellsDef.WhorlOfDeath;
     }
 

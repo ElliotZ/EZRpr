@@ -16,33 +16,50 @@ public static class SettingTab {
         ImGui.Dummy(new Vector2(5, 0));
         ImGui.SameLine();
         ImGui.BeginGroup();
-        
-        if (ImGui.Button("日随模式", new Vector2(100f, 30f))) {
-          RprHelper.CasualMode();
-          RprSettings.Instance.Save();
-        }
 
         ImGui.SameLine();
-        if (ImGui.Button("高难模式", new Vector2(100f, 30f))) {
-          RprHelper.HardCoreMode();
+        string buttonText = RprSettings.Instance.IsHardCoreMode ? "高难模式" : "日随模式";
+        if (UIComponents.ToggleButtonLabeledInside(buttonText + "###ModeSwitchButton",
+                                                   ref RprSettings.Instance.IsHardCoreMode)) {
+          if (RprSettings.Instance.IsHardCoreMode) {
+            RprHelper.HardCoreMode();
+          } else {
+            RprHelper.CasualMode();
+          }
+          
+          //Qt.LoadQtStatesNoPot();
           RprSettings.Instance.Save();
         }
 
-        ImGui.Text("高难模式会把自回设置全部关闭，如果你有需求就自己开。");
+        if (ImGui.IsItemHovered()) {
+          UIComponents.Tooltip("高难模式会把自回设置全部关闭，如果你有需求就自己开。");
+        }
+
+        //ImGui.Text("高难模式会把自回设置全部关闭，如果你有需求就自己开。");
 
         ImGui.Separator();
-        ImGui.Checkbox("自动重置QT", ref RprSettings.Instance.RestoreQtSet);
+        UIComponents.ToggleButton("自动重置QT", ref RprSettings.Instance.RestoreQtSet);
         ImGui.SameLine();
         if (ImGui.Button("记录当前QT设置")) Qt.SaveQtStates();
-        ImGui.Text("会从当前记录过的QT设置重置。");
-        ImGui.Text("爆发药、智能AOE以及自动突进这几个QT不会被重置。");
-        ImGui.Text("日随和高难模式的默认QT值是分开保存的。\n"
-                 + "记录按钮会把当前的QT状态保存到当前模式的存档中。");
-        ImGui.Checkbox("无时间轴时自动设置日随模式", ref RprSettings.Instance.AutoSetCasual);
+        ImGui.SameLine();
+        ImGui.TextDisabled($"(?)");
+
+        if (ImGui.IsItemHovered()) {
+          ImGui.BeginTooltip();
+          ImGui.Text("会从当前记录过的QT设置重置。");
+          ImGui.Text("爆发药、智能AOE以及自动突进这几个QT不会被重置。");
+          ImGui.Text("日随和高难模式的默认QT值是分开保存的。\n"
+                   + "记录按钮会把当前的QT状态保存到当前模式的存档中。");
+          ImGui.EndTooltip();
+        }
+
+        UIComponents.ToggleButton("无时间轴时自动设置日随模式", ref RprSettings.Instance.AutoSetCasual);
         
         ImGui.Separator();
-        if (ImGui.Button("重设当前模式默认QT设置")) {
-          RprSettings.Instance.ResetQtStates(RprSettings.Instance.AcrMode);
+
+        if (UIComponents.CtrlButton("重设当前模式默认QT设置", 
+                                    "你保存过的设置会丢失。按Ctrl启用此按钮。")) {
+          RprSettings.Instance.ResetQtStates(RprSettings.Instance.IsHardCoreMode);
           RprSettings.Instance.Save();
         }
         
@@ -65,13 +82,26 @@ public static class SettingTab {
         ImGui.Text("再加上你的ping，并酌情增加10-20ms的余量。");
         ImGui.Text("除了起手的爆发药三插选项以外本ACR不会打出三插。");
         ImGui.PopStyleColor();
-        ImGui.Checkbox("读条技能施放忽略移动状态（移动中也会使用）", 
-                       ref RprSettings.Instance.ForceCast);
-        ImGui.Checkbox("Hotkeys使用强制队列（可能会造成卡GCD）",
-                       ref RprSettings.Instance.ForceNextSlotsOnHKs);
-        ImGui.Text("设置之后需要保存设置并重新加载ACR生效");
+        UIComponents.ToggleButton("读条技能施放忽略移动状态", 
+                                  ref RprSettings.Instance.ForceCast);
+        ImGui.SameLine();
+        ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
+        ImGui.TextDisabled("(?)");
+        if (ImGui.IsItemHovered()) {
+          UIComponents.Tooltip("移动中也会使用读条技能，一般配合OrbWalker使用");
+        }
+        
+        UIComponents.ToggleButton("Hotkeys使用强制队列",
+                                  ref RprSettings.Instance.ForceNextSlotsOnHKs);
+        ImGui.SameLine();
+        ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
+        ImGui.TextDisabled("(?)");
+        if (ImGui.IsItemHovered()) {
+          UIComponents.Tooltip("可能会造成卡GCD。设置之后需要保存设置并重新加载ACR生效。");
+        }
+        
         ImGui.Separator();
-        ImGui.Checkbox("真北期间不绘制身位", ref RprSettings.Instance.NoPosDrawInTN);
+        UIComponents.ToggleButton("真北期间不绘制身位", ref RprSettings.Instance.NoPosDrawInTN);
         string posStyle = RprSettings.Instance.PosDrawStyle switch {
             0 => "不填充",
             1 => "填充70%",
@@ -101,6 +131,12 @@ public static class SettingTab {
         
         ImGui.Separator();
         ImGui.Text("高级设置");
+        ImGui.SameLine();
+        ImGui.TextDisabled("(?)");
+        if (ImGui.IsItemHovered()) {
+          UIComponents.Tooltip("没事不要动这些");
+        }
+        
         ImGui.Checkbox("Debug", ref RprSettings.Instance.Debug);
         ImGui.SameLine();
         ImGui.Checkbox("StopHelper Debug", ref StopHelper.Debug);
@@ -113,11 +149,32 @@ public static class SettingTab {
         ImGui.Dummy(new Vector2(5, 0));
         ImGui.SameLine();
         ImGui.BeginGroup();
-        ImGui.Checkbox("小怪低血量不开爆发", ref RprSettings.Instance.NoBurst);
+        UIComponents.ToggleButton("自动停手",
+                                  ref RprSettings.Instance.HandleStopMechs);
+        ImGui.SameLine();
+        ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
+        ImGui.TextDisabled("(?)");
+        if (ImGui.IsItemHovered()) {
+          UIComponents.Tooltip("加速度炸弹/热病/目标无敌/自身无法行动时会自动停手，效果等同于右键点主按钮。");
+        }
+        UIComponents.ToggleButton("自动倾泻资源", ref RprSettings.Instance.AutoDumpResources);
+        ImGui.SameLine();
+        ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
+        ImGui.TextDisabled("(?)");
+        if (ImGui.IsItemHovered()) {
+          UIComponents.Tooltip("根据目标死亡时间的期望自动控制倾泻资源QT的开关");
+        }
+        ImGui.Separator();
+        
+        UIComponents.ToggleButton("小怪低血量不开爆发", ref RprSettings.Instance.NoBurst);
+        ImGui.SameLine();
+        ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
+        ImGui.TextDisabled("(?)");
+        if (ImGui.IsItemHovered()) {
+          UIComponents.Tooltip("小于设定数会关闭爆发、夜游魂衣和神秘环QT。启用后可设置数字。");
+        }
 
         if (RprSettings.Instance.NoBurst) {
-          ImGui.Text("小于设定数会关闭夜游魂衣和神秘环QT。");
-          ImGui.Text("如果设置了QT重载，脱战会自动开启。");
           ImGui.SetNextItemWidth(200f);
           ImGui.SliderFloat("平均血量阈值(0-0.2)",
                             ref RprSettings.Instance.MinMobHpPercent,
@@ -128,10 +185,16 @@ public static class SettingTab {
                           ref RprSettings.Instance.MinTTK,
                           0,
                           20);
-          ImGui.Separator();
+          ImGui.Spacing();
         }
 
-        ImGui.Checkbox("坦克拉怪中留CD技能", ref RprSettings.Instance.PullingNoBurst);
+        UIComponents.ToggleButton("坦克拉怪中留CD技能", ref RprSettings.Instance.PullingNoBurst);
+        ImGui.SameLine();
+        ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
+        ImGui.TextDisabled("(?)");
+        if (ImGui.IsItemHovered()) {
+          UIComponents.Tooltip("启用后可设置小怪集中度数字。");
+        }
 
         if (RprSettings.Instance.PullingNoBurst) {
           ImGui.Text("小怪集中度");
@@ -140,26 +203,31 @@ public static class SettingTab {
                             ref RprSettings.Instance.ConcentrationThreshold,
                             0,
                             1f);
-          ImGui.PushStyleColor(ImGuiCol.Text,
-                               ImGui.ColorConvertFloat4ToU32(
-                                   ImGuiColors.ParsedGold));
-          ImGui.Text("原理解析：");
-          ImGui.PushTextWrapPos(ImGui.GetCursorPosX() + 410f);
-          ImGui.Text("每秒检测T移动的距离，如果小于设定好的阈值(1.5m)，");
-          ImGui.Text("则视为T已拉到位。接下来比较T周围25m内与5m内的小怪数量，计算集中度，");
-          ImGui.Text("再拿这个集中度与设定好的阈值对比，如果大于阈值才开启爆发。");
-          ImGui.Text("影响技能：死亡之影（涡），神秘环，夜游魂衣，暴食。");
-          ImGui.Text("实验性功能测试不一定稳定，如果遇到问题请手动调整集中度阈值。");
-          ImGui.PopStyleColor();
-          ImGui.PopTextWrapPos();
+          ImGui.SameLine();
+          ImGui.TextDisabled("(?)");
+          if (ImGui.IsItemHovered()) {
+            ImGui.BeginTooltip();
+            ImGui.PushStyleColor(ImGuiCol.Text,
+                                 ImGui.ColorConvertFloat4ToU32(
+                                     ImGuiColors.ParsedGold));
+            ImGui.Text("原理解析：");
+            ImGui.PushTextWrapPos(ImGui.GetCursorPosX() + 410f);
+            ImGui.Text("每秒检测T移动的距离，如果小于设定好的阈值(1.5m)，");
+            ImGui.Text("则视为T已拉到位。接下来比较T周围25m内与5m内的小怪数量，计算集中度，");
+            ImGui.Text("再拿这个集中度与设定好的阈值对比，如果大于阈值才开启爆发。");
+            ImGui.Text("影响技能：死亡之影（涡），神秘环，夜游魂衣，暴食。");
+            ImGui.Text("实验性功能测试不一定稳定，如果遇到问题请手动调整集中度阈值。");
+            ImGui.PopStyleColor();
+            ImGui.PopTextWrapPos();
+            ImGui.EndTooltip();
+          }
+
+          ImGui.Spacing();
         }
-
-        ImGui.Checkbox("加速度炸弹/热病/目标无敌/自身无法行动期间自动停手",
-                       ref RprSettings.Instance.HandleStopMechs);
-
+        
         if (ImGui.CollapsingHeader("自动回复/减伤设置")) {
           ImGui.Text("血量阈值是最大血量的比例。");
-          ImGui.Checkbox("自动神秘纹", ref RprSettings.Instance.AutoCrest);
+          UIComponents.ToggleButton("自动神秘纹", ref RprSettings.Instance.AutoCrest);
 
           if (RprSettings.Instance.AutoCrest) {
             ImGui.SetNextItemWidth(200f);
@@ -170,7 +238,7 @@ public static class SettingTab {
             ImGui.Separator();
           }
 
-          ImGui.Checkbox("自动内丹", ref RprSettings.Instance.AutoSecondWind);
+          UIComponents.ToggleButton("自动内丹", ref RprSettings.Instance.AutoSecondWind);
 
           if (RprSettings.Instance.AutoSecondWind) {
             ImGui.SetNextItemWidth(200f);
@@ -188,7 +256,7 @@ public static class SettingTab {
             RprSettings.Instance.JobViewSave.HotkeyUnVisibleList.Remove("内丹");
           }
 
-          ImGui.Checkbox("自动浴血", ref RprSettings.Instance.AutoBloodBath);
+          UIComponents.ToggleButton("自动浴血", ref RprSettings.Instance.AutoBloodBath);
 
           if (RprSettings.Instance.AutoBloodBath) {
             ImGui.SetNextItemWidth(200f);
@@ -206,7 +274,13 @@ public static class SettingTab {
             RprSettings.Instance.JobViewSave.HotkeyUnVisibleList.Remove("浴血");
           }
 
-          ImGui.Checkbox("自动牵制", ref RprSettings.Instance.AutoFeint);
+          UIComponents.ToggleButton("自动牵制", ref RprSettings.Instance.AutoFeint);
+          ImGui.SameLine();
+          ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
+          ImGui.TextDisabled("(?)");
+          if (ImGui.IsItemHovered()) {
+            UIComponents.Tooltip("默认只会在boss读条死刑的时候用，如果有其他需要请自行Hotkey");
+          }
 
           if (RprSettings.Instance.AutoFeint) {
             if (!RprSettings.Instance.JobViewSave.HotkeyUnVisibleList
@@ -226,11 +300,17 @@ public static class SettingTab {
         ImGui.Dummy(new Vector2(5, 0));
         ImGui.SameLine();
         ImGui.BeginGroup();
-        ImGui.Checkbox("起手三插爆发药", ref RprSettings.Instance.TripleWeavePot);
-        ImGui.BeginGroup();
-        ImGui.Checkbox("倒计时疾跑", ref RprSettings.Instance.PrepullSprint);
+        UIComponents.ToggleButton("起手三插爆发药", ref RprSettings.Instance.TripleWeavePot);
         ImGui.SameLine();
-        ImGui.Checkbox("起手突进", ref RprSettings.Instance.PrepullIngress);
+        ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
+        ImGui.TextDisabled("(?)");
+        if (ImGui.IsItemHovered()) {
+          UIComponents.Tooltip("不怕Logs变红可以开");
+        }
+        ImGui.BeginGroup();
+        UIComponents.ToggleButton("倒计时疾跑", ref RprSettings.Instance.PrepullSprint);
+        ImGui.SameLine();
+        UIComponents.ToggleButton("起手突进", ref RprSettings.Instance.PrepullIngress);
         ImGui.EndGroup();
         ImGui.Text("倒数勾刃读条时间(ms)");
         ImGui.SetNextItemWidth(200f);
@@ -238,6 +318,11 @@ public static class SettingTab {
                         ref RprSettings.Instance.PrepullCastTimeHarpe,
                         100,
                         2000);
+        ImGui.SameLine();
+        ImGui.TextDisabled("(?)");
+        if (ImGui.IsItemHovered()) {
+          UIComponents.Tooltip("一般不需要动，除非真的有人非要说你抢开");
+        }
         ImGui.Separator();
 
         if (ImGui.Button("获取爆发药情况")) {
@@ -266,8 +351,13 @@ public static class SettingTab {
       }
 
       if (ImGui.CollapsingHeader("宏指令操作HotKey和QT")) {
+        ImGui.Dummy(new Vector2(5, 0));
+        ImGui.SameLine();
+        ImGui.BeginGroup();
         if (ImGui.Button("查看指令")) RprSettings.Instance.CommandWindowOpen = true;
-        ImGui.Checkbox("使用Toast2提示QT状态", ref RprSettings.Instance.ShowToast);
+        UIComponents.ToggleButton("使用Toast2提示QT状态", ref RprSettings.Instance.ShowToast);
+        ImGui.EndGroup();
+        ImGui.Dummy(new Vector2(0, 10));
       }
     });
   }

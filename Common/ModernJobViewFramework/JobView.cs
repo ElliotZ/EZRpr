@@ -34,7 +34,7 @@ public class JobViewWindow : IRotationUI, IDisposable {
 
   public Dictionary<string, Action<JobViewWindow>> ExternalTab = new();
   public Action? UpdateAction;
-  public AcrModeTypes AcrMode = AcrModeTypes.Casual;
+  public bool IsHardCoreMode = false;
 
   /// <summary>
   /// 在当前职业循环插件中创建一个gui视图
@@ -71,8 +71,8 @@ public class JobViewWindow : IRotationUI, IDisposable {
   /// <summary>
   /// 增加一栏说明
   /// </summary>
-  /// <param name="tabName"></param>
-  /// <param name="draw"></param>
+  /// <param name="tabName">标签</param>
+  /// <param name="draw">具体的绘制方法</param>
   public void AddTab(string tabName, Action<JobViewWindow> draw) {
     ExternalTab.Add(tabName, draw);
   }
@@ -116,7 +116,7 @@ public class JobViewWindow : IRotationUI, IDisposable {
     _qtWindow.RemoveAllQt();
   }
 
-  // 设置每行按钮个数
+  /// 设置每行按钮个数
   public void SetLineCount(int count) {
     if (count < 1) {
       count = 1;
@@ -400,7 +400,7 @@ public class JobViewWindow : IRotationUI, IDisposable {
         }";
       }
 
-      string acrModeCN = AcrMode is AcrModeTypes.HardCore ? "高难" : "日随";
+      string acrModeCN = IsHardCoreMode ? "高难" : "日随";
       string title = $"{_name} | {_battleTime} | {acrModeCN} {triggerlineName} ###aeassist";
 
       if (OverlayManager.Instance.Visible) {

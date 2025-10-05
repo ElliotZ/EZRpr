@@ -100,7 +100,7 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "") {
       }
     }
 
-    if (Holding && Core.Me.GetCurrTarget() is not null && Core.Me.GetCurrTarget().IsBoss()) {
+    if (Holding && Core.Me.GetCurrTarget() is not null && Helper.TargetIsBossOrDummy) {
       SetAllQTs(true);
     }
   }
@@ -120,7 +120,7 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "") {
     if (Core.Resolve<MemApiDuty>().InMission
      && Core.Resolve<MemApiDuty>().DutyMembersNumber() is 4 or 24
      && !Core.Resolve<MemApiDuty>().InBossBattle
-     && !Core.Me.GetCurrTarget().IsDummy()
+     && !Helper.TargetIsBossOrDummy
      && _getTerritoryId is not (1048 or 1045 or 1046 or 1047)
      && (currTime > 10000)
      && ((GetTotalHealthPercentageOfNearbyEnemies() < mobHPThreshold)
