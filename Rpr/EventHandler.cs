@@ -17,10 +17,6 @@ public class EventHandler : IRotationEventHandler {
     MeleePosHelper.Clear();
     BattleData.RebuildSettings();
     
-    if (RprSettings.Instance.AutoSetCasual) {
-      RprHelper.CasualMode();
-    }
-    
     if (RprSettings.Instance.PullingNoBurst) Qt.MobMan.Reset();
     if (RprSettings.Instance.RestoreQtSet) Qt.LoadQtStatesNoPot();
   }
@@ -39,6 +35,12 @@ public class EventHandler : IRotationEventHandler {
   public async Task OnPreCombat() {
     if (RprSettings.Instance.PullingNoBurst) Qt.MobMan.Reset();
     StopHelper.StopActions(1000);
+
+    if (AI.Instance.TriggerlineData.CurrTriggerLine is not null) {
+      BattleData.TimelineLoaded = true;
+    } else {
+      BattleData.TimelineLoaded = false;
+    }
 
     // out of combat soulsow
     if (SpellsDef.Soulsow.GetSpell().IsReadyWithCanCast() && Qt.Instance.GetQt("播魂种")) {
