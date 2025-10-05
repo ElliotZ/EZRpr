@@ -157,12 +157,12 @@ public static class SettingTab {
         if (ImGui.IsItemHovered()) {
           UIComponents.Tooltip("加速度炸弹/热病/目标无敌/自身无法行动时会自动停手，效果等同于右键点主按钮。");
         }
-        UIComponents.ToggleButton("自动倾泻资源", ref RprSettings.Instance.AutoDumpResources);
+        UIComponents.ToggleButton("自动倾泻资源（实验性）", ref RprSettings.Instance.AutoDumpResources);
         ImGui.SameLine();
         ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
         ImGui.TextDisabled("(?)");
         if (ImGui.IsItemHovered()) {
-          UIComponents.Tooltip("根据目标死亡时间的期望自动控制倾泻资源QT的开关");
+          UIComponents.Tooltip("根据目标死亡时间的期望自动控制倾泻资源QT的开关。实验性功能有问题请反馈。");
         }
         ImGui.Separator();
         

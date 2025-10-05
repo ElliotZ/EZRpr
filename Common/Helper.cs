@@ -32,8 +32,11 @@ public static class Helper {
   public static int GetAuraTimeLeft(IBattleChara c, uint buffId) 
       => Core.Resolve<MemApiBuff>().GetAuraTimeleft(c, buffId, true);
 
-  public static bool TargetIsBossOrDummy =>
-      Core.Me.GetCurrTarget().IsBoss() || Core.Me.GetCurrTarget().IsDummy();
+  public static bool TargetIsBoss => Core.Me.GetCurrTarget().IsBoss();
+
+  public static bool TargetIsDummy => Core.Me.GetCurrTarget().IsDummy();
+
+  public static bool TargetIsBossOrDummy => TargetIsBoss || TargetIsDummy;
 
   /// <summary>显示一个文本提示，用于在游戏中显示简短的消息。</summary>
   /// <param name="msg">要显示的消息文本。</param>

@@ -83,6 +83,15 @@ public class EventHandler : IRotationEventHandler {
                                      RprSettings.Instance.MinTTK * 1000);
     }
 
+    if (RprSettings.Instance.AutoDumpResources) {
+      if (Core.Me.GetCurrTarget() is not null
+       && (Helper.TargetIsBoss || Core.Resolve<MemApiDuty>().InBossBattle) 
+       && !Helper.TargetIsDummy
+       && TTKHelper.IsTargetTTK(Core.Me.GetCurrTarget(), 30, true)) {
+        Qt.Instance.SetQt("倾泻资源", true);
+      }
+    }
+
     // stop action during accel bombs, pyretics and/or when boss is invuln
     if (RprSettings.Instance.HandleStopMechs) StopHelper.StopActions(1000);
 

@@ -28,7 +28,7 @@ public class DblEnshPrep : ISlotSequence {
 
     if (Core.Resolve<MemApiDuty>().InMission
      && Core.Resolve<MemApiDuty>().DutyMembersNumber() is 4 or 24
-     && !Core.Me.GetCurrTarget().IsDummy()
+     && !Helper.TargetIsDummy
      && !Core.Resolve<MemApiDuty>().InBossBattle) {
       return -97;
     }
