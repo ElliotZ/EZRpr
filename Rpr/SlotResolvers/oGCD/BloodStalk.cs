@@ -59,6 +59,7 @@ public class BloodStalk : ISlotResolver {
 
     if (Qt.Instance.GetQt("暴食")) {
       if (SpellsDef.Gluttony.IsUnlock()
+       && Qt.MobMan.Holding is false
        && (SpellsDef.Gluttony.GetSpell().Cooldown.TotalMilliseconds < GCDHelper.GetGCDDuration())) {
         return -21;
       }
@@ -71,17 +72,14 @@ public class BloodStalk : ISlotResolver {
       if (SpellsDef.Gluttony.IsUnlock()
        && SpellsDef.Gluttony.RdyInGCDs(RprHelper.GcdsToSoulOvercap())
        && !(SpellsDef.Gluttony.RdyInGCDs(2)
-         && (SpellsDef.SoulSlice.GetSpell().Charges > 1.7f))) // &&
-          //Soul < 100)
-      {
+         && (SpellsDef.SoulSlice.GetSpell().Charges > 1.7f))) {
         return -22; // delay for gluttony gauge cost
       }
     } else {
       if (Qt.Instance.GetQt("神秘环")
+       && RprHelper.Soul < 100
        && SpellsDef.ArcaneCircle.IsUnlock()
-       && !SpellsDef.ArcaneCircle.RdyInGCDs(RprHelper.GcdsToSoulOvercap() + 3)) // &&
-          //Soul < 100)
-      {
+       && !SpellsDef.ArcaneCircle.RdyInGCDs(RprHelper.GcdsToSoulOvercap() + 3)) {
         return -31;
       }
     }
@@ -89,9 +87,7 @@ public class BloodStalk : ISlotResolver {
     if (!Qt.Instance.GetQt("倾泻资源")) // ignore all if dump qt is set
     {
       if (Qt.Instance.GetQt("神秘环")
-        &&
-          //Soul < 100 &&
-          SpellsDef.ArcaneCircle.IsUnlock()
+       && SpellsDef.ArcaneCircle.IsUnlock()
        && SpellsDef.ArcaneCircle.RdyInGCDs(2)
        && (RprHelper.Shroud != 40)) {
         return -17; // delay for gluttony after burst window
@@ -103,9 +99,7 @@ public class BloodStalk : ISlotResolver {
       }
 
       if (Qt.Instance.GetQt("神秘环")
-        &&
-          //Soul < 100 &&
-          SpellsDef.ArcaneCircle.IsUnlock()
+       && SpellsDef.ArcaneCircle.IsUnlock()
        && SpellsDef.ArcaneCircle.RdyInGCDs(Math.Min(6, RprHelper.GcdsToSoulOvercap() + 3))
        && (RprHelper.Shroud != 40)) {
         return -12; // delay for gluttony after burst window
@@ -120,9 +114,7 @@ public class BloodStalk : ISlotResolver {
        && Core.Me.GetCurrTarget().HasPositional()
        && !SpellsDef.TrueNorth.IsMaxChargeReady(1.8f)
        && ((Core.Me.HasAura(AurasDef.EnhancedGallows) && !Helper.AtRear)
-        || (Core.Me.HasAura(AurasDef.EnhancedGibbet) && !Helper.AtFlank))) // &&
-          //Soul < 100)
-      {
+        || (Core.Me.HasAura(AurasDef.EnhancedGibbet) && !Helper.AtFlank))) {
         return -13; // TN Optimizations perhaps
       }
     }
