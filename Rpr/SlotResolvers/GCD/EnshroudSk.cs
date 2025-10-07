@@ -79,7 +79,7 @@ public class EnshroudSk : ISlotResolver {
       return BattleData.Instance.HoldCommunio switch {
           1 => BuffMaintain.Solve().GetSpell(),
           2 => SpellsDef.Harpe.GetSpell(),
-          _ => SpellsDef.Communio.GetSpell(_communioTarget)
+          _ => new Spell(SpellsDef.Communio, _communioTarget) { DontUseGcdOpt = true },
       };
     }
 

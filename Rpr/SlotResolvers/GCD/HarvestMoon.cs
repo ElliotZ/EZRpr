@@ -21,6 +21,7 @@ public class HarvestMoon : ISlotResolver {
     }
 
     if (Qt.Instance.GetQt("收获月") is false) return -98; // Add QT
+    if (Qt.MobMan.Holding) return -4;
 
     if (Core.Me.HasAura(AurasDef.SoulReaver) || Core.Me.HasAura(AurasDef.Executioner)) {
       return -10; // -10 for protecting SoulReaver/Executioner

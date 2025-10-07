@@ -34,13 +34,10 @@ public class EventHandler : IRotationEventHandler {
 
   public async Task OnPreCombat() {
     if (RprSettings.Instance.PullingNoBurst) Qt.MobMan.Reset();
+
     StopHelper.StopActions(1000);
 
-    if (AI.Instance.TriggerlineData.CurrTriggerLine is not null) {
-      BattleData.TimelineLoaded = true;
-    } else {
-      BattleData.TimelineLoaded = false;
-    }
+    BattleData.TimelineLoaded = AI.Instance.TriggerlineData.CurrTriggerLine is not null;
 
     // out of combat soulsow
     if (SpellsDef.Soulsow.GetSpell().IsReadyWithCanCast() && Qt.Instance.GetQt("播魂种")) {
@@ -83,12 +80,19 @@ public class EventHandler : IRotationEventHandler {
                                      RprSettings.Instance.MinTTK * 1000);
     }
 
-    if (RprSettings.Instance.AutoDumpResources) {
-      if (Core.Me.GetCurrTarget() is not null
-       && (Helper.TargetIsBoss || Core.Resolve<MemApiDuty>().InBossBattle) 
-       && !Helper.TargetIsDummy
-       && TTKHelper.IsTargetTTK(Core.Me.GetCurrTarget(), 30, true)) {
+    if (RprSettings.Instance.AutoDumpResources
+     && Core.Me.GetCurrTarget() is not null
+     && (Helper.TargetIsBoss || Core.Resolve<MemApiDuty>().InBossBattle) 
+     && !Helper.TargetIsDummy) {
+      if (!BattleData.Instance.PreBurstQtSet 
+       && MobPullManager.GetTargetTTK() <= 50000) {
+        Qt.Instance.SetQt("爆发准备", false);
+        BattleData.Instance.PreBurstQtSet = true;
+      }
+      if (!BattleData.Instance.DumpQtSet
+       && MobPullManager.GetTargetTTK() < 15000) {
         Qt.Instance.SetQt("倾泻资源", true);
+        BattleData.Instance.DumpQtSet = true;
       }
     }
 

@@ -49,6 +49,8 @@ public static class Qt {
        "会自动选择AOE目标，包括暴食团契这类技能"),
       new("自动突进", "AutoIngress", false, null, 
        "只会在跳了之后能打到的时候跳，能用勾刃就不会跳"),
+      new("爆发准备", "PreBurst", true, null, 
+          "用于控制附体前30秒的印记准备，如果你不知道自己在干嘛的话不要手动开关，建议隐藏"),
   ];
 
   private static readonly List<HotKeyInfo> _hkResolvers = [

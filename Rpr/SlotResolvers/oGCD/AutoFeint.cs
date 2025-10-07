@@ -9,6 +9,7 @@ public class AutoFeint : ISlotResolver {
   public int Check() {
     if (RprSettings.Instance.AutoFeint is false) return -1;
     if (SpellsDef.Feint.GetSpell().IsReadyWithCanCast() is false) return -99;
+    if (Core.Me.HasAura(AurasDef.Enshrouded) && RprHelper.PurpOrb >= 2) return -5;
 
     if (Core.Me.GetCurrTarget() is null
      || !TargetHelper.targetCastingIsDeathSentenceWithTime(Core.Me.GetCurrTarget(), 3000)) {

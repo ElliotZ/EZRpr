@@ -103,6 +103,7 @@ public class RprSettings {
           ["神秘环"] = true,
           ["魂衣"] = true,
           ["大丰收"] = true,
+          ["印记"] = true,
           ["灵魂割"] = true,
           ["挥割/爪"] = true,
           ["暴食"] = true,
@@ -117,6 +118,7 @@ public class RprSettings {
           ["真北优化"] = true,
           ["智能AOE"] = false,
           ["自动突进"] = false,
+          ["爆发准备"] = true,
       };
     } else {
       QtStatesCasual = new Dictionary<string, bool> {
@@ -127,6 +129,7 @@ public class RprSettings {
           ["神秘环"] = true,
           ["魂衣"] = true,
           ["大丰收"] = true,
+          ["印记"] = true,
           ["灵魂割"] = true,
           ["挥割/爪"] = true,
           ["暴食"] = true,
@@ -141,6 +144,7 @@ public class RprSettings {
           ["真北优化"] = true,
           ["智能AOE"] = true,
           ["自动突进"] = false,
+          ["爆发准备"] = true,
       };
     }
   }
@@ -148,6 +152,6 @@ public class RprSettings {
 public JobViewSave JobViewSave = new() {
       CurrentTheme = ModernTheme.ThemePreset.RPR,
       QtLineCount = 3,
-      QtUnVisibleList = ["挥割/爪", "暴食", "灵魂割", "祭牲"],
+      QtUnVisibleList = ["挥割/爪", "暴食", "灵魂割", "祭牲", "印记", "爆发准备"],
   };
 }

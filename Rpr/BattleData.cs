@@ -9,7 +9,10 @@ public class BattleData {
   public int GcdDuration = 2500;
   public int NumBurstPhases = 0;
   public int HoldCommunio = 0;
-  
+
+  public bool DumpQtSet { get; set; }
+  public bool PreBurstQtSet { get; set; }
+
   private static bool _timelineLoaded;
   public static bool TimelineLoaded {
     get => _timelineLoaded;

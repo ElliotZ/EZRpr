@@ -62,7 +62,7 @@ public class BuffMaintain : ISlotResolver {
 //    }
     
     if (Qt.Instance.GetQt("神秘环")
-     && Qt.Instance.GetQt("倾泻资源") is false
+     && Qt.Instance.GetQt("爆发准备")
      && SpellsDef.ArcaneCircle.IsUnlock()
      && SpellsDef.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds 
                                                   < 30000 + DblEnshPrep.PreAcEnshTimer

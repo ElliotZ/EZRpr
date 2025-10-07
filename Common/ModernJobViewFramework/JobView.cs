@@ -8,6 +8,7 @@ using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.Helper;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Utility.Raii;
+using Dalamud.Utility;
 using HotkeyWindow = ElliotZ.ModernJobViewFramework.HotKey.HotkeyWindow;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
@@ -31,6 +32,7 @@ public class JobViewWindow : IRotationUI, IDisposable {
   private readonly Timer _uiFlushTimer = new(_ => { ModernQtWindow.Flush(); });
   private string _battleTime => AI.Instance.BattleData.CurrBattleTimeInSec;
   private string _name;
+  private string _selectedTab = "";
 
   public Dictionary<string, Action<JobViewWindow>> ExternalTab = new();
   public Action? UpdateAction;
@@ -246,8 +248,9 @@ public class JobViewWindow : IRotationUI, IDisposable {
 
   ///风格设置控件
   public void ChangeStyleView() {
+    ImGui.Dummy(new Vector2(0, 0));
     // 现代主题选择
-    ImGui.Text("选择主题预设:");
+    ImGui.Text("   选择主题预设:");
     ImGui.Separator();
 
     var themes = Enum.GetValues<ModernTheme.ThemePreset>();
@@ -430,58 +433,7 @@ public class JobViewWindow : IRotationUI, IDisposable {
           //tab标签页
           ImGui.Dummy(new Vector2(0, 5));
 
-          using (ImRaii.IEndObject bar = ImRaii.TabBar("###tab")) {
-            if (bar.Success) {
-              foreach (var v 
-                       in ExternalTab.Where(v => 
-                                                v.Key != "Dev")) {
-                using ImRaii.IEndObject item = ImRaii.TabItem(v.Key);
-                if (item.Success) {
-                  using ImRaii.IEndObject child = ImRaii.Child($"###tab{v.Key}");
-                  if (child.Success) {
-                    v.Value.Invoke(this);
-                  }
-                }
-              }
-
-              using (ImRaii.IEndObject item = ImRaii.TabItem("Qt")) {
-                if (item.Success) {
-                  using ImRaii.IEndObject child = ImRaii.Child($"###Qt");
-                  if (child.Success) {
-                    QtSettingView();
-                  }
-                }
-              }
-
-              using (ImRaii.IEndObject item = ImRaii.TabItem("Hotkey")) {
-                if (item.Success) {
-                  using ImRaii.IEndObject child = ImRaii.Child($"###Hotkey");
-                  if (child.Success) {
-                    HotkeySettingView();
-                  }
-                }
-              }
-
-              using (ImRaii.IEndObject item = ImRaii.TabItem("风格")) {
-                if (item.Success) {
-                  using ImRaii.IEndObject child = ImRaii.Child($"###风格");
-                  if (child.Success) {
-                    ChangeStyleView();
-                  }
-                }
-              }
-
-              if (ExternalTab.ContainsKey("Dev")) {
-                using ImRaii.IEndObject item = ImRaii.TabItem("Dev");
-                if (item.Success) {
-                  using ImRaii.IEndObject child = ImRaii.Child($"###tabDev");
-                  if (child.Success) {
-                    ExternalTab["Dev"].Invoke(this);
-                  }
-                }
-              }
-            }
-          }
+          DrawTabSideBar();
 
           ImGui.End();
         } else {
@@ -511,6 +463,97 @@ public class JobViewWindow : IRotationUI, IDisposable {
       LogHelper.Error(e.Message);
     } finally {
       EndMainStyle();
+    }
+  }
+
+  private void DrawTabSideBar() {
+    if (_selectedTab.IsNullOrEmpty()) {
+      var tab = 
+          ExternalTab.FirstOrDefault(v => v.Key is not "Dev");
+      _selectedTab = tab.Key ?? "Qt";
+    }
+    
+    using ImRaii.IEndObject tabTable = ImRaii.Table("tabs-table",
+                                                    2,
+                                                    ImGuiTableFlags.BordersInnerV
+                                                  | ImGuiTableFlags.SizingStretchProp
+                                                  | ImGuiTableFlags.Resizable);
+    if (!tabTable.Success) return;
+    
+    ImGui.TableSetupColumn("tabs",ImGuiTableColumnFlags.WidthStretch,1);
+    ImGui.TableSetupColumn("contents",ImGuiTableColumnFlags.WidthStretch, 6);
+    ImGui.TableNextColumn();
+
+    Vector2 contentAvail = ImGui.GetContentRegionAvail();
+    Vector2 buttonSize = new(-1f, 36f * QtStyle.OverlayScale);
+
+    using (ImRaii.IEndObject child = ImRaii.Child("##tab-sidebar", contentAvail with { X = -1 })) {
+      if (child.Success) {
+        foreach (var v
+                 in ExternalTab.Where(v => v.Key is not "Dev")) {
+          using (_selectedTab == v.Key
+                     ? ImRaii.PushColor(ImGuiCol.Button,
+                                        ImGui.GetColorU32(ImGuiCol.ButtonActive))
+                     : null) {
+            if (ImGui.Button(v.Key, buttonSize)) {
+              _selectedTab = v.Key;
+            }
+          }
+        }
+        using (_selectedTab == "Qt"
+                   ? ImRaii.PushColor(ImGuiCol.Button, 
+                                      ImGui.GetColorU32(ImGuiCol.ButtonActive)) 
+                   : null) {
+          if (ImGui.Button("Qt", buttonSize)) {
+            _selectedTab = "Qt";
+          }
+        }
+        using (_selectedTab == "Hotkey"
+                   ? ImRaii.PushColor(ImGuiCol.Button, 
+                                      ImGui.GetColorU32(ImGuiCol.ButtonActive)) 
+                   : null) {
+          if (ImGui.Button("Hotkey", buttonSize)) {
+            _selectedTab = "Hotkey";
+          }
+        }
+        using (_selectedTab == "风格"
+                   ? ImRaii.PushColor(ImGuiCol.Button, 
+                                      ImGui.GetColorU32(ImGuiCol.ButtonActive)) 
+                   : null) {
+          if (ImGui.Button("风格", buttonSize)) {
+            _selectedTab = "风格";
+          }
+        }
+
+        if (ExternalTab.ContainsKey("Dev")) {
+          using (_selectedTab == "Dev"
+                     ? ImRaii.PushColor(ImGuiCol.Button,
+                                        ImGui.GetColorU32(ImGuiCol.ButtonActive))
+                     : null) {
+            if (ImGui.Button("Dev", buttonSize)) {
+              _selectedTab = "Dev";
+            }
+          }
+        }
+      }
+    }
+
+    ImGui.TableNextColumn();
+    using (ImRaii.Child("TabContent", new Vector2(0, 0), false)) {
+      switch (_selectedTab) {
+        case "Qt":
+          QtSettingView();
+          break;
+        case "Hotkey":
+          HotkeySettingView();
+          break;
+        case "风格":
+          ChangeStyleView();
+          break;
+        default:
+          ExternalTab[_selectedTab].Invoke(this);
+          break;
+      }
     }
   }
 

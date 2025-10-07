@@ -237,4 +237,16 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "") {
 
     return ttkList.Average();
   }
+
+  public static float GetTargetTTK() {
+    IBattleChara? target = Core.Me.GetCurrTarget();
+
+    if (target is null 
+     || !TargetMgr.Instance.TargetStats.TryGetValue(target.EntityId, out TargetStat? v)) {
+      return float.NaN;
+    }
+
+    if (v.DeathPrediction > 0) return v.DeathPrediction;
+    return float.NaN;
+  }
 }

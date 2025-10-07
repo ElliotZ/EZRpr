@@ -1,5 +1,6 @@
 ﻿using AEAssist;
 using AEAssist.CombatRoutine.Module;
+using AEAssist.Extension;
 using AEAssist.Helper;
 
 namespace ElliotZ.Rpr.SlotResolvers.oGCD;
@@ -11,6 +12,7 @@ public class AutoSecondWind : ISlotResolver {
     if (RprSettings.Instance.AutoSecondWind is false) return -1;
     if (SpellsDef.SecondWind.GetSpell().IsReadyWithCanCast() is false) return -99;
     if (Core.Me.CurrentHp > secondWindThreshold) return -4;
+    if (Core.Me.HasAura(AurasDef.Enshrouded) && RprHelper.PurpOrb >= 2) return -5;
     if (GCDHelper.GetGCDCooldown() < RprSettings.Instance.AnimLock) return -89;
     return 0;
   }

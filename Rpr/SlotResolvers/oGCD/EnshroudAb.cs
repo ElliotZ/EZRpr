@@ -3,7 +3,6 @@ using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Extension;
 using AEAssist.Helper;
-using AEAssist.JobApi;
 using Dalamud.Game.ClientState.Objects.Types;
 using ElliotZ.Rpr.QtUI;
 
@@ -20,24 +19,16 @@ public class EnshroudAb : ISlotResolver {
     if (Core.Me.HasAura(AurasDef.Enshrouded) is false) return -3; // -3 for Unmet Prereq Conditions
 
     if (_target is null
-     && (Core.Me.Distance(Core.Me.GetCurrTarget()) > Helper.GlobalSettings.AttackRange)) {
-      return -2; // -2 for not in range
+     && !SpellsDef.LemuresSlice.GetSpell().IsReadyWithCanCast()) {
+      return -99;
     }
 
     if (_target is not null
-     && SpellsDef.LemuresScythe
-                 .GetSpell(_target)
-                 .IsReadyWithCanCast() is false) {
+     && !SpellsDef.LemuresScythe.GetSpell(_target).IsReadyWithCanCast()) {
       return -4;
     }
 
-    //if (SpellsDef.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds <= 5000 &&
-    //        Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign, 30000))
-    //{
-    //    return -6;  // -6 for delaying for burst prep
-    //}
-    if (RprHelper.PurpOrb < 2) return -3;
-    //if (GCDHelper.GetGCDCooldown() < 800) return -7;  // -7 for avoiding clipping
+    //if (RprHelper.PurpOrb < 2) return -3;
     if (GCDHelper.GetGCDCooldown() < RprSettings.Instance.AnimLock) return -89;
     return 0;
   }

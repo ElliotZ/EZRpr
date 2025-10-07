@@ -56,6 +56,9 @@ public class Enshroud : ISlotResolver {
       return -8;
     }
 
+    // perfectio gets eaten if not dumped before enshroud
+    if (Core.Me.HasAura(AurasDef.PerfectioParata)) return -12;
+
     // ignore all if dump qt is set
     if (!Qt.Instance.GetQt("倾泻资源") && !Core.Me.HasAura(AurasDef.IdealHost)) {
       if (!Qt.Instance.GetQt("单魂衣") && (RprHelper.Shroud < 100)) {
