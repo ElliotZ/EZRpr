@@ -118,7 +118,6 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "") {
   public void HoldBurstIfMobsDying(int currTime, float mobHPThreshold, int minTTK) {
     // exclude boss battles, msq ultima wep / arr primals, and duties with no mobs in general
     if (Helper.InCasualDutyNonBoss
-     && _getTerritoryId is not (1048 or 1045 or 1046 or 1047)
      && (currTime > 10000)
      && ((GetTotalHealthPercentageOfNearbyEnemies() < mobHPThreshold)
       || (GetAverageTTKOfNearbyEnemies() < minTTK))) {

@@ -182,7 +182,8 @@ public static class Helper {
 
   public static bool InCasualDutyNonBoss =>
       Core.Resolve<MemApiDuty>().InMission
-   && Core.Resolve<MemApiDuty>().DutyMembersNumber() is 4 or 24
+   && Core.Resolve<MemApiDuty>().DutyMembersNumber() is 4 or 24 
+   && GetTerritoryId is not (1048 or 1045 or 1046 or 1047)
    && !TargetIsBossOrDummy
    && !Core.Resolve<MemApiDuty>().InBossBattle;
 
