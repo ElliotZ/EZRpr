@@ -17,8 +17,14 @@ public class EventHandler : IRotationEventHandler {
     MeleePosHelper.Clear();
     BattleData.RebuildSettings();
     
-    if (RprSettings.Instance.PullingNoBurst) Qt.MobMan.Reset();
-    if (RprSettings.Instance.RestoreQtSet) Qt.LoadQtStatesNoPot();
+    if (RprSettings.Instance.HoldBurstWhenTankPulling) Qt.MobMan.Reset();
+    if (RprSettings.Instance.RestoreQtSet) {
+      Qt.LoadQtStatesNoPot();
+    } else if (RprSettings.Instance.AutoSetSingleShroudInTrashPull) {
+      if (Qt.GetCurrQtDict().TryGetValue("单魂衣", out bool v)) {
+        Qt.Instance.SetQt("单魂衣", v);
+      }
+    }
   }
 
   public async Task OnNoTarget() {
@@ -33,7 +39,7 @@ public class EventHandler : IRotationEventHandler {
   public void OnSpellCastSuccess(Slot slot, Spell spell) { }
 
   public async Task OnPreCombat() {
-    if (RprSettings.Instance.PullingNoBurst) Qt.MobMan.Reset();
+    if (RprSettings.Instance.HoldBurstWhenTankPulling) Qt.MobMan.Reset();
 
     StopHelper.StopActions(1000);
 
@@ -70,14 +76,18 @@ public class EventHandler : IRotationEventHandler {
       }
     }
     
-    if (RprSettings.Instance.PullingNoBurst) {
+    if (RprSettings.Instance.HoldBurstWhenTankPulling) {
       Qt.MobMan.HoldBurstIfPulling(currTime, RprSettings.Instance.ConcentrationThreshold);
     }
 
-    if (RprSettings.Instance.NoBurst) {
+    if (RprSettings.Instance.HoldBurstAtDyingPack) {
       Qt.MobMan.HoldBurstIfMobsDying(currTime,
                                      RprSettings.Instance.MinMobHpPercent,
                                      RprSettings.Instance.MinTTK * 1000);
+    }
+
+    if (!RprSettings.Instance.AutoSetSingleShroudInTrashPull && Helper.InCasualDutyNonBoss) {
+      Qt.Instance.SetQt("单魂衣", true);
     }
 
     if (RprSettings.Instance.AutoDumpResources

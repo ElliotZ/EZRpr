@@ -164,9 +164,11 @@ public static class SettingTab {
         if (ImGui.IsItemHovered()) {
           UIComponents.Tooltip("根据目标死亡时间的期望自动控制倾泻资源QT的开关。实验性功能有问题请反馈。");
         }
+        UIComponents.ToggleButton("小怪阶段自动设置单魂衣QT",
+                                  ref RprSettings.Instance.AutoSetSingleShroudInTrashPull);
         ImGui.Separator();
         
-        UIComponents.ToggleButton("小怪低血量不开爆发", ref RprSettings.Instance.NoBurst);
+        UIComponents.ToggleButton("小怪低血量不开爆发", ref RprSettings.Instance.HoldBurstAtDyingPack);
         ImGui.SameLine();
         ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
         ImGui.TextDisabled("(?)");
@@ -174,7 +176,7 @@ public static class SettingTab {
           UIComponents.Tooltip("小于设定数会关闭爆发、夜游魂衣和神秘环QT。启用后可设置数字。");
         }
 
-        if (RprSettings.Instance.NoBurst) {
+        if (RprSettings.Instance.HoldBurstAtDyingPack) {
           ImGui.SetNextItemWidth(200f);
           ImGui.SliderFloat("平均血量阈值(0-0.2)",
                             ref RprSettings.Instance.MinMobHpPercent,
@@ -188,7 +190,7 @@ public static class SettingTab {
           ImGui.Spacing();
         }
 
-        UIComponents.ToggleButton("坦克拉怪中留CD技能", ref RprSettings.Instance.PullingNoBurst);
+        UIComponents.ToggleButton("坦克拉怪中留CD技能", ref RprSettings.Instance.HoldBurstWhenTankPulling);
         ImGui.SameLine();
         ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
         ImGui.TextDisabled("(?)");
@@ -196,7 +198,7 @@ public static class SettingTab {
           UIComponents.Tooltip("启用后可设置小怪集中度数字。");
         }
 
-        if (RprSettings.Instance.PullingNoBurst) {
+        if (RprSettings.Instance.HoldBurstWhenTankPulling) {
           ImGui.Text("小怪集中度");
           ImGui.SetNextItemWidth(200f);
           ImGui.SliderFloat("(0-1.0)",

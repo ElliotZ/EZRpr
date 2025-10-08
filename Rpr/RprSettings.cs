@@ -63,8 +63,8 @@ public class RprSettings {
   public bool TimelineDebug = false;
 
   // Roulette Utility Settings
-  public bool NoBurst = true;
-  public bool PullingNoBurst = true;
+  public bool HoldBurstAtDyingPack = true;
+  public bool HoldBurstWhenTankPulling = true;
   public bool AutoCrest = false;
   public float CrestPercent = 0.8f;
   public bool AutoSecondWind = true;
@@ -77,6 +77,7 @@ public class RprSettings {
   public int MinTTK = 10;
   public bool HandleStopMechs = true;
   public bool AutoDumpResources = true;
+  public bool AutoSetSingleShroudInTrashPull = true;
 
   // Opener Settings
   public bool TripleWeavePot = false;

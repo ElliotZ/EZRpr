@@ -555,6 +555,62 @@ public class JobViewWindow : IRotationUI, IDisposable {
           break;
       }
     }
+    
+
+    /*
+          using (ImRaii.IEndObject bar = ImRaii.TabBar("###tab")) {
+            if (bar.Success) {
+              foreach (var v
+                       in ExternalTab.Where(v =>
+                                                v.Key != "Dev")) {
+                using ImRaii.IEndObject item = ImRaii.TabItem(v.Key);
+                if (item.Success) {
+                  using ImRaii.IEndObject child = ImRaii.Child($"###tab{v.Key}");
+                  if (child.Success) {
+                    v.Value.Invoke(this);
+                  }
+                }
+              }
+
+              using (ImRaii.IEndObject item = ImRaii.TabItem("Qt")) {
+                if (item.Success) {
+                  using ImRaii.IEndObject child = ImRaii.Child($"###Qt");
+                  if (child.Success) {
+                    QtSettingView();
+                  }
+                }
+              }
+
+              using (ImRaii.IEndObject item = ImRaii.TabItem("Hotkey")) {
+                if (item.Success) {
+                  using ImRaii.IEndObject child = ImRaii.Child($"###Hotkey");
+                  if (child.Success) {
+                    HotkeySettingView();
+                  }
+                }
+              }
+
+              using (ImRaii.IEndObject item = ImRaii.TabItem("风格")) {
+                if (item.Success) {
+                  using ImRaii.IEndObject child = ImRaii.Child($"###风格");
+                  if (child.Success) {
+                    ChangeStyleView();
+                  }
+                }
+              }
+
+              if (ExternalTab.ContainsKey("Dev")) {
+                using ImRaii.IEndObject item = ImRaii.TabItem("Dev");
+                if (item.Success) {
+                  using ImRaii.IEndObject child = ImRaii.Child($"###tabDev");
+                  if (child.Success) {
+                    ExternalTab["Dev"].Invoke(this);
+                  }
+                }
+              }
+            }
+          }
+*/
   }
 
   public void Dispose() {

@@ -46,8 +46,8 @@ public static class RprHelper {
   }
 
   public static void CasualMode() {
-    RprSettings.Instance.NoBurst = true;
-    RprSettings.Instance.PullingNoBurst = true;
+    RprSettings.Instance.HoldBurstAtDyingPack = true;
+    RprSettings.Instance.HoldBurstWhenTankPulling = true;
     RprSettings.Instance.AutoBloodBath = true;
     RprSettings.Instance.AutoCrest = true;
     RprSettings.Instance.AutoSecondWind = true;
@@ -55,11 +55,12 @@ public static class RprHelper {
     RprSettings.Instance.HandleStopMechs = true;
     RprSettings.Instance.IsHardCoreMode = false;
     RprSettings.Instance.AutoDumpResources = true;
+    RprSettings.Instance.AutoSetSingleShroudInTrashPull = true;
   }
 
   public static void HardCoreMode() {
-    RprSettings.Instance.NoBurst = false;
-    RprSettings.Instance.PullingNoBurst = false;
+    RprSettings.Instance.HoldBurstAtDyingPack = false;
+    RprSettings.Instance.HoldBurstWhenTankPulling = false;
     RprSettings.Instance.AutoBloodBath = false;
     RprSettings.Instance.AutoCrest = false;
     RprSettings.Instance.AutoSecondWind = false;
@@ -67,5 +68,6 @@ public static class RprHelper {
     RprSettings.Instance.HandleStopMechs = false;
     RprSettings.Instance.IsHardCoreMode = true;
     RprSettings.Instance.AutoDumpResources = false;
+    RprSettings.Instance.AutoSetSingleShroudInTrashPull = false;
   }
 }
