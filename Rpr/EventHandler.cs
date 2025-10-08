@@ -86,7 +86,7 @@ public class EventHandler : IRotationEventHandler {
                                      RprSettings.Instance.MinTTK * 1000);
     }
 
-    if (!RprSettings.Instance.AutoSetSingleShroudInTrashPull && Helper.InCasualDutyNonBoss) {
+    if (RprSettings.Instance.AutoSetSingleShroudInTrashPull && Helper.InCasualDutyNonBoss) {
       Qt.Instance.SetQt("单魂衣", true);
     }
 
