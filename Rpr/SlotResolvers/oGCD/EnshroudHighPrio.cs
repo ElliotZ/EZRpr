@@ -9,7 +9,7 @@ public class EnshroudHighPrio : ISlotResolver {
     if (SpellsDef.Enshroud.GetSpell().IsReadyWithCanCast() is false) return -99;
     if (Qt.Instance.GetQt("魂衣") is false) return -98;
     
-    if (Helper.AuraTimerLessThan(AurasDef.IdealHost, 1500)
+    if (Helper.AuraTimerLessThan(AurasDef.IdealHost, 3000)
      && (GCDHelper.GetGCDCooldown() >= RprSettings.Instance.AnimLock)) {
       return 1;
     }
