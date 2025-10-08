@@ -21,7 +21,7 @@ public class PerfectioHighPrio : ISlotResolver {
     if (Qt.Instance.GetQt("完人") is false) return -98;
 
     if (!Qt.Instance.GetQt("倾泻资源") 
-     && (Helper.GetAuraTimeLeft(AurasDef.PerfectioParata) > 2500)) {
+     && (Helper.GetAuraTimeLeft(AurasDef.PerfectioParata) > 3000)) {
       return -8; // -8 for Exiting High Prio state
     }
 
