@@ -117,10 +117,7 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "") {
   /// <param name="minTTK">设定的小怪平均死亡时间阈值，用ms计算</param>
   public void HoldBurstIfMobsDying(int currTime, float mobHPThreshold, int minTTK) {
     // exclude boss battles, msq ultima wep / arr primals, and duties with no mobs in general
-    if (Core.Resolve<MemApiDuty>().InMission
-     && Core.Resolve<MemApiDuty>().DutyMembersNumber() is 4 or 24
-     && !Core.Resolve<MemApiDuty>().InBossBattle
-     && !Helper.TargetIsBossOrDummy
+    if (Helper.InCasualDutyNonBoss
      && _getTerritoryId is not (1048 or 1045 or 1046 or 1047)
      && (currTime > 10000)
      && ((GetTotalHealthPercentageOfNearbyEnemies() < mobHPThreshold)
@@ -209,20 +206,20 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "") {
   /// </summary>
   /// <returns></returns>
   public static float GetAverageTTKOfNearbyEnemies() {
-    var enemiesIn = TargetMgr.Instance.EnemysIn25;
+    var nearbyEnemies = TargetMgr.Instance.EnemysIn25;
     List<float> ttkList = [];
     int mobCount = 0;
 
     // 遍历25米内敌人，根据敌人的EntityID把所有大于0的DeathPrediction加起来，跳过boss
-    foreach (IBattleChara value 
-             in enemiesIn.Select(item => item.Value)) {
-      if (TargetHelper.IsBoss(value)
-       || !TargetMgr.Instance.TargetStats.TryGetValue(value.EntityId, out TargetStat? value2)
-       || (value2.DeathPrediction <= 0)) {
+    foreach (IBattleChara target 
+             in nearbyEnemies.Select(item => item.Value)) {
+      if (target.IsBoss()
+       || !TargetMgr.Instance.TargetStats.TryGetValue(target.EntityId, out TargetStat? stat)
+       || (stat.DeathPrediction <= 0)) {
         continue;
       }
 
-      ttkList.Add(value2.DeathPrediction);
+      ttkList.Add(stat.DeathPrediction);
       mobCount++;
     }
 
@@ -242,11 +239,11 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "") {
     IBattleChara? target = Core.Me.GetCurrTarget();
 
     if (target is null 
-     || !TargetMgr.Instance.TargetStats.TryGetValue(target.EntityId, out TargetStat? v)) {
+     || !TargetMgr.Instance.TargetStats.TryGetValue(target.EntityId, out TargetStat? s)) {
       return float.NaN;
     }
 
-    if (v.DeathPrediction > 0) return v.DeathPrediction;
+    if (s.DeathPrediction > 0) return s.DeathPrediction;
     return float.NaN;
   }
 }

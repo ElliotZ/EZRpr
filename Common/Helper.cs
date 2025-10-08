@@ -180,6 +180,12 @@ public static class Helper {
     return lowHpCount / (double)enemyCount > 0.667;
   }
 
+  public static bool InCasualDutyNonBoss =>
+      Core.Resolve<MemApiDuty>().InMission
+   && Core.Resolve<MemApiDuty>().DutyMembersNumber() is 4 or 24
+   && !TargetIsBossOrDummy
+   && !Core.Resolve<MemApiDuty>().InBossBattle;
+
   /// <summary>
   /// 在list中添加一个唯一的元素
   /// </summary>

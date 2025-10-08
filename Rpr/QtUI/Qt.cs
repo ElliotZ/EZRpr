@@ -83,6 +83,7 @@ public static class Qt {
       new("爆发药", "Pot", new HotKeyResolver_Potion()),
   ];
 
+  public static Dictionary<string, bool> GetCurrQtDict() => _currQtStatesDict;
   public static void SaveQtStates() {
     string[] qtArray = Instance.GetQtArray();
 
