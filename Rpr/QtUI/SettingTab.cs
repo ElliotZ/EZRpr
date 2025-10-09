@@ -1,6 +1,7 @@
 ﻿using Dalamud.Interface.Colors;
 using System.Numerics;
 using Dalamud.Bindings.ImGui;
+using Dalamud.Interface.Utility.Raii;
 using ElliotZ.ModernJobViewFramework;
 
 namespace ElliotZ.Rpr.QtUI;
@@ -53,7 +54,8 @@ public static class SettingTab {
           ImGui.EndTooltip();
         }
 
-        UIComponents.ToggleButton("无时间轴时自动设置日随模式", ref RprSettings.Instance.AutoSetCasual);
+        UIComponents.ToggleButton("无时间轴时自动设置日随模式", 
+                                  ref RprSettings.Instance.AutoSetCasual);
         
         ImGui.Separator();
 
@@ -102,15 +104,14 @@ public static class SettingTab {
         
         ImGui.Separator();
         UIComponents.ToggleButton("真北期间不绘制身位", ref RprSettings.Instance.NoPosDrawInTN);
+        
         string posStyle = RprSettings.Instance.PosDrawStyle switch {
             0 => "不填充",
             1 => "填充70%",
             _ => "填充满",
         };
-        ImGui.Text("身位风格设置");
         ImGui.SetNextItemWidth(120f);
-
-        if (ImGui.BeginCombo("选择身位绘制风格", posStyle)) {
+        using (ImRaii.Combo("选择身位绘制风格", posStyle)) {
           if (ImGui.Selectable("不填充", RprSettings.Instance.PosDrawStyle == 0)) {
             RprSettings.Instance.PosDrawStyle = 0;
             RprSettings.Instance.Save();
@@ -125,8 +126,6 @@ public static class SettingTab {
             RprSettings.Instance.PosDrawStyle = 2;
             RprSettings.Instance.Save();
           }
-
-          ImGui.EndCombo();
         }
         
         ImGui.Separator();
@@ -155,20 +154,24 @@ public static class SettingTab {
         ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
         ImGui.TextDisabled("(?)");
         if (ImGui.IsItemHovered()) {
-          UIComponents.Tooltip("加速度炸弹/热病/目标无敌/自身无法行动时会自动停手，效果等同于右键点主按钮。");
+          UIComponents.Tooltip("加速度炸弹/热病/目标无敌/自身无法行动时会自动停手，"
+                             + "效果等同于右键点主按钮。");
         }
-        UIComponents.ToggleButton("自动倾泻资源（实验性）", ref RprSettings.Instance.AutoDumpResources);
+        UIComponents.ToggleButton("自动倾泻资源（实验性）", 
+                                  ref RprSettings.Instance.AutoDumpResources);
         ImGui.SameLine();
         ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
         ImGui.TextDisabled("(?)");
         if (ImGui.IsItemHovered()) {
-          UIComponents.Tooltip("根据目标死亡时间的期望自动控制倾泻资源QT的开关。实验性功能有问题请反馈。");
+          UIComponents.Tooltip("根据目标死亡时间的期望自动控制倾泻资源QT的开关。"
+                             + "实验性功能有问题请反馈。");
         }
         UIComponents.ToggleButton("小怪阶段自动设置单魂衣QT",
                                   ref RprSettings.Instance.AutoSetSingleShroudInTrashPull);
         ImGui.Separator();
         
-        UIComponents.ToggleButton("小怪低血量不开爆发", ref RprSettings.Instance.HoldBurstAtDyingPack);
+        UIComponents.ToggleButton("小怪低血量不开爆发", 
+                                  ref RprSettings.Instance.HoldBurstAtDyingPack);
         ImGui.SameLine();
         ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
         ImGui.TextDisabled("(?)");
@@ -190,7 +193,8 @@ public static class SettingTab {
           ImGui.Spacing();
         }
 
-        UIComponents.ToggleButton("坦克拉怪中留CD技能", ref RprSettings.Instance.HoldBurstWhenTankPulling);
+        UIComponents.ToggleButton("坦克拉怪中留CD技能", 
+                                  ref RprSettings.Instance.HoldBurstWhenTankPulling);
         ImGui.SameLine();
         ImGui.SetCursorPosY(ImGui.GetCursorPosY() + ImGui.GetFrameHeight() * 0.25f);
         ImGui.TextDisabled("(?)");
@@ -328,9 +332,9 @@ public static class SettingTab {
         ImGui.Separator();
 
         if (ImGui.Button("获取爆发药情况")) {
-          _8幻药 = CItemHelper.FindItem((uint)Potion._8级刚力之幻药);
-          _宝药 = CItemHelper.FindItem((uint)Potion.刚力之宝药);
-          _2宝药 = CItemHelper.FindItem((uint)Potion._2级刚力之宝药);
+          _8幻药 = ItemHelperExtension.FindItem((uint)Potion._8级刚力之幻药);
+          _宝药 = ItemHelperExtension.FindItem((uint)Potion.刚力之宝药);
+          _2宝药 = ItemHelperExtension.FindItem((uint)Potion._2级刚力之宝药);
         }
 
         if (_8幻药 > 0) {

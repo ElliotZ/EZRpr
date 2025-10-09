@@ -327,9 +327,8 @@ public static class Helper {
 
   private static List<string> HPQueueToStrList(Queue<Slot> src) {
     List<string> result = [];
-    foreach (SlotAction item in src.SelectMany(slot => slot.Actions)) {
-      result.Add(item.Spell.Name);
-    }
+    result.AddRange(collection: src.SelectMany(slot => slot.Actions)
+                                   .Select(slotAction => slotAction.Spell.Name));
     return result;
   }
 

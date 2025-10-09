@@ -61,8 +61,6 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "") {
     return _currTank is not null;
   }
 
-  private static uint _getTerritoryId => Core.Resolve<MemApiMap>().GetCurrTerrId();
-
   public void 重置() {
     Reset();
   }
@@ -180,15 +178,18 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "") {
   /// <returns></returns>
   public static float GetTotalHealthPercentageOfNearbyEnemies() {
     var enemiesIn = TargetMgr.Instance.EnemysIn25;
-    float totalMobCurrHp = 0f;
-    float totalMobMaxHp = 0f;
+    float totalMobCurrHp = enemiesIn.Select(curr =>
+                                                (float)curr.Value.CurrentHp)
+                                    .Sum();
+    float totalMobMaxHp = enemiesIn.Select(curr => 
+                                               (float)curr.Value.MaxHp)
+                                   .Sum();
     int mobCount = 0;
 
-    foreach (var item 
-             in enemiesIn.Where(item => !item.Value.IsBoss())) {
-      totalMobCurrHp += item.Value.CurrentHp;
-      totalMobMaxHp += item.Value.MaxHp;
-      mobCount++;
+    foreach (var item in enemiesIn) {
+      if (!item.Value.IsBoss()) {  // foreach over LINQ for performance
+        mobCount++;
+      }
     }
 
     if (mobCount == 0) return 0f;
@@ -206,29 +207,27 @@ public class MobPullManager(JobViewWindow qtInstance, string holdQT = "") {
   /// <returns></returns>
   public static float GetAverageTTKOfNearbyEnemies() {
     var nearbyEnemies = TargetMgr.Instance.EnemysIn25;
-    List<float> ttkList = [];
-    int mobCount = 0;
 
-    // 遍历25米内敌人，根据敌人的EntityID把所有大于0的DeathPrediction加起来，跳过boss
-    foreach (IBattleChara target 
-             in nearbyEnemies.Select(item => item.Value)) {
-      if (target.IsBoss()
-       || !TargetMgr.Instance.TargetStats.TryGetValue(target.EntityId, out TargetStat? stat)
-       || (stat.DeathPrediction <= 0)) {
-        continue;
-      }
+    var ttkList = nearbyEnemies.Where(target => // 过滤boss
+                                          !target.Value.IsBoss())
+                               .Select(target => 
+                                           TargetMgr.Instance.TargetStats.TryGetValue(
+                                               target.Value.EntityId, 
+                                               out TargetStat? stat)  // 目标存在
+                                                     ? stat.DeathPrediction 
+                                                     : -1f)
+                               .Where(pred => pred >= 0)
+                               .ToList();
 
-      ttkList.Add(stat.DeathPrediction);
-      mobCount++;
-    }
+    switch (ttkList.Count) {
+      case 0:
+        return 0f;
 
-    if (mobCount == 0) return 0f;
-
-    // 如果TTKList总数大于5则掐头去尾取平均
-    if (ttkList.Count > 4) {
-      ttkList.Sort();
-      ttkList.RemoveAt(0);
-      ttkList.RemoveAt(ttkList.Count - 1);
+      // 如果TTKList总数大于5则掐头去尾取平均
+      case > 4:
+        ttkList.Remove(ttkList.Max());
+        ttkList.Remove(ttkList.Min());
+        break;
     }
 
     return ttkList.Average();

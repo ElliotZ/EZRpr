@@ -1,6 +1,8 @@
-﻿using AEAssist.CombatRoutine;
+﻿using System.Numerics;
+using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.View.JobView.HotkeyResolver;
 using AEAssist.Helper;
+using ElliotZ.ModernJobViewFramework;
 using ElliotZ.Rpr.QtUI.Hotkey;
 using JobViewWindow = ElliotZ.ModernJobViewFramework.JobViewWindow;
 
@@ -105,7 +107,8 @@ public static class Qt {
   }
 
   public static void LoadQtStatesNoPot() {
-    foreach (var qtState in _currQtStatesDict.Where(qtState => 
+    foreach (var qtState 
+             in _currQtStatesDict.Where(qtState => 
                                                   qtState.Key is not 
                                                       ("爆发药" 
                                                     or "智能AOE" 
@@ -126,6 +129,9 @@ public static class Qt {
 
     MacroMan = new MacroManager(Instance, "/EZRpr", _qtKeys, _hkResolvers, true);
     MacroMan.BuildCommandList();
+    Instance.SetQtColor("智能AOE", Instance.GetAccentColor());
+    Instance.SetQtColor("爆发药", Instance.GetAccentColor());
+    Instance.SetQtColor("自动突进", Instance.GetAccentColor());
     
     MobMan = new MobPullManager(Instance);
     MobMan.BurstQTs.Add("爆发");

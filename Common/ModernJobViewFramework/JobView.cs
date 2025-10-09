@@ -132,6 +132,23 @@ public class JobViewWindow : IRotationUI, IDisposable {
     _qtWindow.SetQtToolTip(toolTip);
   }
 
+  public void SetQtColor(string name, Vector4 color) {
+    _qtWindow.SetQtColor(name, color);
+  }
+
+  public Vector4 GetPrimaryColor() => _style.ModernTheme.Colors.Primary;
+  public Vector4 GetSecondaryColor() => _style.ModernTheme.Colors.Secondary;
+  public Vector4 GetAccentColor() => _style.ModernTheme.Colors.Accent;
+  public Vector4 GetBackgroundColor() => _style.ModernTheme.Colors.Background;
+  public Vector4 GetSurfaceColor() => _style.ModernTheme.Colors.Surface;
+  public Vector4 GetTextColor() => _style.ModernTheme.Colors.Text;
+  public Vector4 GetTextSecondaryColor() => _style.ModernTheme.Colors.TextSecondary;
+  public Vector4 GetSuccessColor() => _style.ModernTheme.Colors.Success;
+  public Vector4 GetWarningColor() => _style.ModernTheme.Colors.Warning;
+  public Vector4 GetBorderColor() => _style.ModernTheme.Colors.Border;
+  public Vector4 GetShadowColor() => _style.ModernTheme.Colors.Shadow;
+  
+
   /// 画一个新的Qt窗口
   public void DrawQtWindow() {
     try {

@@ -325,13 +325,6 @@ public static class StopHelper {
       3692, // 剧毒：身中剧毒，自身所受的体力恢复效果降低，体力逐渐减少
   ];
 
-  public static readonly HashSet<string> WhiteList = [
-      "18014449513685488",
-      "18014449511049086",
-      "19014409515763009",
-      "19014419509512110",
-  ];
-
   /// <summary>
   /// 可以用按位OR "|" 操作符组合不同条件。
   /// </summary>

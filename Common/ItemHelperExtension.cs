@@ -4,7 +4,7 @@
 
 namespace ElliotZ;
 
-public static class CItemHelper {
+public static class ItemHelperExtension {
   /// <summary>
   /// 获取背包内指定物品的数量
   /// </summary>

@@ -1,4 +1,6 @@
-﻿using AEAssist;
+﻿#if DEBUG
+
+using AEAssist;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Extension;
 using AEAssist.Helper;
@@ -23,3 +25,4 @@ public class SoulSow : ISlotResolver {
     slot.Add(SpellsDef.Soulsow.GetSpell());
   }
 }
+#endif

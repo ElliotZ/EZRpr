@@ -159,7 +159,7 @@ public class ModernTheme {
       [ThemePreset.RPR] = new ColorScheme {
           Primary = new Vector4(0.6f, 0.1f, 0.25f, 0.95f),
           Secondary = new Vector4(0.25f, 0.4f, 0.55f, 0.95f),
-          Accent = new Vector4(0.3f, 0.5f, 0.6f, 1f),
+          Accent = new Vector4(0.28f, 0.48f, 0.56f, 1f),
           Background = new Vector4(0.1f, 0.1f, 0.1f, 0.95f),
           Surface = new Vector4(0.2f, 0.12f, 0.24f, 1f),
           Text = new Vector4(1f, 1f, 1f, 1f),

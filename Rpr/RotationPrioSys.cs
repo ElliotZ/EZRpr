@@ -11,7 +11,9 @@ public static class RotationPrioSys {
       new(new GibGall(), SlotMode.Gcd),
       new(new PerfectioHighPrio(), SlotMode.Gcd),
       new(new HarvestMoonHighPrio(), SlotMode.Gcd),
-      new(new SoulSow(), SlotMode.Gcd),
+#if DEBUG
+      new(new SoulSow(), SlotMode.Gcd),  // Doesn't work, probably won't work at all
+#endif
       new(new BuffMaintain(), SlotMode.Gcd),
       new(new GaugeGainCD(), SlotMode.Gcd),
       new(new Perfectio(), SlotMode.Gcd),
