@@ -24,32 +24,29 @@ public class EnshroudSk : ISlotResolver {
                                                           Qt.Instance.GetQt("智能AOE"), 
                                                           5);
 
-    if (Core.Me.HasAura(AurasDef.Enshrouded) is false) return -3; // -3 for Unmet Prereq Conditions
+//    if (Core.Me.HasAura(AurasDef.Enshrouded) is false) return -3; // -3 for Unmet Prereq Conditions
 
     if ((!SpellsDef.Communio.IsUnlock() || (RprHelper.BlueOrb > 1))
-     && (Core.Me.Distance(Core.Me.GetCurrTarget()) > Helper.GlobalSettings.AttackRange)) {
+     && !SpellsDef.VoidReaping.GetSpell().IsReadyWithCanCast()) {
       return -2; // -2 for not in range
+    }
+
+    if (SpellsDef.Communio.IsUnlock()
+     && RprHelper.BlueOrb == 1 
+     && !SpellsDef.Communio.GetSpell().IsReadyWithCanCast()) {
+      return -4;
     }
 
     return 0;
   }
 
   private static bool DeathsDesignMaintainCheck() {
-//    if (Qt.Instance.GetQt("单魂衣")
-//     && Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign, 10000, false)) {
-//      return true;
-//    }
-
-    // pause enshroud slashes for buff maintaining
     if ((!Core.Me.HasAura(AurasDef.ArcaneCircle)
      || Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign,
                                      Helper.GetAuraTimeLeft(AurasDef.ArcaneCircle),
                                      false))
       && Core.Me.HasAura(AurasDef.Enshrouded, 10000)
-//      && !SpellsDef.ShadowOfDeath.GetSpell().RecentlyUsed(8500)
-//      && !SpellsDef.WhorlOfDeath.GetSpell().RecentlyUsed(8500)
       && !Qt.MobMan.Holding
-//      && !Core.Me.HasAura(AurasDef.PerfectioOculta)
        ) {
       if ((!Qt.Instance.GetQt("AOE") || TargetHelper.GetNearbyEnemyCount(5) <= 2)
        && Helper.TgtAuraTimerLessThan(AurasDef.DeathsDesign,

@@ -44,11 +44,8 @@ public class IngressHK(int hkType) : // 1 - use current direction, 2 - face targ
 
   public override int Check() {
     //if (HkType == FaceTarget && Core.Me.GetCurrTarget() is null) return -9;
-    if (Core.Me.HasAura(AurasDef.RegressReady) && RegressPosition().Equals(Vector3.Zero)) {
-      return -8;
-    }
-
-    return base.Check();
+    if (!Core.Me.HasAura(AurasDef.RegressReady)) return base.Check();
+    return RegressPosition().Equals(Vector3.Zero) ? -8 : 0;
   }
 
   protected override async Task Run1(Spell spell, int delay = 0) {

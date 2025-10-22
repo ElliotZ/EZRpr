@@ -76,6 +76,7 @@ public class RprSettings {
   public float ConcentrationThreshold = 0.75f;
   public int MinTTK = 10;
   public bool HandleStopMechs = true;
+  public bool ToggleStopOnModeChange = true;
   public bool AutoDumpResources = true;
   public bool AutoSetSingleShroudInTrashPull = true;
 

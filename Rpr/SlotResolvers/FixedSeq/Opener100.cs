@@ -20,7 +20,7 @@ public class Opener100 : IOpener {
     if (SpellsDef.SoulSlice.IsMaxChargeReady(0.0f) is false) return -99;
     if (SpellsDef.ArcaneCircle.GetSpell().IsReadyWithCanCast() is false) return -99;
 
-    if (Core.Me.Distance(Core.Me.GetCurrTarget()) > Helper.GlobalSettings.AttackRange) {
+    if (Core.Me.Distance(Core.Me.GetCurrTarget()) > Helper.GlobalSettings.AttackRange + 2) {
       return -2; // -2 for not in range
     }
 
@@ -119,5 +119,5 @@ public class Opener100 : IOpener {
     }
   }
 
-  public uint Level { get; } = 88;
+  public static uint Level { get; } = 88;
 }

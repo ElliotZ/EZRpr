@@ -17,9 +17,7 @@ public class Sacrificum : ISlotResolver {
                                                      5);
 
     if (_target is null 
-     || SpellsDef.Sacrificium
-                 .GetSpell(_target)
-                 .IsReadyWithCanCast() is false) {
+     || SpellsDef.Sacrificium.GetSpell(_target).IsReadyWithCanCast() is false) {
       return -99;
     }
 

@@ -1,4 +1,5 @@
 ﻿using AEAssist;
+using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Extension;
 using AEAssist.Helper;
@@ -19,13 +20,7 @@ public class Harpe : ISlotResolver {
     return 0;
   }
 
-  //private static uint Solve()
-  //{
-  //    if (Core.Me.HasAura(AurasDef.Soulsow)) { return SpellsDef.HarvestMoon; }
-  //    return SpellsDef.Harpe;
-  //}
-
   public void Build(Slot slot) {
-    slot.Add(SpellsDef.Harpe.GetSpell());
+    slot.Add(new Spell(SpellsDef.Harpe, Core.Me.GetCurrTarget()) { DontUseGcdOpt = true });
   }
 }

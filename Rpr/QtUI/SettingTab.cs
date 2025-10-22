@@ -157,6 +157,16 @@ public static class SettingTab {
           UIComponents.Tooltip("加速度炸弹/热病/目标无敌/自身无法行动时会自动停手，"
                              + "效果等同于右键点主按钮。");
         }
+        ImGui.SameLine();
+        ImGui.Dummy(new Vector2(5, 0));
+        ImGui.SameLine();
+        ImGui.Checkbox("切换ACR模式自动开关自动停手", ref RprSettings.Instance.ToggleStopOnModeChange);
+        ImGui.SameLine();
+        ImGui.TextDisabled("(?)");
+        if (ImGui.IsItemHovered()) {
+          UIComponents.Tooltip("取消勾选后自动停手将不会随ACR模式自动开关，主要配合本体的自动停手使用");
+        }
+        
         UIComponents.ToggleButton("自动倾泻资源（实验性）", 
                                   ref RprSettings.Instance.AutoDumpResources);
         ImGui.SameLine();

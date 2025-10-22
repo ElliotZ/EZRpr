@@ -124,8 +124,6 @@ public class BloodStalk : ISlotResolver {
   }
 
   private Spell Solve() {
-    //var enemyCount = TargetHelper.GetEnemyCountInsideSector(Core.Me, Core.Me.GetCurrTarget(), 8, 180);
-
     if (Qt.Instance.GetQt("AOE")
      && _target is not null
      && SpellsDef.GrimSwathe.GetSpell(_target).IsReadyWithCanCast()) {

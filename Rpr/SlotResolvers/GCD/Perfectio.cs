@@ -18,7 +18,6 @@ public class Perfectio : ISlotResolver {
       return -99;
     }
 
-    //if (Core.Me.HasAura(AurasDef.PerfectioParata) == false) { return -99; }
     if (Qt.Instance.GetQt("完人") is false) return -98;
 
     if ((Helper.ComboTimer < GCDHelper.GetGCDDuration() + 200)

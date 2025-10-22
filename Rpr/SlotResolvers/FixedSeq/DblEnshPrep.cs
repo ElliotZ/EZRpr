@@ -26,7 +26,7 @@ public class DblEnshPrep : ISlotSequence {
     if (!Qt.Instance.GetQt("神秘环") || !Qt.Instance.GetQt("魂衣")) return -98;
     if (Qt.Instance.GetQt("单魂衣")) return -98;
 
-    if (Core.Me.Distance(Core.Me.GetCurrTarget()) > Helper.GlobalSettings.AttackRange) {
+    if (Core.Me.Distance(Core.Me.GetCurrTarget()) > Helper.GlobalSettings.AttackRange + 2) {
       return -2; // -2 for not in range
     }
 

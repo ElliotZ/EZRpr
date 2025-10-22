@@ -30,12 +30,6 @@ public class HarvestMoon : ISlotResolver {
     return 0;
   }
 
-  //private static uint Solve()
-  //{
-  //    if (Core.Me.HasAura(AurasDef.Soulsow)) { return SpellsDef.HarvestMoon; }
-  //    return SpellsDef.Harpe;
-  //}
-
   public void Build(Slot slot) {
     slot.Add(SpellsDef.HarvestMoon.GetSpell(_target));
   }
