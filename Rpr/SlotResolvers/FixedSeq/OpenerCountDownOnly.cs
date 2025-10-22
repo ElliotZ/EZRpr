@@ -65,5 +65,5 @@ public class OpenerCountDownOnly : IOpener {
 
   public List<Action<Slot>> Sequence { get; } = [];
 
-  public uint Level { get; } = 1;
+  public static uint Level { get; } = 1;
 }

@@ -14,10 +14,10 @@ public class Base : ISlotResolver {
   private const uint _aoe1 = SpellsDef.SpinningScythe;
   private const uint _aoe2 = SpellsDef.NightmareScythe;
 
+  private static int _enemyCount => TargetHelper.GetNearbyEnemyCount(5);
+
   public int Check() {
-    if (Core.Me.Distance(Core.Me.GetCurrTarget()) > Helper.GlobalSettings.AttackRange) {
-      return -2; // -2 for not in range
-    }
+    if (_enemyCount < 3 && !_st1.GetSpell().IsReadyWithCanCast()) return -99;
 
     if (SpellsDef.BloodStalk.AdaptiveId().RecentlyUsed()
      || SpellsDef.Gluttony.RecentlyUsed()) {
@@ -28,10 +28,8 @@ public class Base : ISlotResolver {
   }
 
   private static uint Solve() {
-    int enemyCount = TargetHelper.GetNearbyEnemyCount(5);
-
     if (Qt.Instance.GetQt("AOE")
-     && (enemyCount >= 3)
+     && (_enemyCount >= 3)
      && _aoe1.GetSpell().IsReadyWithCanCast()
      && (RprHelper.PrevCombo != _st2)
      && (RprHelper.PrevCombo != _st1)) {

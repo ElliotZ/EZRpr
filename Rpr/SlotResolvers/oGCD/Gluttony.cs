@@ -17,15 +17,13 @@ public class Gluttony : ISlotResolver {
                                                   5);
 
     if (_target is null 
-     || SpellsDef.Gluttony
-                 .GetSpell(_target)
-                 .IsReadyWithCanCast() is false) {
+     || SpellsDef.Gluttony.GetSpell(_target).IsReadyWithCanCast() is false) {
       return -99;
     }
 
     if (Qt.Instance.GetQt("暴食") is false) return -98;
 
-    if (Core.Me.Distance(Core.Me.GetCurrTarget()) > Helper.GlobalSettings.AttackRange) {
+    if (Core.Me.Distance(Core.Me.GetCurrTarget()) > SpellsDef.Guillotine.GetSpell().ActionRange) {
       return -2; // -2 for not in range
     }
 

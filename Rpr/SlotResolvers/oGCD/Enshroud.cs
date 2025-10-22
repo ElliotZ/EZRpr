@@ -10,6 +10,10 @@ using ElliotZ.Rpr.SlotResolvers.FixedSeq;
 namespace ElliotZ.Rpr.SlotResolvers.oGCD;
 
 public class Enshroud : ISlotResolver {
+  /// <summary>
+  /// 计算是否需要为下一窗口的双附体攒蓝条。计算原理大约是通过计算下一个神秘环前的总共GCD数，以及通过当前的红蓝条的状态、技能CD、目标带有的印记时长等状态，估算攒出附体所需的50蓝条所需要的GCD数，并以此判断现在是否需要保留附体。
+  /// </summary>
+  /// <returns>如果需要保留附体的话返回true</returns>
   private static bool DeadZoneCheck() {
     double accd = SpellsDef.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds;
     int neededShroud = (Core.Me.HasAura(AurasDef.IdealHost) ? 50 : 100)
@@ -82,10 +86,6 @@ public class Enshroud : ISlotResolver {
        && (Core.Resolve<JobApi_Reaper>().ShroudGauge < 90)) {
         return -11; // SoulSlice overcap protection
       }
-      //if (Helper.AoeTtkCheck() && TTKHelper.IsTargetTTK(Core.Me.GetCurrTarget()))
-      //{
-      //    return -16;  // delay for next pack
-      //}
     }
 
     if (Core.Me.HasAura(AurasDef.SoulReaver) || Core.Me.HasAura(AurasDef.Executioner)) {

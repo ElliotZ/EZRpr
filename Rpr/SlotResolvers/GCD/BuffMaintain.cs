@@ -16,13 +16,14 @@ public class BuffMaintain : ISlotResolver {
   private static int _aoeEnemyCount => TargetHelper.GetNearbyEnemyCount(5);
 
   public int Check() {
-    if (SpellsDef.ShadowOfDeath.GetSpell().IsReadyWithCanCast() is false) {
+    if (_aoeEnemyCount < 3 
+     && !SpellsDef.ShadowOfDeath.GetSpell().IsReadyWithCanCast()) {
       return -99; // -99 for not usable
     }
 
-    if (Core.Me.Distance(Core.Me.GetCurrTarget()) > Helper.GlobalSettings.AttackRange) {
-      return -2; // -2 for not in range
-    }
+//    if (Core.Me.Distance(Core.Me.GetCurrTarget()) > SpellsDef.ShadowOfDeath.GetSpell().ActionRange) {
+//      return -2; // -2 for not in range
+//    }
 
     if (Qt.MobMan.Holding) return -3;
 

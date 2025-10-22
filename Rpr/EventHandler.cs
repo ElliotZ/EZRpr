@@ -94,13 +94,12 @@ public class EventHandler : IRotationEventHandler {
      && Core.Me.GetCurrTarget() is not null
      && (Helper.TargetIsBoss || Core.Resolve<MemApiDuty>().InBossBattle) 
      && !Helper.TargetIsDummy) {
-      if (!BattleData.Instance.PreBurstQtSet 
-       && MobPullManager.GetTargetTTK() <= 50000) {
+      if (!BattleData.Instance.PreBurstQtSet && MobPullManager.GetTargetTTK() <= 50000) {
         Qt.Instance.SetQt("爆发准备", false);
         BattleData.Instance.PreBurstQtSet = true;
       }
-      if (!BattleData.Instance.DumpQtSet
-       && MobPullManager.GetTargetTTK() < 15000) {
+      
+      if (!BattleData.Instance.DumpQtSet && MobPullManager.GetTargetTTK() < 15000) {
         Qt.Instance.SetQt("倾泻资源", true);
         BattleData.Instance.DumpQtSet = true;
       }
@@ -164,6 +163,11 @@ public class EventHandler : IRotationEventHandler {
     //检查全局设置
     if (Helper.GlobalSettings.NoClipGCD3) {
       LogHelper.PrintError("建议在acr全局设置中取消勾选【全局能力技不卡GCD】选项");
+    }
+
+    if (Helper.GlobalSettings.AutoStopWhenHasNotCastingStatus) {
+      LogHelper.Print("请注意本体新增的停手功能，本ACR的停手功能和本体的停手功能互相"
+                    + "独立，请分开设置。");
     }
 
     Qt.MacroMan.Init();

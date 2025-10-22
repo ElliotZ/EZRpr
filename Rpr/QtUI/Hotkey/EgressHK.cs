@@ -36,12 +36,8 @@ public class EgressHK(int hkType)
 
   public override int Check() {
     //if (HkType == IngressHK.FaceTarget && Core.Me.GetCurrTarget() is null) return -9;
-    if (Core.Me.HasAura(AurasDef.RegressReady)
-     && IngressHK.RegressPosition().Equals(Vector3.Zero)) {
-      return -8;
-    }
-
-    return base.Check();
+    if (!Core.Me.HasAura(AurasDef.RegressReady)) return base.Check();
+    return IngressHK.RegressPosition().Equals(Vector3.Zero) ? -8 : 0;
   }
 
   protected override async Task Run1(Spell spell, int delay = 0) {

@@ -52,7 +52,7 @@ public static class RprHelper {
     RprSettings.Instance.AutoCrest = true;
     RprSettings.Instance.AutoSecondWind = true;
     RprSettings.Instance.AutoFeint = true;
-    RprSettings.Instance.HandleStopMechs = true;
+    if (RprSettings.Instance.ToggleStopOnModeChange) RprSettings.Instance.HandleStopMechs = true;
     RprSettings.Instance.IsHardCoreMode = false;
     RprSettings.Instance.AutoDumpResources = true;
     RprSettings.Instance.AutoSetSingleShroudInTrashPull = true;
@@ -65,7 +65,7 @@ public static class RprHelper {
     RprSettings.Instance.AutoCrest = false;
     RprSettings.Instance.AutoSecondWind = false;
     RprSettings.Instance.AutoFeint = false;
-    RprSettings.Instance.HandleStopMechs = false;
+    if (RprSettings.Instance.ToggleStopOnModeChange) RprSettings.Instance.HandleStopMechs = false;
     RprSettings.Instance.IsHardCoreMode = true;
     RprSettings.Instance.AutoDumpResources = false;
     RprSettings.Instance.AutoSetSingleShroudInTrashPull = false;

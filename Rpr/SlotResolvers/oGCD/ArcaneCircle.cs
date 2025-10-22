@@ -1,4 +1,6 @@
-﻿using AEAssist.CombatRoutine.Module;
+﻿using AEAssist;
+using AEAssist.CombatRoutine.Module;
+using AEAssist.Extension;
 using AEAssist.Helper;
 using ElliotZ.Rpr.QtUI;
 
@@ -10,6 +12,9 @@ public class ArcaneCircle : ISlotResolver {
     if (Qt.Instance.GetQt("神秘环") is false) return -98;
 
     if (Qt.MobMan.Holding) return -3;
+    if (Core.Me.Distance(Core.Me.GetCurrTarget()) > Helper.GlobalSettings.AttackRange + 2) {
+      return -2; // -2 for not in range
+    }
 
     if ((AI.Instance.BattleData.CurrBattleTimeInMs < 5000)
      && (Math.Abs(SpellsDef.SoulScythe.GetSpell().Charges - 2) < 0.000005)) {
