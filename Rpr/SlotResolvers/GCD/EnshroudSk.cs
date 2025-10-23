@@ -24,7 +24,7 @@ public class EnshroudSk : ISlotResolver {
                                                           Qt.Instance.GetQt("智能AOE"), 
                                                           5);
 
-//    if (Core.Me.HasAura(AurasDef.Enshrouded) is false) return -3; // -3 for Unmet Prereq Conditions
+    if (Core.Me.HasAura(AurasDef.Enshrouded) is false) return -3; // -3 for Unmet Prereq Conditions
 
     if ((!SpellsDef.Communio.IsUnlock() || (RprHelper.BlueOrb > 1))
      && !SpellsDef.VoidReaping.GetSpell().IsReadyWithCanCast()) {
